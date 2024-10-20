@@ -1,30 +1,19 @@
-import React from "react";
-
-const Card = () => {
-  return (
-    <div>
-      <h1>Hello, Card!</h1>
-    </div>
-  );
-};
-
-export default Card;
-
-/* import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/features/productSlice";
-const { Meta } = Card; 
-import { Button, Card, Rate, Flex } from "antd";
+// src/components/CardProject.tsx
+/* import { useDispatch } from "react-redux"; */
+/* import { addToCart } from "../../redux/features/productSlice";
+import { TProductCardProps } from "../../type"; */
 import Image from "next/image";
-import { TProductCardProps } from "./CardData";
-import { useDispatch } from "react-redux";
+import { Button, Card, Rate, Flex } from "antd";
+import { TProductCardProps } from "@/types";
+const { Meta } = Card;
 
-export function Card({ product }: { product: TProductCardProps }) {
-  const dispatch = useDispatch();
+export function ProductCard({ product }) {
+  /*   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   };
-
+ */
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -58,9 +47,9 @@ export function Card({ product }: { product: TProductCardProps }) {
           <p>Price: {product?.price}</p>
           <Button
             style={{ marginTop: 6, marginLeft: 25 }}
-            onClick={handleAddToCart}
+            /*  onClick={handleAddToCart} */
           >
-            View Details
+            Add To Cart
           </Button>
         </Card>
       </div>
@@ -68,5 +57,4 @@ export function Card({ product }: { product: TProductCardProps }) {
   );
 }
 
-export default Card;
- */
+export default ProductCard;

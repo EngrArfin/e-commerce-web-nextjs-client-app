@@ -1,12 +1,12 @@
-import { Form, Input, Button, Typography, Row, Col, Card } from "antd";
-/* import { NavLink, useNavigate } from "react-router-dom";
+/* import { Form, Input, Button, Typography, Row, Col, Card } from "antd";
+ import { NavLink, useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppDispatch } from "../../redux/hooks";
 import { useLoginUserMutation } from "../../redux/api/api";
-import { setUser } from "../../redux/features/authSlice"; */
+import { setUser } from "../../redux/features/authSlice";
 import { CSSProperties, useEffect, useState } from "react";
-import backgroundImage from "../../assets/images/backgroundAbout1.jpg";
-import backgroundImage1 from "../../assets/images/backgroundLogin1.jpg";
+import backgroundImage from "../../UI/image/backgroundLogin1.jpg";
+import backgroundImage1 from "../../UI/image/backgroundLogin1.png";
 
 interface ErrorResponse {
   message?: string;
@@ -51,7 +51,7 @@ const Login = () => {
         dispatch(setUser({ user: userResponse, token: result.token }));
       }
 
-      navigate("/"); /* /user/dashboard */
+      navigate("/"); 
     } catch (err) {
       console.error("Login Failed:", err);
     }
@@ -200,3 +200,4 @@ const Login = () => {
 };
 
 export default Login;
+ */
