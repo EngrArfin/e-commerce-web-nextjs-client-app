@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss";
+import daisyui from "daisyui";
 
 const config: Config = {
   content: [
@@ -14,6 +16,12 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  /* --add component */
+  plugins: [daisyui], // DaisyUI plugin
+  daisyui: {
+    themes: ["light", "dark"], // Configure DaisyUI themes
+  },
+
+  /*  plugins: [require("daisyui")], */
 };
 export default config;
