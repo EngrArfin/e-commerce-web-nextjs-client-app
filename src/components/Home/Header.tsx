@@ -70,9 +70,9 @@ const Header = () => {
             </p>
             <Link
               href="signup"
-              className="px-8 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-lg hover:bg-green-600 transition duration-300"
+              className="inline-block px-8 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-600 hover:via-pink-600 hover:to-red-600"
             >
-              Join Now
+              BUY NOW
             </Link>
           </div>
           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between z-20">

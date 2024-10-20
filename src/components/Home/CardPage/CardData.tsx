@@ -1,9 +1,9 @@
-import Card from "./Card";
+/* import Card from "./Card";
 
-/* import { useGetProductsQuery } from "../../redux/api/api";
+import { useGetProductsQuery } from "../../redux/api/api";
 import CardProject from "./CardProject";
 import { TProductCardProps } from "../../type";
-*/
+
 export type TProductCardProps = {
   _id: string;
   productId: string;
@@ -20,14 +20,14 @@ export type TProductCardProps = {
 
 import { Divider, Row, Col } from "antd";
 const CardData = () => {
-  /*  const { data, isLoading } = useGetProductsQuery(undefined);
+   const { data, isLoading } = useGetProductsQuery(undefined);
 
   if (isLoading) {
     return <p>Loading ...</p>;
   }
 
   const { data: products } = data;
- */
+
   return (
     <div style={{ padding: "0 20px" }}>
       <Divider style={{ borderColor: "#7cb305" }}>Featured Products</Divider>
@@ -43,3 +43,4 @@ const CardData = () => {
 };
 
 export default CardData;
+ */

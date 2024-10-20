@@ -1,10 +1,22 @@
-// src/components/CardProject.tsx
+import React from "react";
+
+const Card = () => {
+  return (
+    <div>
+      <h1>Hello, Card!</h1>
+    </div>
+  );
+};
+
+export default Card;
+
 /* import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/features/productSlice";
-const { Meta } = Card; */
+const { Meta } = Card; 
 import { Button, Card, Rate, Flex } from "antd";
 import Image from "next/image";
 import { TProductCardProps } from "./CardData";
+import { useDispatch } from "react-redux";
 
 export function Card({ product }: { product: TProductCardProps }) {
   const dispatch = useDispatch();
@@ -57,3 +69,4 @@ export function Card({ product }: { product: TProductCardProps }) {
 }
 
 export default Card;
+ */
