@@ -1,32 +1,32 @@
+"use client";
 import { Form, Input, Button, Typography, Row, Col, Card } from "antd";
-/* import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppDispatch } from "../../redux/hooks";
-import { useLoginUserMutation } from "../../redux/api/api";
-import { setUser } from "../../redux/features/authSlice"; */
 import { CSSProperties, useEffect, useState } from "react";
 import backgroundImage from "../../UI/image/backgroundLogin1.jpg";
-import backgroundImage1 from "../../UI/image/backgroundLogin1.png";
-import Link from "next/link";
-/*
+import backgroundImage1 from "../../UI/image/backgroundLogin1.jpg";
+import { setUser } from "@/redux/feature/authSlice";
+import { useLoginUserMutation } from "@/redux/api/api";
+
 interface ErrorResponse {
   message?: string;
 }
 
- interface LoginValues {
+interface LoginValues {
   email: string;
   password: string;
   remember: boolean;
-} */
+}
 
 const { Title } = Typography;
 
 const Login = () => {
-  /*  const dispatch = useAppDispatch();
-  const navigate = useNavigate(); */
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [isMediumOrSmallDevice, setIsMediumOrSmallDevice] = useState(false);
 
-  /* const [loginUser, { isLoading, isError, error }] = useLoginUserMutation(); */
+  const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,7 +41,7 @@ const Login = () => {
     };
   }, []);
 
-  /* const onFinish = async (values: LoginValues) => {
+  const onFinish = async (values: LoginValues) => {
     try {
       const result = await loginUser(values).unwrap();
       console.log("Login Successful:", result);
@@ -52,13 +52,13 @@ const Login = () => {
         dispatch(setUser({ user: userResponse, token: result.token }));
       }
 
-      navigate("/");
+      navigate("/"); /* /user/dashboard */
     } catch (err) {
       console.error("Login Failed:", err);
     }
   };
- */
-  /*  const fetchUserData = async (token: string) => {
+
+  const fetchUserData = async (token: string) => {
     try {
       const response = await fetch("http://localhost:5000/users", {
         headers: {
@@ -73,7 +73,7 @@ const Login = () => {
       console.error("Error fetching user data:", error);
       throw error;
     }
-  }; */
+  };
 
   const sectionStyle: CSSProperties = {
     padding: "50px 20px",
@@ -140,7 +140,7 @@ const Login = () => {
                   name="loginForm"
                   layout="vertical"
                   initialValues={{ remember: true }}
-                  /* onFinish={onFinish} */
+                  onFinish={onFinish}
                 >
                   <Form.Item
                     label="Email"
@@ -170,13 +170,13 @@ const Login = () => {
                       type="primary"
                       htmlType="submit"
                       block
-                      /*   loading={isLoading} */
+                      loading={isLoading}
                     >
                       Login
                     </Button>
                   </Form.Item>
 
-                  {/*  {isError && (
+                  {isError && (
                     <div style={{ color: "red" }}>
                       {error && "data" in error
                         ? (error as FetchBaseQueryError).data // Type assertion
@@ -185,10 +185,10 @@ const Login = () => {
                           : "Login failed"
                         : "Login failed"}
                     </div>
-                  )} */}
+                  )}
 
                   <div style={{ textAlign: "center" }}>
-                    <Link href="/signup">SignUp Now</Link>
+                    <NavLink to="/signup">Register Now</NavLink>
                   </div>
                 </Form>
               </Card>

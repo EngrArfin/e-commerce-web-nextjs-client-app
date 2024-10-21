@@ -1,8 +1,9 @@
 import React from "react";
 import ThemeSwitcher from "../ThemeSwitcher";
-import Image from "next/image";
 import profile from "../../UI/icon/profile.jpg";
+import Logo from "../../UI/icon/Logo.jpg";
 import Link from "next/link";
+import Image from "next/image";
 
 const NavBar = () => {
   return (
@@ -44,7 +45,17 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">E-Com Zone</a>
+          <div className="flex items-center">
+            <div className="w-10 btn btn-circle avatar ">
+              <Image alt="logo" src={Logo} />
+            </div>
+            <div>
+              <a className="btn btn-ghost text-xl">
+                <span style={{ color: "blue" }}>E-Com&nbsp;</span>
+                <span style={{ color: "violet" }}>Zone&nbsp;</span>
+              </a>
+            </div>
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -114,7 +125,7 @@ const NavBar = () => {
                   </a>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <a>product</a>
                 </li>
                 <li>
                   <a>Logout</a>
@@ -122,9 +133,9 @@ const NavBar = () => {
               </ul>
             </div>
           </div>
-          <div className="navbar-end">
-            <a className="btn">Login</a>
-          </div>
+          <Link className="btn btn-primary" href="/login">
+            Login
+          </Link>
         </div>
       </div>
     </div>

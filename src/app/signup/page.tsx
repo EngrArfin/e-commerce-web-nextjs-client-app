@@ -1,32 +1,32 @@
+"use client";
 import { Form, Input, Typography, Row, Col, Card, Button } from "antd";
-/* import { NavLink, useNavigate } from "react-router-dom"; // Import useNavigate
+import { NavLink, useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { useRegisterUserMutation } from "../../redux/api/api"; */
 import backgroundRegister from "../../UI/image/backgroundRegister1.jpg";
 import { CSSProperties } from "react";
-import Link from "next/link";
+import { useRegisterUserMutation } from "@/redux/api/api";
 
 // Define the structure of the expected error response
-/* interface ErrorResponse {
+interface ErrorResponse {
   message?: string; // Optional to handle cases where message might not exist
 }
- */
+
 const { Title } = Typography;
 
 const SignUp = () => {
-  /* const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [registerUser, { isLoading, isError, error }] =
-    useRegisterUserMutation(); */
+    useRegisterUserMutation();
 
   // Define the values type for the form
-  /*  interface RegisterValues {
+  interface RegisterValues {
     name: string;
     username: string;
     email: string;
     password: string;
     remember: boolean;
-  } */
-  /* 
+  }
+
   const onFinish = async (values: RegisterValues) => {
     try {
       const result = await registerUser(values).unwrap();
@@ -35,10 +35,10 @@ const SignUp = () => {
     } catch (err) {
       console.error("Registration Failed:", err);
     }
-  }; */
+  };
 
   // Check if the error is FetchBaseQueryError and extract the message
-  /*   const getErrorMessage = () => {
+  const getErrorMessage = () => {
     if (isError && error) {
       const fetchError = error as FetchBaseQueryError;
 
@@ -47,7 +47,7 @@ const SignUp = () => {
       return errorData.message || "Registration failed";
     }
     return "Registration failed";
-  }; */
+  };
 
   const sectionStyle: CSSProperties = {
     padding: "50px 20px",
@@ -93,7 +93,7 @@ const SignUp = () => {
                 name="registerForm"
                 layout="vertical"
                 initialValues={{ remember: true }}
-                /*  onFinish={onFinish} */
+                onFinish={onFinish}
               >
                 <Form.Item
                   label="Name"
@@ -148,18 +148,18 @@ const SignUp = () => {
                     type="primary"
                     htmlType="submit"
                     block
-                    /*   loading={isLoading} */
+                    loading={isLoading}
                   >
                     Register
                   </Button>
                 </Form.Item>
 
-                {/*  {isError && (
+                {isError && (
                   <div style={{ color: "red" }}>{getErrorMessage()}</div>
                 )}
- */}
+
                 <div style={{ textAlign: "center" }}>
-                  <Link href="/login">Login</Link>
+                  <NavLink to="/login">Login</NavLink>
                 </div>
               </Form>
             </Card>

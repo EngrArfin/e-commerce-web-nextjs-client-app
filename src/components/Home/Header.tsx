@@ -63,7 +63,7 @@ const Header = () => {
           />
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-5 bg-black bg-opacity-40">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-              {slide.title}
+              <span style={{ color: "red" }}>{slide.title}&nbsp;</span>
             </h1>
             <p className="text-lg md:text-2xl text-white mb-6">
               {slide.description}
