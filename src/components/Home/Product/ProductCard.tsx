@@ -4,10 +4,13 @@
 import { TProductCardProps } from "../../type"; */
 import Image from "next/image";
 import { Button, Card, Rate, Flex } from "antd";
-import { TProductCardProps } from "@/types";
+/* import { TProductCardProps } from "@/types";
+ */
 const { Meta } = Card;
 
-export function ProductCard({ product }) {
+const ProductCard = ({ product }) => {
+  const { name, image, price } = product || {};
+
   /*   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -29,11 +32,9 @@ export function ProductCard({ product }) {
             color: "#ffffff",
             boxShadow: "0px 4px 15px rgba(0.3, 1, 0, 0.3)",
           }}
-          cover={
-            <Image style={{ height: 215 }} alt="example" src={product?.image} />
-          }
+          cover={<Image style={{ height: 215 }} alt="example" src={image} />}
         >
-          <Meta title={product?.productName} description="" />
+          <Meta title={name} description="" />
           <div style={{ display: "flex", margin: 5 }}>
             <div style={{ display: "flex" }}>
               <div>Rating:</div>
@@ -44,7 +45,7 @@ export function ProductCard({ product }) {
           </div>
           <p>Brand {product?.brand}</p>
           <p>Available Quantity {product?.availableQuantity}</p>
-          <p>Price: {product?.price}</p>
+          <p>Price: {price}</p>
           <Button
             style={{ marginTop: 6, marginLeft: 25 }}
             /*  onClick={handleAddToCart} */
@@ -55,6 +56,6 @@ export function ProductCard({ product }) {
       </div>
     </div>
   );
-}
+};
 
 export default ProductCard;
