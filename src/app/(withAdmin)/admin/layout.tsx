@@ -1,5 +1,5 @@
-import AdminSideBar from "@/components/Admin/adminSideBar";
-import NavBar from "@/components/Shared/NavBar";
+import AdminNavbar from "@/components/AdminPage/AdminNavbar";
+import AdminSideBar from "@/components/AdminPage/AdminSideBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,14 +14,13 @@ export default function adminLayout({
 }>) {
   return (
     <div>
-      <NavBar />
-      <div className="max-h-screen my-2">
-        <div className="flex justify-between">
-          <div className="w-[20%]"></div>
+      <AdminNavbar />
+      <div className="w-full min-h-screen my-2">
+        <div className="flex ">
+          <div className="w-[10%] "></div>
           <AdminSideBar />
-          <div className="w-[60%] bg-base-200 rounded-box ml-2">{children}</div>
-          <AdminSideBar />
-          <div className="w-[20%]"></div>
+          <div className="w-[80%] bg-base-200 rounded-box ml-2">{children}</div>
+          <div className="w-[10%]"></div>
         </div>
       </div>
     </div>

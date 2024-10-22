@@ -1,170 +1,150 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { Form, Input, Typography, Row, Col, Card, Button } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import backgroundRegister from "../../UI/image/backgroundRegister1.jpg";
-import { CSSProperties } from "react";
-import { useRegisterUserMutation } from "/redux/api/api";
 
-// Define the structure of the expected error response
-interface ErrorResponse {
-  message?: string; // Optional to handle cases where message might not exist
-}
+/* import { registerUser } from "@/utils/actions/registerUser";
+import { signIn } from "next-auth/react"; */
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import login from "../../UI/image//backgroundLogin1.jpg";
 
-const { Title } = Typography;
+/* import { useForm } from "react-hook-form"; */
+
+export type UserData = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [registerUser, { isLoading, isError, error }] =
-    useRegisterUserMutation();
+  /*   const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserData>();
+ */
+  const router = useRouter();
 
-  // Define the values type for the form
-  interface RegisterValues {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    remember: boolean;
-  }
-
-  const onFinish = async (values: RegisterValues) => {
+  /*  const onSubmit = async (data: UserData) => {
     try {
-      const result = await registerUser(values).unwrap();
-      console.log("Registration Successful:", result);
-      navigate("/login"); // Navigate to the login page after successful registration
-    } catch (err) {
-      console.error("Registration Failed:", err);
+      const res = await registerUser(data);
+      if (res.success) {
+        alert(res.message);
+        router.push("/login");
+      }
+    } catch (err: any) {
+      console.error(err.message);
+      throw new Error(err.message);
     }
-  };
-
-  // Check if the error is FetchBaseQueryError and extract the message
-  const getErrorMessage = () => {
-    if (isError && error) {
-      const fetchError = error as FetchBaseQueryError;
-
-      // Check if fetchError.data is defined and has a message property
-      const errorData = fetchError.data as ErrorResponse;
-      return errorData.message || "Registration failed";
-    }
-    return "Registration failed";
-  };
-
-  const sectionStyle: CSSProperties = {
-    padding: "50px 20px",
-    backgroundImage: `url(${backgroundRegister})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-  };
-
-  const overlayStyle: CSSProperties = {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    width: "100%",
-    padding: "40px",
-  };
+  }; */
 
   return (
-    <div style={sectionStyle}>
-      <div style={overlayStyle}>
-        <Row
-          justify="center"
-          align="middle"
-          style={{ height: "100vh", backgroundColor: "#f0f2f5" }}
-        >
-          <Col xs={22} sm={16} md={12} lg={8}>
-            <Card
-              style={{
-                padding: "35px 40px",
-                boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
-                borderRadius: "10px",
-                background: "#ffffff",
-              }}
-            >
-              <Title
-                level={3}
-                style={{ textAlign: "center", marginBottom: "30px" }}
+    <div className="max-h-screen flex items-center justify-center bg-gray-100 py-14 px-12 sm:px-8 lg:px-10">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
+        {" "}
+        {/* Increased max width */}
+        <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
+          <span className="text-sky-600">Sign Up Page</span>
+        </h2>
+        <div className="flex gap-6">
+          <div className="hidden lg:block w-1/2">
+            <Image
+              src={login}
+              width={600} // Increased width
+              height={300} // Increased height
+              alt="sign up page"
+              className="rounded-md object-cover"
+            />
+          </div>
+          <div className="w-full lg:w-1/2">
+            <form /* onSubmit={handleSubmit(onSubmit)} */ className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  /* {...register("username")} */
+                  placeholder="User Name"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  /* {...register("email")} */
+                  placeholder="Email"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  /* {...register("password")} */
+                  placeholder="Password"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full py-3 px-6 bg-gradient-to-r from-blue-900 to-sky-600 text-white font-semibold rounded-lg shadow-lg hover:from-sky-900 hover:to-sky-900 focus:outline-none focus:ring-4 focus:ring-sky-500 transition duration-200 ease-in-out transform hover:scale-105"
+                >
+                  Signup
+                </button>
+              </div>
+            </form>
+            <p className="text-center mt-4 text-sm text-gray-600">
+              Already have an account?{" "}
+              <Link href="/login" className="text-sky-600 hover:underline">
+                Login
+              </Link>
+            </p>
+            <div className="text-center mt-6 text-gray-500 divider">Or</div>
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                /* onClick={() =>
+                  signIn("github", {
+                    callbackUrl: "http://localhost:3000/dashboard",
+                  })
+                } */
+                className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg"
               >
-                Register Your Account
-              </Title>
-
-              <Form
-                name="registerForm"
-                layout="vertical"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                  width={30}
+                  height={30}
+                  alt="github logo"
+                />
+              </button>
+              <button
+                className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg"
+                /*  onClick={() =>
+                  signIn("google", {
+                    callbackUrl: "http://localhost:3000/dashboard",
+                  })
+                } */
               >
-                <Form.Item
-                  label="Name"
-                  name="name"
-                  rules={[
-                    { required: true, message: "Please input your name!" },
-                  ]}
-                >
-                  <Input placeholder="Enter your name" />
-                </Form.Item>
-
-                <Form.Item
-                  label="Username"
-                  name="username"
-                  rules={[
-                    { required: true, message: "Please input your username!" },
-                  ]}
-                >
-                  <Input placeholder="Enter your username" />
-                </Form.Item>
-
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[
-                    { required: true, message: "Please input your email!" },
-                    {
-                      type: "email",
-                      message: "Please enter a valid email address!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Enter your email" />
-                </Form.Item>
-
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  rules={[
-                    { required: true, message: "Please input your password!" },
-                    {
-                      min: 6,
-                      message: "Password must be at least 6 characters long!",
-                    },
-                  ]}
-                >
-                  <Input.Password placeholder="Enter your password" />
-                </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    block
-                    loading={isLoading}
-                  >
-                    Register
-                  </Button>
-                </Form.Item>
-
-                {isError && (
-                  <div style={{ color: "red" }}>{getErrorMessage()}</div>
-                )}
-
-                <div style={{ textAlign: "center" }}>
-                  <NavLink to="/login">Login</NavLink>
-                </div>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
+                <Image
+                  src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
+                  width={30}
+                  height={30}
+                  alt="google logo"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

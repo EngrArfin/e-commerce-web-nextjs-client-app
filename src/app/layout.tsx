@@ -32,6 +32,7 @@ export default function RootLayout({
       >
         {/*  <Provider store={store}>
           </Provider> */}
+
         {children}
       </body>
     </html>

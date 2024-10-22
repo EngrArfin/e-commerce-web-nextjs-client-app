@@ -1,200 +1,146 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { Form, Input, Button, Typography, Row, Col, Card } from "antd";
-import { NavLink /* useNavigate */ } from "react-router-dom";
-import { CSSProperties /* useEffect, useState  */ } from "react";
-import backgroundImage from "../../UI/image/backgroundLogin1.jpg";
-/* import { useAppDispatch } from "../../redux/hooks";
-import backgroundImage1 from "../../UI/image/backgroundLogin1.jpg";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { setUser } from "@/redux/feature/authSlice";
-import { useLoginUserMutation } from "@/redux/api/api"; */
+import Image from "next/image";
+import Link from "next/link";
+import login from "../../UI/image//backgroundLogin1.jpg";
+import { useRouter } from "next/navigation";
+/* import { signIn } from "next-auth/react";
+import { loginUser } from "@/utils/actions/loginUser";
+import { useForm } from "react-hook-form"; */
 
-/* interface ErrorResponse {
-  message?: string;
-}
- */
-/* interface LoginValues {
+export type FormValues = {
   email: string;
   password: string;
-  remember: boolean;
-} */
-
-const { Title } = Typography;
+};
 
 const Login = () => {
-  /*   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [isMediumOrSmallDevice, setIsMediumOrSmallDevice] = useState(false);
+  /*  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+ */
+  const router = useRouter();
 
-  const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMediumOrSmallDevice(window.innerWidth <= 1024); // Set breakpoint at 1024px (medium and small devices)
-    };
-
-    handleResize(); // Check size on component mount
-    window.addEventListener("resize", handleResize); // Adjust size on window resize
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const onFinish = async (values: LoginValues) => {
+  /* const onSubmit = async (data: FormValues) => {
+    console.log(data);
     try {
-      const result = await loginUser(values).unwrap();
-      console.log("Login Successful:", result);
-
-      localStorage.setItem("token", result.token);
-      const userResponse = await fetchUserData(result.token);
-      if (userResponse) {
-        dispatch(setUser({ user: userResponse, token: result.token }));
+      const res = await loginUser(data);
+      if (res.accessToken) {
+        alert(res.message);
+        localStorage.setItem("accessToken", res.accessToken);
+        router.push("/dashboard");
       }
-
-      navigate("/"); 
-    } catch (err) {
-      console.error("Login Failed:", err);
-    }
-  };
-
-  const fetchUserData = async (token: string) => {
-    try {
-      const response = await fetch("http://localhost:5000/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      throw error;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err.message);
+      throw new Error(err.message);
     }
   }; */
 
-  const sectionStyle: CSSProperties = {
-    padding: "50px 20px",
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  };
-
-  /*  const sectionStyle1: CSSProperties = {
-    padding: "10px 20px",
-    backgroundImage: !isMediumOrSmallDevice
-      ? `url(${backgroundImage1})`
-      : "none", // Hide background for medium and small devices
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: !isMediumOrSmallDevice ? "48vh" : "auto", // Full height only for large devices
-    width: !isMediumOrSmallDevice ? "80vh" : "100%", // Full width only for large devices
-    display: "flex",
-    alignItems: "center",
-  };
- */
-
-  const overlayStyle: CSSProperties = {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    width: "100%",
-    padding: "40px",
-  };
-
   return (
-    <div>
-      <div style={sectionStyle}>
-        <div style={overlayStyle}>
-          <Row
-            justify="center"
-            align="middle"
-            style={{ height: "70vh", backgroundColor: "#f0f2f5" }}
-          >
-            <div /* style={sectionStyle1} */>
-              <Title
-                level={3}
-                style={{
-                  textAlign: "center",
-                  marginBottom: "30px",
-                  color: "red",
-                  fontSize: "60px",
-                }}
-              >
-                Login Account
-              </Title>
-            </div>
-
-            <Col xs={22} sm={16} md={12} lg={8}>
-              <Card
-                style={{
-                  padding: "40px 50px",
-                  boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
-                  borderRadius: "10px",
-                  background: "#ffffff",
-                }}
-              >
-                <Form
-                  name="loginForm"
-                  layout="vertical"
-                  initialValues={{ remember: true }}
-                  /* onFinish={onFinish} */
+    <div className="max-h-screen flex items-center justify-center bg-gray-100 py-14 px-12 sm:px-8 lg:px-10">
+      <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
+        <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
+          <span className="text-sky-600">Login in E-com Zone </span>
+        </h2>
+        <div className="flex gap-6">
+          <div className="hidden lg:block w-1/2">
+            <Image
+              src={login}
+              width={900}
+              height={200}
+              alt="login page"
+              className="rounded-md object-cover"
+            />
+          </div>
+          <div className="w-full lg:w-1/2">
+            <form
+              /*  onSubmit={handleSubmit(onSubmit)} */ className="space-y-6"
+            >
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  /*  {...register("email")} */
+                  placeholder="Email"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  /*  {...register("password")} */
+                  placeholder="Password"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <Link
+                  href="/forget-password"
+                  className="block text-sm font-medium text-sky-500"
                 >
-                  <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                      { required: true, message: "Please input your email!" },
-                    ]}
-                  >
-                    <Input type="email" placeholder="Enter your email" />
-                  </Form.Item>
+                  Forget Password
+                </Link>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full py-3 px-6 bg-gradient-to-r from-blue-900 to-sky-600 text-white font-semibold rounded-lg shadow-lg hover:from-sky-900 hover:to-sky-900 focus:outline-none focus:ring-4 focus:ring-sky-500 transition duration-200 ease-in-out transform hover:scale-105"
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+            <p className="text-center mt-4 text-sm text-gray-600">
+              have no account?{" "}
+              <Link href="/signup" className="text-sky-600 hover:underline">
+                sign up
+              </Link>
+            </p>
+            <div className="text-center mt-6 text-gray-500 divider">Or</div>
 
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your password!",
-                      },
-                    ]}
-                  >
-                    <Input.Password placeholder="Enter your password" />
-                  </Form.Item>
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                /* onClick={() =>
+                  signIn("github", {
+                    callbackUrl: "http://localhost:3000/dashboard",
+                  })
+                } */
+                className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg"
+              >
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                  width={30}
+                  height={30}
+                  alt="github logo"
+                />
+              </button>
 
-                  <Form.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      block
-                      /* loading={isLoading} */
-                    >
-                      Login
-                    </Button>
-                  </Form.Item>
-
-                  {/* {isError && (
-                    <div style={{ color: "red" }}>
-                      {error && "data" in error
-                        ? (error as FetchBaseQueryError).data // Type assertion
-                          ? (error.data as ErrorResponse).message ||
-                            "Login failed"
-                          : "Login failed"
-                        : "Login failed"}
-                    </div>
-                  )} */}
-
-                  <div style={{ textAlign: "center" }}>
-                    <NavLink to="/signup">Register Now</NavLink>
-                  </div>
-                </Form>
-              </Card>
-            </Col>
-          </Row>
+              <button
+                className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg"
+                /*  onClick={() =>
+                  signIn("google", {
+                    callbackUrl: "http://localhost:3000/dashboard",
+                  })
+                } */
+              >
+                <Image
+                  src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
+                  width={30}
+                  height={30}
+                  alt="google logo"
+                />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

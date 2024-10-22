@@ -6,7 +6,7 @@ import Link from "next/link";
 import profile from "../../UI/icon/profile.jpg";
 import Logo from "../../UI/icon/Logo.jpg";
 
-const NavBar: React.FC = () => {
+const AdminNavbar: React.FC = () => {
   return (
     <header className="bg-base-100 shadow-md w-full">
       <nav className="navbar container mx-auto">
@@ -147,4 +147,4 @@ const NavBar: React.FC = () => {
   );
 };
 
-export default NavBar;
+export default AdminNavbar;
