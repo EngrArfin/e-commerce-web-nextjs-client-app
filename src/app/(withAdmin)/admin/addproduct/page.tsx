@@ -1,5 +1,4 @@
 import AddProduct from "@/components/AdminPage/AddProduct";
-import AddProduc from "@/components/AdminPage/AddProduct";
 import React from "react";
 
 const AdminAddProduct = () => {
