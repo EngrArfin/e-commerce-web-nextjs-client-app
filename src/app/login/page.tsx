@@ -14,13 +14,16 @@ export type FormValues = {
 };
 
 const Login = () => {
+  const handleLogin = async () => {};
+
+  const router = useRouter();
   /*  const {
+
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
  */
-  const router = useRouter();
 
   /* const onSubmit = async (data: FormValues) => {
     console.log(data);
@@ -37,7 +40,6 @@ const Login = () => {
       throw new Error(err.message);
     }
   }; */
-
   return (
     <div className="max-h-screen flex items-center justify-center bg-gray-100 py-14 px-12 sm:px-8 lg:px-10">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
@@ -55,9 +57,7 @@ const Login = () => {
             />
           </div>
           <div className="w-full lg:w-1/2">
-            <form
-              /*  onSubmit={handleSubmit(onSubmit)} */ className="space-y-6"
-            >
+            <form /* onSubmit={handleSubmit(onSubmit)} */ className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Email

@@ -16,6 +16,9 @@ const AdminSideBar = async () => {
         <li>
           <Link href="/admin/productmanag">Product Management</Link>
         </li>
+        <li>
+          <Link href="/admin/addproduct">Add Product</Link>
+        </li>
       </ul>
     </div>
   );

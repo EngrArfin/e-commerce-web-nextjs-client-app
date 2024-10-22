@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import AuthProviders from "@/services/AuthProviders";
 /* import { Provider } from "react-redux";
 import { store } from "@/redux/store";
  */
@@ -32,8 +33,7 @@ export default function RootLayout({
       >
         {/*  <Provider store={store}>
           </Provider> */}
-
-        {children}
+        <AuthProviders>{children}</AuthProviders>
       </body>
     </html>
   );
