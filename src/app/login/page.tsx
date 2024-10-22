@@ -1,28 +1,28 @@
 "use client";
 import { Form, Input, Button, Typography, Row, Col, Card } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { useAppDispatch } from "../../redux/hooks";
-import { CSSProperties, useEffect, useState } from "react";
+import { NavLink /* useNavigate */ } from "react-router-dom";
+import { CSSProperties /* useEffect, useState  */ } from "react";
 import backgroundImage from "../../UI/image/backgroundLogin1.jpg";
+/* import { useAppDispatch } from "../../redux/hooks";
 import backgroundImage1 from "../../UI/image/backgroundLogin1.jpg";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { setUser } from "@/redux/feature/authSlice";
-import { useLoginUserMutation } from "@/redux/api/api";
+import { useLoginUserMutation } from "@/redux/api/api"; */
 
-interface ErrorResponse {
+/* interface ErrorResponse {
   message?: string;
 }
-
-interface LoginValues {
+ */
+/* interface LoginValues {
   email: string;
   password: string;
   remember: boolean;
-}
+} */
 
 const { Title } = Typography;
 
 const Login = () => {
-  const dispatch = useAppDispatch();
+  /*   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isMediumOrSmallDevice, setIsMediumOrSmallDevice] = useState(false);
 
@@ -52,7 +52,7 @@ const Login = () => {
         dispatch(setUser({ user: userResponse, token: result.token }));
       }
 
-      navigate("/"); /* /user/dashboard */
+      navigate("/"); 
     } catch (err) {
       console.error("Login Failed:", err);
     }
@@ -73,7 +73,7 @@ const Login = () => {
       console.error("Error fetching user data:", error);
       throw error;
     }
-  };
+  }; */
 
   const sectionStyle: CSSProperties = {
     padding: "50px 20px",
@@ -85,7 +85,7 @@ const Login = () => {
     alignItems: "center",
   };
 
-  const sectionStyle1: CSSProperties = {
+  /*  const sectionStyle1: CSSProperties = {
     padding: "10px 20px",
     backgroundImage: !isMediumOrSmallDevice
       ? `url(${backgroundImage1})`
@@ -97,6 +97,7 @@ const Login = () => {
     display: "flex",
     alignItems: "center",
   };
+ */
 
   const overlayStyle: CSSProperties = {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -113,7 +114,7 @@ const Login = () => {
             align="middle"
             style={{ height: "70vh", backgroundColor: "#f0f2f5" }}
           >
-            <div style={sectionStyle1}>
+            <div /* style={sectionStyle1} */>
               <Title
                 level={3}
                 style={{
@@ -140,7 +141,7 @@ const Login = () => {
                   name="loginForm"
                   layout="vertical"
                   initialValues={{ remember: true }}
-                  onFinish={onFinish}
+                  /* onFinish={onFinish} */
                 >
                   <Form.Item
                     label="Email"
@@ -170,13 +171,13 @@ const Login = () => {
                       type="primary"
                       htmlType="submit"
                       block
-                      loading={isLoading}
+                      /* loading={isLoading} */
                     >
                       Login
                     </Button>
                   </Form.Item>
 
-                  {isError && (
+                  {/* {isError && (
                     <div style={{ color: "red" }}>
                       {error && "data" in error
                         ? (error as FetchBaseQueryError).data // Type assertion
@@ -185,7 +186,7 @@ const Login = () => {
                           : "Login failed"
                         : "Login failed"}
                     </div>
-                  )}
+                  )} */}
 
                   <div style={{ textAlign: "center" }}>
                     <NavLink to="/signup">Register Now</NavLink>

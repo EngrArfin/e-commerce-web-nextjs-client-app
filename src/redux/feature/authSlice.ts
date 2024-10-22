@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+/* import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Define a type for the user, including name and email
 type TUser = {
@@ -25,7 +25,7 @@ const initialState: TAuthState = {
   user: localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string)
     : null,
-  token: getLocalStorageData("token") /* localStorage.getItem("token"), */, // Get token from localStorage
+  token: getLocalStorageData("token"), // localStorage.getItem("token"), , // Get token from localStorage
 };
 
 // Create the auth slice
@@ -66,3 +66,4 @@ const authSlice = createSlice({
 // Export actions and reducer
 export const { setUser, logOut, initializeAuth } = authSlice.actions;
 export default authSlice.reducer;
+ */

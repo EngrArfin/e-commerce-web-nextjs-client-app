@@ -1,10 +1,15 @@
-import Header from "@/components/Home/Header";
+import Header from "@/components/Shared/Header";
+import Footer from "@/components/Shared/Footer";
+import NavBar from "@/components/Shared/NavBar";
 
-export default function Home() {
+const page = () => {
   return (
     <div>
+      <NavBar />
       <Header />
-      <h1> Welcome E commerce </h1>
+      <Footer />
     </div>
   );
-}
+};
+
+export default page;

@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import backgroundRegister from "../../UI/image/backgroundRegister1.jpg";
 import { CSSProperties } from "react";
-import { useRegisterUserMutation } from "@/redux/api/api";
+import { useRegisterUserMutation } from "/redux/api/api";
 
 // Define the structure of the expected error response
 interface ErrorResponse {

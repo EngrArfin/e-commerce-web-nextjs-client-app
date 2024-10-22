@@ -1,5 +1,6 @@
+"use client";
 import React from "react";
-import ThemeSwitcher from "../ThemeSwitcher";
+/* import ThemeSwitcher from "../ThemeSwitcher"; */
 import profile from "../../UI/icon/profile.jpg";
 import Logo from "../../UI/icon/Logo.jpg";
 import Link from "next/link";
@@ -74,7 +75,7 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-        <ThemeSwitcher />
+        {/*  <ThemeSwitcher /> */}
         <div>
           <div>
             <div className="dropdown dropdown-end">
