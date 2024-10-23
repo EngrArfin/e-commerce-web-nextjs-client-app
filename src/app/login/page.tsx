@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 import login from "../../UI/image//backgroundLogin1.jpg";
-import { useRouter } from "next/navigation";
-/* import { signIn } from "next-auth/react";
-import { loginUser } from "@/utils/actions/loginUser";
-import { useForm } from "react-hook-form"; */
+import { signIn } from "next-auth/react";
 
 export type FormValues = {
   email: string;
@@ -14,32 +12,20 @@ export type FormValues = {
 };
 
 const Login = () => {
-  const handleLogin = async () => {};
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Fix the typo
+    const email = (event.target as any).email.value;
+    const password = (event.target as any).password.value;
 
-  const router = useRouter();
-  /*  const {
+    const resp = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
- */
+    console.log(resp);
+  };
 
-  /* const onSubmit = async (data: FormValues) => {
-    console.log(data);
-    try {
-      const res = await loginUser(data);
-      if (res.accessToken) {
-        alert(res.message);
-        localStorage.setItem("accessToken", res.accessToken);
-        router.push("/dashboard");
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.error(err.message);
-      throw new Error(err.message);
-    }
-  }; */
   return (
     <div className="max-h-screen flex items-center justify-center bg-gray-100 py-14 px-12 sm:px-8 lg:px-10">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
@@ -57,17 +43,18 @@ const Login = () => {
             />
           </div>
           <div className="w-full lg:w-1/2">
-            <form /* onSubmit={handleSubmit(onSubmit)} */ className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Email
                 </label>
                 <input
                   type="email"
-                  /*  {...register("email")} */
+                  name="email"
                   placeholder="Email"
                   className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
+                  /*  {...register("email")} */
                 />
               </div>
               <div>
@@ -76,10 +63,11 @@ const Login = () => {
                 </label>
                 <input
                   type="password"
-                  /*  {...register("password")} */
+                  name="password"
                   placeholder="Password"
                   className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
+                  /*  {...register("password")} */
                 />
               </div>
               <div>

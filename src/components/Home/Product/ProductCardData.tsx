@@ -1,26 +1,37 @@
-/* import { useGetProductsQuery } from "../../redux/api/api";
-import { TProductCardProps } from "../../type";
-import ProductCard from "./ProductCard"; */
+import React from "react";
 
 const ProductCardData = () => {
-  /*   const { data, isLoading } = useGetProductsQuery(undefined);
+  return (
+    <div>
+      <h1>Hello, ProductCardData!</h1>
+    </div>
+  );
+};
 
-  if (isLoading) {
-    return <p>Loading ...</p>;
-  }
+export default ProductCardData;
+/* "use client";
 
-  const { data: products } = data;
- */
+import { TProductCardProps } from "@/types";
+import ProductCard from "./ProductCard";
+import { useGetProductsQuery } from "@/redux/api/api";
+
+const ProductCardData = () => {
+  const { data, isLoading, error } = useGetProductsQuery(undefined);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error || !data) return <p>Failed to load products</p>;
+
   return (
     <div className="container">
       <h1 className="text-4xl font-bold my-10">All Products</h1>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
-        {/* {products.map((product: TProductCardProps) => (
+        {data.map((product: TProductCardProps) => (
           <ProductCard key={product._id} product={product} />
-        ))} */}
+        ))}
       </div>
     </div>
   );
 };
 
 export default ProductCardData;
+ */

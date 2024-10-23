@@ -16,7 +16,7 @@ export const connectDB = async (): Promise<Db | null> => {
         deprecationErrors: true,
       },
     });
-    db = client.db("e-com");
+    db = client.db("Ecom-Zone");
     return db;
   } catch (error) {
     console.log({ error });

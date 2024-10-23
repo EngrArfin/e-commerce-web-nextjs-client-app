@@ -13,8 +13,8 @@ export const baseApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    userData: builder.query({
-      query: () => "/users",
+    getProducts: builder.query({
+      query: () => "/products",
     }),
     registerUser: builder.mutation({
       query: (userData) => ({
@@ -34,7 +34,7 @@ export const baseApi = createApi({
 });
 
 export const {
-  useUserDataQuery,
+  useGetProductsQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
 } = baseApi;

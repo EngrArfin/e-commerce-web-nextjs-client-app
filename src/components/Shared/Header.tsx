@@ -1,5 +1,5 @@
+"use client";
 import Image from "next/image";
-import React from "react";
 import cover1 from "../../UI/image/cover1.jpg";
 import cover2 from "../../UI/image/cover2.jpg";
 import cover3 from "../../UI/image/cover3.jpg";

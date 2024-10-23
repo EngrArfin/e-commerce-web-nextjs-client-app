@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 // import ThemeSwitcher from "../ThemeSwitcher"; // Uncomment if you want to add a theme switcher

@@ -1,16 +1,4 @@
-import React from "react";
-
-const UserManage = () => {
-  return (
-    <div>
-      <h1>Hello, UserManagement!</h1>
-    </div>
-  );
-};
-
-export default UserManage;
-
-/* "use client";
+"use client";
 import { useState } from "react";
 
 interface User {
@@ -25,7 +13,7 @@ const initialUsers: User[] = [
   { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
 ];
 
-const UserManagement = () => {
+const UserManage = () => {
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [newUser, setNewUser] = useState<Omit<User, "id">>({
@@ -34,7 +22,6 @@ const UserManagement = () => {
     role: "User",
   });
 
-  // Add a new user
   const handleAddUser = () => {
     if (!newUser.name || !newUser.email) return; // Ensure non-empty input
     const newId = users.length ? users[users.length - 1].id + 1 : 1;
@@ -42,7 +29,6 @@ const UserManagement = () => {
     setNewUser({ name: "", email: "", role: "User" });
   };
 
-  // Edit an existing user
   const handleEditUser = (user: User) => {
     setEditingUser(user);
   };
@@ -56,7 +42,6 @@ const UserManagement = () => {
     }
   };
 
-  // Delete a user
   const handleDeleteUser = (id: number) => {
     setUsers(users.filter((user) => user.id !== id));
   };
@@ -64,8 +49,7 @@ const UserManagement = () => {
   return (
     <div className="max-w-4xl mx-auto py-10">
       <h1 className="text-2xl font-bold mb-5">User Management</h1>
-
-       List of Users 
+      List of Users
       <table className="min-w-full bg-white shadow-md rounded mb-4">
         <thead>
           <tr className="w-full bg-gray-100 border-b border-gray-200">
@@ -99,8 +83,7 @@ const UserManagement = () => {
           ))}
         </tbody>
       </table>
-
-       Add New User
+      Add New User
       <h2 className="text-xl font-bold mt-8 mb-4">Add New User</h2>
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
@@ -148,8 +131,6 @@ const UserManagement = () => {
           Add User
         </button>
       </div>
-
-       //Edit User 
       {editingUser && (
         <div className="mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8">
           <h2 className="text-xl font-bold mb-4">Edit User</h2>
@@ -209,5 +190,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
- */
+export default UserManage;

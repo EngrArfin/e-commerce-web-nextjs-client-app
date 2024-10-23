@@ -1,9 +1,9 @@
-import React from "react";
+import AdminProfiles from "@/components/AdminPage/AdminProfiles";
 
 const adminProfile = () => {
   return (
     <div>
-      <h1>Hello, adminProfile!</h1>
+      <AdminProfiles />
     </div>
   );
 };
