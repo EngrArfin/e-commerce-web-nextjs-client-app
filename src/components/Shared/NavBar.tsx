@@ -1,11 +1,13 @@
 "use client";
+// import ThemeSwitcher from "../ThemeSwitcher"; // Uncomment if you want to add a theme switcher
 import Image from "next/image";
 import Link from "next/link";
-// import ThemeSwitcher from "../ThemeSwitcher"; // Uncomment if you want to add a theme switcher
-import profile from "../../UI/icon/profile.jpg";
 import Logo from "../../UI/icon/Logo.jpg";
+import { signOut, useSession } from "next-auth/react";
 
 const NavBar: React.FC = () => {
+  const session = useSession();
+
   return (
     <header className="bg-base-100 shadow-md w-full">
       <nav className="navbar container mx-auto">
@@ -79,67 +81,99 @@ const NavBar: React.FC = () => {
 
         {/* Navbar End - Cart, Profile, Login */}
         <div className="navbar-end flex items-center space-x-4">
-          {/* Cart Icon */}
-          <div className="dropdown dropdown-end">
-            <button
-              tabIndex={0}
-              className="btn btn-ghost btn-circle"
-              aria-label="Shopping Cart"
-            >
-              <div className="indicator">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                <span className="badge badge-sm indicator-item">8</span>
-              </div>
-            </button>
-          </div>
-
           {/* Profile Icon with Dropdown */}
-          <div className="dropdown dropdown-end">
-            <button
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar"
-              aria-label="Profile Menu"
-            >
-              <div className="w-10 rounded-full">
-                <Image alt="profile" src={profile} />
+          <div className="flex gap-2">
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Search "
+                className="input input-bordered w-24 md:w-auto bg-violet-200"
+              />
+            </div>
+            {/* Cart Icon */}
+            <div className="dropdown dropdown-end">
+              <button
+                tabIndex={0}
+                className="btn btn-ghost btn-circle bg-violet-200"
+                aria-label="Shopping Cart"
+              >
+                <div className="indicator ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  <span className="badge badge-sm indicator-item bg-red-300">
+                    8
+                  </span>
+                </div>
+              </button>
+            </div>
+            {/* profile */}
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <Image
+                    alt="Tailwind CSS Navbar component"
+                    src={session?.data?.user?.image || "/default-profile.png"}
+                    height="20"
+                    width="20"
+                  />
+                </div>
               </div>
-            </button>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link href="/profile">
-                  Profile
-                  <span className="badge">New</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/products">Products</Link>
-              </li>
-              <li>
-                <a href="/logout">Logout</a>
-              </li>
-            </ul>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  <a className="justify-between">
+                    {session?.data?.user?.name}
+                    <span className="badge">New</span>
+                  </a>
+                </li>
+                <li>
+                  <a>{session?.data?.user?.email}</a>
+                </li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <a href="">logout</a>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Login Button */}
-          <Link href="/login" className="btn btn-primary">
-            Login
-          </Link>
+
+          {!session.data ? (
+            <Link
+              href="/login"
+              className="btn  btn-outline text-green-600  px-4"
+            >
+              Login
+            </Link>
+          ) : (
+            <button
+              onClick={() => signOut()}
+              className="btn btn-error btn-outline text-white  px-4"
+            >
+              Logout
+            </button>
+          )}
         </div>
       </nav>
     </header>

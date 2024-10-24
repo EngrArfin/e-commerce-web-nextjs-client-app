@@ -3,8 +3,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import login from "../../UI/image//backgroundLogin1.jpg";
+import login from "../../UI/image/backgroundLogin1.jpg"; // Ensure the path is correct
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import GoogleGithubLogin from "@/components/Shared/GoogleGithubLogin";
 
 export type FormValues = {
   email: string;
@@ -12,25 +14,26 @@ export type FormValues = {
 };
 
 const Login = () => {
+  const router = useRouter();
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Fix the typo
+    event.preventDefault();
     const email = (event.target as any).email.value;
     const password = (event.target as any).password.value;
-
     const resp = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
-
-    console.log(resp);
+    if (resp?.status === 200) {
+      router.push("/");
+    }
   };
 
   return (
     <div className="max-h-screen flex items-center justify-center bg-gray-100 py-14 px-12 sm:px-8 lg:px-10">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
         <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
-          <span className="text-sky-600">Login in E-com Zone </span>
+          <span className="text-sky-600">Login in E-com Zone</span>
         </h2>
         <div className="flex gap-6">
           <div className="hidden lg:block w-1/2">
@@ -54,7 +57,6 @@ const Login = () => {
                   placeholder="Email"
                   className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
-                  /*  {...register("email")} */
                 />
               </div>
               <div>
@@ -67,7 +69,6 @@ const Login = () => {
                   placeholder="Password"
                   className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
-                  /*  {...register("password")} */
                 />
               </div>
               <div>
@@ -95,39 +96,7 @@ const Login = () => {
             </p>
             <div className="text-center mt-6 text-gray-500 divider">Or</div>
 
-            <div className="flex justify-center gap-4 mt-4">
-              <button
-                /* onClick={() =>
-                  signIn("github", {
-                    callbackUrl: "http://localhost:3000/dashboard",
-                  })
-                } */
-                className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg"
-              >
-                <Image
-                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                  width={30}
-                  height={30}
-                  alt="github logo"
-                />
-              </button>
-
-              <button
-                className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg"
-                /*  onClick={() =>
-                  signIn("google", {
-                    callbackUrl: "http://localhost:3000/dashboard",
-                  })
-                } */
-              >
-                <Image
-                  src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
-                  width={30}
-                  height={30}
-                  alt="google logo"
-                />
-              </button>
-            </div>
+            <GoogleGithubLogin />
           </div>
         </div>
       </div>
