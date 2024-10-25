@@ -1,12 +1,12 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const GoogleGithubLogin = () => {
   const router = useRouter();
-  const session = useSession();
+
   const handleSocialLogin = async (provider) => {
     const resp = await signIn(provider, { redirect: false });
     if (resp?.error) {

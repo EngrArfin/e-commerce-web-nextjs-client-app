@@ -7,6 +7,7 @@ export const products = [
     image: "https://i.ibb.co.com/zGD9nNw/card6.jpg",
     ratings: 5,
   },
+
   {
     id: 2,
     name: "Bluetooth Speaker",
