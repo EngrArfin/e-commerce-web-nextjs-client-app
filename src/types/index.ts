@@ -1,5 +1,6 @@
 export type TProductCardProps = {
   _id: string;
+  id: string;
   productName: string;
   productId: string;
   name: string;
@@ -11,3 +12,11 @@ export type TProductCardProps = {
   quantity: number;
   description: string; // Add this line if needed
 };
+
+export interface TService {
+  _id: string; // Unique identifier for the service
+  title: string; // Title of the service
+  description: string; // Description of the service
+  img: string; // Image URL of the service
+  price: number; // Price of the service
+}

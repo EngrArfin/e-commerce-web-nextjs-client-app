@@ -1,45 +1,24 @@
-import React from "react";
+/* eslint-disable @next/next/no-img-element */
+"use client";
 
-const ProductCard = () => {
-  return (
-    <div>
-      <h1>Hello, ProductCard!</h1>
-    </div>
-  );
-};
+import Link from "next/link";
 
-export default ProductCard;
-/* "use client";
-import { TProductCardProps } from "@/types";
-import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { addToCart } from "@/redux/feature/productSlice";
-
-const ProductCard = ({ product }: { product: TProductCardProps }) => {
-  const dispatch = useDispatch();
-
-  const handleAddToCart = () => {
-    dispatch(addToCart(product));
-  };
-
+const ProductCard = ({ product }) => {
+  const { name, image, ratings, price, description, _id } = product || {};
   return (
     <div className="card bg-base-100 w-96 shadow-xl">
       <figure>
-        <Image
-          height="200"
-          width="350"
-          src={product?.image}
-          alt={product?.productName}
-        />
+        <img src={image || "/default-profile.jpg"} alt="" />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{product?.productName}</h2>
-        <p>Price: ${product?.price}</p>
-        <p>Available: {product?.availableQuantity}</p>
+        <h2 className="card-title">{name}</h2>
+        <p>{description}</p>
+        <p>Price: ${price}</p>
+        <p>Rating: {ratings}</p>
         <div className="card-actions justify-center items-center text-center">
-          <button className="btn btn-primary" onClick={handleAddToCart}>
-            Add to Cart
-          </button>
+          <Link href={`/products/${_id}`} className="btn btn-primary">
+            View Details
+          </Link>
         </div>
       </div>
     </div>
@@ -47,4 +26,3 @@ const ProductCard = ({ product }: { product: TProductCardProps }) => {
 };
 
 export default ProductCard;
- */

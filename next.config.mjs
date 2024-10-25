@@ -4,10 +4,18 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "i.ibb.co",
+        port: "", // Optional
+        pathname: "/**", // Allow all paths
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com", // Add another hostname
+        port: "", // Optional
+        pathname: "/**", // Allow all paths
       },
     ],
   },
 };
-/* module.exports = nextConfig; */
+
 export default nextConfig;
