@@ -11,7 +11,7 @@ const ProductCardData = async () => {
   return (
     <div className="container">
       <h1 className="text-4xl font-bold my-10">All Product </h1>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10">
         {products.length > 0 &&
           products?.map((product: TProductCardProps) => (
             <ProductCard product={product} key={product._id} />

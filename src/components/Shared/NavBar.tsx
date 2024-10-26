@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 // import ThemeSwitcher from "../ThemeSwitcher"; // Uncomment if you want to add a theme switcher
 import Image from "next/image";
