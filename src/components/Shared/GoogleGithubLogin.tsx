@@ -1,20 +1,20 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 const GoogleGithubLogin = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handleSocialLogin = async (provider) => {
-    const resp = await signIn(provider, { redirect: false });
-    if (resp?.error) {
-      console.log("Error during social login:", resp.error);
-    } else if (resp?.ok) {
-      console.log("Social login successful");
-      router.push("/"); // Redirect after successful login
-    }
+  const path = searchParams.get("redirect");
+  const session = useSession();
+  const handleSocialLogin = (provider) => {
+    const resp = signIn(provider, {
+      redirect: true,
+      callbackUrl: path ? path : "/",
+    });
   };
 
   return (

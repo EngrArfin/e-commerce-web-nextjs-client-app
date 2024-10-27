@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/connectDB";
-import { products } from "@/lib/products";
+import { services } from "@/lib/service";
 import { Collection, Document } from "mongodb"; // Import Collection and Document types
 
 export const GET = async () => {
@@ -8,7 +8,7 @@ export const GET = async () => {
 
   try {
     await servicesCollection.deleteMany(); // Clear previous entries
-    const resp = await servicesCollection.insertMany(products); // Insert new services
+    const resp = await servicesCollection.insertMany(services); // Insert new services
     return new Response(JSON.stringify({ message: "Sent Successfully" }), {
       status: 200,
     });

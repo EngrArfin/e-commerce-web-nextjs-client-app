@@ -5,28 +5,35 @@ import Link from "next/link";
 import { getServicesDetails } from "@/services/getServices";
 
 const ProductDetails = async ({ params }) => {
-  /* product, relatedProducts, reviews, */
   const details = await getServicesDetails(params.id);
+
+  // Check if details.service exists and is not null
+  if (!details?.service) {
+    return (
+      <div className="container mx-auto p-6">
+        <h2 className="text-2xl font-semibold">Service not found</h2>
+        <p className="text-gray-600">
+          The requested service details could not be found.
+        </p>
+      </div>
+    );
+  }
+
   const { name, ratings, image, price, description, _id } = details.service;
 
   return (
     <div className="container mx-auto p-6 grid lg:grid-cols-2 gap-8">
-      {/* Left Side - Image Slider */}
       <div className="space-y-4">
-        {/* Active Image Display */}
         <div className="flex justify-center">
           <img
-            src={image}
+            src={image || "/default-profile.jpg"}
             alt="Product Image"
             className="rounded-lg shadow-lg object-cover w-full max-w-md h-80"
           />
         </div>
-        {/* Thumbnail Slider */}
       </div>
 
-      {/* Right Side - Product Info */}
       <div className="space-y-6">
-        {/* Product Details */}
         <div>
           <h2 className="text-3xl font-semibold">{name}</h2>
           <p className="text-gray-600">{description}</p>
@@ -51,7 +58,6 @@ const ProductDetails = async ({ params }) => {
           </p>
         </div>
 
-        {/* Quantity and Buttons */}
         <div className="flex items-center space-x-4">
           <input
             type="number"

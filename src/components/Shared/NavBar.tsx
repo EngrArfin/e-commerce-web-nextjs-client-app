@@ -75,6 +75,9 @@ const NavBar: React.FC = () => {
               <Link href="/products">Products</Link>
             </li>
             <li>
+              <Link href="/my-bookings">My Bookings</Link>
+            </li>
+            <li>
               <Link href="/about">About</Link>
             </li>
           </ul>
