@@ -7,6 +7,7 @@ import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
 import { headers } from "next/headers";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Service {
   name?: string;
@@ -53,6 +54,9 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
       },
     });
     console.log(resp);
+    const response = await resp?.json();
+    toast.success(response?.message);
+    event.target.reset();
   };
 
   useEffect(() => {

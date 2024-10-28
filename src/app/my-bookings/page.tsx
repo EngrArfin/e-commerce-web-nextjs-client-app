@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Page = () => {
@@ -28,7 +29,7 @@ const Page = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/my-bookings/api/delete-booking/${id}`,
+        `http://localhost:3000/my-bookings/api/booking/${id}`,
         {
           method: "DELETE",
         }
@@ -75,7 +76,9 @@ const Page = () => {
               <td>{date}</td>
               <td>
                 <div className="flex items-center space-x-2">
-                  <button className="btn btn-primary">Edit</button>
+                  <Link href={`/my-bookings/update/${_id}`}>
+                    <button className="btn btn-primary">Edit</button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(_id)}
                     className="btn btn-error"
