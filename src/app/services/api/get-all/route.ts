@@ -1,12 +1,12 @@
 import { connectDB } from "@/lib/connectDB";
-import { Collection, Document } from "mongodb"; // Import Collection and Document types
+import { Collection, Document } from "mongodb";
 
 export const GET = async () => {
   const db = await connectDB();
-  const servicesCollection: Collection<Document> = db.collection("services"); // Type 'servicesCollection'
+  const servicesCollection: Collection<Document> = db.collection("services");
 
   try {
-    const services = await servicesCollection.find().toArray(); // Insert new services
+    const services = await servicesCollection.find().toArray();
     return new Response(JSON.stringify({ services }), {
       status: 200,
     });

@@ -2,20 +2,34 @@
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const GoogleGithubLogin = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { status } = useSession();
 
-  const path = searchParams.get("redirect");
-  const session = useSession();
-  const handleSocialLogin = (provider) => {
-    const resp = signIn(provider, {
-      redirect: true,
-      callbackUrl: path ? path : "/",
+  const path = searchParams.get("redirect") || "/";
+
+  const handleSocialLogin = async (provider: string) => {
+    const response = await signIn(provider, {
+      redirect: false,
+      callbackUrl: path,
     });
+
+    // Check if signIn was successful and handle redirection
+    if (response?.ok) {
+      router.push(path);
+    } else {
+      console.error("Social login failed", response?.error);
+    }
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push(path);
+    }
+  }, [status, router, path]);
 
   return (
     <div className="flex justify-center gap-4 mt-4">

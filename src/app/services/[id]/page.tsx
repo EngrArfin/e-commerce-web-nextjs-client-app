@@ -72,7 +72,7 @@ const ProductDetails = async ({ params }) => {
             Buy Now
           </Link>
           <Link
-            href={`/checkout/${_id}`}
+            href={`/cart/${_id}`}
             className="bg-gray-100 text-gray-900 px-6 py-2 rounded-md font-semibold hover:bg-gray-200"
           >
             Add to Cart
