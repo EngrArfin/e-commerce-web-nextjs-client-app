@@ -45,7 +45,7 @@ const Page = ({ params }) => {
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">
       {/* Checkout Form */}
       <div className="flex-1">
-        <form onClick={handleUpdateBooking}>
+        <form onSubmit={handleUpdateBooking}>
           <div className="flex justify-between">
             <h2 className="text-2xl font-semibold mb-4 text-gray-700">
               Edit Info
