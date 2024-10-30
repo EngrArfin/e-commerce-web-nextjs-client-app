@@ -74,12 +74,12 @@ const ServiceDetails = async ({ params }) => {
 
           {/* Action Buttons */}
           <div className="flex space-x-4 pt-4">
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700">
+            <button className="px-5 py-3 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105">
               Buy Now
             </button>
             <Link
               href={`/products/${_id}`}
-              className="bg-gray-100 text-gray-900 px-6 py-2 rounded-md font-semibold hover:bg-gray-200"
+              className="px-5 py-3 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105"
             >
               Add to Cart
             </Link>

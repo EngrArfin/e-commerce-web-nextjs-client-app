@@ -5,7 +5,9 @@
 
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const AddToCart = ({ params }) => {
   const { data } = useSession();
@@ -35,6 +37,27 @@ const AddToCart = ({ params }) => {
   const handleBooking = async (event) => {
     event.preventDefault();
     // Add order placement logic here
+    const newBooking = {
+      email: data?.user?.email,
+      name: data?.user?.name,
+      address: event.target.address.value,
+      phone: event.target.phone.value,
+      date: event.target.date.value,
+      productName: name,
+      ProductID: _id,
+      price: price,
+    };
+    const resp = await fetch("http://localhost:3000/checkout/api/new-booking", {
+      method: "POST",
+      body: JSON.stringify(newBooking),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    console.log(resp);
+    const response = await resp?.json();
+    toast.success(response?.message);
+    event.target.reset();
   };
 
   useEffect(() => {
@@ -81,7 +104,9 @@ const AddToCart = ({ params }) => {
           Order Summary
         </h2>
         <div className="space-y-2">
-          {description}
+          {data?.user?.name}
+          {data?.user?.email}
+          <hr />
           <p>
             Product Amount - <span className="font-bold">${price}</span>
           </p>
@@ -95,12 +120,13 @@ const AddToCart = ({ params }) => {
             Total Amount: <span className="text-blue-600">${total}</span>
           </p>
         </div>
-        <button
+        <Link
+          href={`/checkout/${_id}`}
           type="submit"
           className="w-full p-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Place Order
-        </button>
+        </Link>
       </div>
     </div>
   );

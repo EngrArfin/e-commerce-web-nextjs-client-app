@@ -67,13 +67,13 @@ const ProductDetails = async ({ params }) => {
           />
           <Link
             href={`/checkout/${_id}`}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700"
+            className="px-4 py-2 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded shadow-lg hover:bg-green-900 transition-transform duration-300 transform hover:scale-105"
           >
             Buy Now
           </Link>
           <Link
             href={`/cart/${_id}`}
-            className="bg-gray-100 text-gray-900 px-6 py-2 rounded-md font-semibold hover:bg-gray-200"
+            className="px-4 py-2 bg-yellow-700 text-white text-sm lg:text-lg font-semibold rounded shadow-lg hover:bg-sky-600 transition-transform duration-300 transform hover:scale-105"
           >
             Add to Cart
           </Link>

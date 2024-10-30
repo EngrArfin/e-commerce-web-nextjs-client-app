@@ -10,7 +10,7 @@ const ServicesData = async () => {
   return (
     <div className="container">
       <h1 className="text-4xl font-bold my-10">All Service Data</h1>
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10">
+      <div className="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 gap-10">
         {services.length > 0 &&
           services?.map((service: TProductCardProps) => (
             <ServicesCard service={service} key={service._id} />

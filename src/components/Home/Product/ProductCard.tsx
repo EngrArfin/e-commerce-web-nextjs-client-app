@@ -20,7 +20,10 @@ const ProductCard = ({ product }) => {
         <p>Price: ${price}</p>
         <p>Rating: {ratings}</p>
         <div className="card-actions justify-center items-center text-center">
-          <Link href={`/products/${_id}`} className="btn btn-primary">
+          <Link
+            href={`/products/${_id}`}
+            className="px-4 py-2 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105"
+          >
             View Details
           </Link>
         </div>

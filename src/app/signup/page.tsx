@@ -93,7 +93,7 @@ const SignUp = () => {
                   type="submit"
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-900 to-sky-600 text-white font-semibold rounded-lg shadow-lg hover:from-sky-900 hover:to-sky-900 focus:outline-none focus:ring-4 focus:ring-sky-500 transition duration-200 ease-in-out transform hover:scale-105"
                 >
-                  Signup
+                  Sign Up
                 </button>
               </div>
             </form>
