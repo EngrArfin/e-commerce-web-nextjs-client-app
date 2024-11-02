@@ -8,14 +8,11 @@ const AdminSideBar = async () => {
           <Link href="/admin">Dashboard</Link>
         </li>
         <li>
-          <Link href="/admin/profile">Profile</Link>
+          <Link href="/admin/user-managements">User Management</Link>
         </li>
 
         <li>
-          <Link href="/admin/usermanagement">User Management</Link>
-        </li>
-        <li>
-          <Link href="/admin/productmanag">Product Management</Link>
+          <Link href="/admin/productmanage">Product Management</Link>
         </li>
         <li>
           <Link href="/admin/addproduct">Add Product</Link>
@@ -28,6 +25,10 @@ const AdminSideBar = async () => {
         </li>
         <li>
           <Link href="/admin/paymentrecord">Payment Record</Link>
+        </li>
+
+        <li>
+          <Link href="/admin/profile">Profile</Link>
         </li>
       </ul>
     </div>

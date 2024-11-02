@@ -1,50 +1,29 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const UserManage = () => {
+const Page = () => {
   const { data: session } = useSession();
-  const [bookings, setBookings] = useState([]);
+  const [users, setUsers] = useState([]);
 
   // Function to load bookings data
   const loadData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/my-bookings/api/${session?.user?.email}`
+        `http://localhost:3000/admin/user-managements/api/${session?.user?.id}`
       );
       if (response.ok) {
         const data = await response.json();
-        setBookings(data?.myBookings || []);
+        setUsers(data?.allUsers || []);
       } else {
         console.error("Failed to fetch bookings data");
       }
     } catch (error) {
       console.error("Error loading bookings:", error);
-    }
-  };
-
-  // Function to handle delete booking
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/my-bookings/api/booking/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result?.response?.deletedCount > 0) {
-          loadData(); // Reload bookings data if delete was successful
-        }
-      } else {
-        console.error("Failed to delete booking:", await response.text());
-      }
-    } catch (error) {
-      console.error("Error deleting booking:", error);
     }
   };
 
@@ -57,30 +36,36 @@ const UserManage = () => {
 
   return (
     <div className="overflow-x-auto pt-8">
+      <div className="text-3xl text-sky-900">Total Users: {users.length}</div>
       <table className="table table-zebra">
         <thead>
           <tr>
             <th>No</th>
+            <th>Photo</th>
             <th>Name</th>
-            <th>Price</th>
-            <th>Date</th>
+            <th>Email</th>
+            <th>Role</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {bookings.map(({ productName, _id, date, price }, index) => (
+          {users.map(({ _id, image, name, email }, index) => (
             <tr key={_id}>
               <th>{index + 1}</th>
-              <td>{productName}</td>
-              <td>{price}</td>
-              <td>{date}</td>
+              <td>
+                {" "}
+                <img src={image} height="100" width="100" alt="" />{" "}
+              </td>
+              <td>{name}</td>
+              <td>{email}</td>
+              <td>admin</td>
               <td>
                 <div className="flex items-center space-x-2">
-                  <Link href={`/my-bookings/update/${_id}`}>
-                    <button className="btn btn-primary">Edit</button>
-                  </Link>
+                  {/* <Link href={`/my-bookings/update/${_id}`}>
+                  </Link> */}
+                  <button className="btn btn-primary">Edit</button>
                   <button
-                    onClick={() => handleDelete(_id)}
+                    /*  onClick={() => handleDelete(_id)} */
                     className="btn btn-error"
                   >
                     Delete
@@ -95,4 +80,4 @@ const UserManage = () => {
   );
 };
 
-export default UserManage;
+export default Page;

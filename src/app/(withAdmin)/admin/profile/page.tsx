@@ -1,3 +1,4 @@
+"use client";
 import AdminProfiles from "@/components/AdminPage/AdminProfiles";
 
 const adminProfile = () => {
