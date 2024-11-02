@@ -20,3 +20,11 @@ export interface TService {
   img: string; // Image URL of the service
   price: number; // Price of the service
 }
+
+export interface TUserData {
+  _id: string;
+  email: string; // Title of the service
+  name: string; // Description of the service
+  imge: string; // Image URL of the service
+  price: number; // Price of the service
+}

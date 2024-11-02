@@ -14,7 +14,6 @@ export default function adminLayout({
 }>) {
   return (
     <div>
-      <AdminNavbar />
       <div className="w-full min-h-screen my-2">
         <div className="flex ">
           <div className="w-[10%] "></div>

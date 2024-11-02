@@ -1,3 +1,6 @@
+// Add "use client" directive to make this a client component
+"use client";
+
 import { useState } from "react";
 
 interface Category {

@@ -1,73 +1,100 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface Order {
-  id: number;
-  customerName: string;
+// Define the Booking type
+interface Booking {
+  _id: string;
+  name: string;
+  productName: string;
   date: string;
-  total: number;
-  status: string;
+  status: string; // Optional: if you want to track status in the booking
 }
 
-const initialOrders: Order[] = [
-  {
-    id: 1,
-    customerName: "John Doe",
-    date: "2024-10-20",
-    total: 150.5,
-    status: "Pending",
-  },
-  {
-    id: 2,
-    customerName: "Jane Smith",
-    date: "2024-10-21",
-    total: 200.0,
-    status: "Completed",
-  },
-];
-
 const OrderList = () => {
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [bookings, setBookings] = useState<Booking[]>([]); // Use the Booking type
 
-  const handleUpdateStatus = (id: number, newStatus: string) => {
-    setOrders(
-      orders.map((order) =>
-        order.id === id ? { ...order, status: newStatus } : order
-      )
-    );
+  // Function to load booking data
+  const loadBooking = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/my-bookings/api/get`);
+      if (response.ok) {
+        const data = await response.json();
+        setBookings(data?.bookings || []); // Ensure 'bookings' is accessed correctly
+      } else {
+        console.error("Failed to fetch bookings data");
+      }
+    } catch (error) {
+      console.error("Error loading bookings:", error);
+    }
   };
+
+  // Function to update order status
+  const handleUpdateStatus = async (id: string, status: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/my-bookings/api/update/${id}`,
+        {
+          method: "PUT", // Use PUT method for update
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }), // Send the new status
+        }
+      );
+
+      if (response.ok) {
+        const updatedBooking = await response.json();
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) =>
+            booking._id === id
+              ? { ...booking, status: updatedBooking.status }
+              : booking
+          )
+        );
+      } else {
+        console.error("Failed to update booking status");
+      }
+    } catch (error) {
+      console.error("Error updating booking status:", error);
+    }
+  };
+
+  // Load data when the component mounts
+  useEffect(() => {
+    loadBooking();
+  }, []); // No dependencies to track, just run once on mount
 
   return (
     <div className="max-w-4xl mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-5">Order Management</h1>
+      <h1 className="text-2xl font-bold mb-5">
+        Order Management ({bookings.length})
+      </h1>
       <table className="min-w-full bg-white shadow-md rounded mb-4">
         <thead>
           <tr className="bg-gray-100 border-b">
-            <th className="py-2 px-4">Order ID</th>
             <th className="py-2 px-4">Customer</th>
+            <th className="py-2 px-4">Product</th>
             <th className="py-2 px-4">Date</th>
-            <th className="py-2 px-4">Total</th>
-            <th className="py-2 px-4">Status</th>
+            <th className="py-2 px-4">Price</th>
             <th className="py-2 px-4">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
-            <tr key={order.id} className="border-b">
-              <td className="py-2 px-4">{order.id}</td>
-              <td className="py-2 px-4">{order.customerName}</td>
+          {bookings.map((order) => (
+            <tr key={order._id} className="border-b">
+              <td className="py-2 px-4">{order.name}</td>
+              <td className="py-2 px-4">{order.productName}</td>
               <td className="py-2 px-4">{order.date}</td>
-              <td className="py-2 px-4">${order.total.toFixed(2)}</td>
-              <td className="py-2 px-4">{order.status}</td>
+              <td className="py-2 px-4">{order.price}</td>
               <td className="py-2 px-4">
                 <button
-                  onClick={() => handleUpdateStatus(order.id, "Completed")}
+                  onClick={() => handleUpdateStatus(order._id, "Completed")}
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mx-1"
                 >
                   Mark as Completed
                 </button>
                 <button
-                  onClick={() => handleUpdateStatus(order.id, "Cancelled")}
+                  onClick={() => handleUpdateStatus(order._id, "Cancelled")}
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-1"
                 >
                   Cancel Order

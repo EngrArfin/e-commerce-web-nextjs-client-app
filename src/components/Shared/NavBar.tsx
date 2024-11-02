@@ -10,15 +10,15 @@ const NavBar: React.FC = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="bg-base-100 shadow-md w-full">
-      <nav className="navbar container mx-auto">
+    <header className="bg-gray-100 shadow-lg w-full">
+      <nav className="navbar container mx-auto px-4">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center">
           {/* Mobile Menu Button */}
-          <div className="dropdown">
+          <div className="dropdown lg:hidden">
             <button
               tabIndex={0}
-              className="btn btn-ghost lg:hidden"
+              className="btn btn-ghost"
               aria-label="Mobile Menu"
             >
               <svg
@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
             {/* Mobile Menu Dropdown */}
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-gray-100 rounded-box mt-3 w-52 p-2 shadow-md"
             >
               <li>
                 <Link href="/">Home</Link>
@@ -48,18 +48,25 @@ const NavBar: React.FC = () => {
                 <Link href="/products">Products</Link>
               </li>
               <li>
+                <Link href="/my-bookings">My Bookings</Link>
+              </li>
+              <li>
                 <Link href="/about">About</Link>
               </li>
             </ul>
           </div>
 
           {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <Image alt="logo" src={Logo} className="w-10 h-10" />
-              <span className="text-xl font-bold">
-                <span style={{ color: "sky" }}>E-Com&nbsp;</span>
-                <span style={{ color: "violet" }}>Zone&nbsp;</span>
+          <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center">
+              <Image
+                alt="logo"
+                src={Logo}
+                className="w-12 h-12 rounded-full" // Added rounded effect
+              />
+              <span className="text-2xl font-bold">
+                <span className="text-sky-500">E-Com&nbsp;</span>
+                <span className="text-violet-600">Zone&nbsp;</span>
               </span>
             </Link>
           </div>
@@ -67,7 +74,7 @@ const NavBar: React.FC = () => {
 
         {/* Navbar Center for larger screens */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 space-x-4">
+          <ul className="menu menu-horizontal space-x-4">
             <li>
               <Link href="/">Home</Link>
             </li>
@@ -90,7 +97,7 @@ const NavBar: React.FC = () => {
             <input
               type="text"
               placeholder="Search"
-              className="input input-bordered w-24 md:w-auto bg-violet-200"
+              className="input input-bordered w-24 md:w-auto bg-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
           </div>
 
@@ -98,13 +105,13 @@ const NavBar: React.FC = () => {
           <div className="dropdown dropdown-end">
             <button
               tabIndex={0}
-              className="btn btn-ghost btn-circle bg-violet-200"
+              className="btn btn-ghost btn-circle"
               aria-label="Shopping Cart"
             >
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-5 w-5 text-gray-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -137,25 +144,25 @@ const NavBar: React.FC = () => {
                     src={session.user?.image || "/default-profile.png"}
                     height="40"
                     width="40"
+                    className="rounded-full" // Added rounded effect
                   />
                 </div>
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-gray-100 rounded-box z-[1] mt-1 w-72 p-4 shadow-md"
               >
                 <li>
-                  <a className="justify-between">
-                    {session.user?.name}
-                    <span className="badge">New</span>
-                  </a>
+                  <a>{session.user?.name}</a>
                 </li>
                 <li>
                   <a>{session.user?.email}</a>
                 </li>
-                <li>
-                  <a>Settings</a>
-                </li>
+                <Link href="/admin">
+                  <li>
+                    <a>Admin</a>
+                  </li>
+                </Link>
                 <li>
                   <button onClick={() => signOut()} className="text-red-600">
                     Logout
