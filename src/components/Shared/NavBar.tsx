@@ -160,7 +160,7 @@ const NavBar: React.FC = () => {
                 </li>
                 <Link href="/admin">
                   <li>
-                    <a>Admin</a>
+                    <span>Admin</span>
                   </li>
                 </Link>
                 <li>

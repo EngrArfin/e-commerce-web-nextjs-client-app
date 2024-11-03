@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { connectDB } from "@/lib/connectDB";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -13,8 +14,8 @@ interface User {
 
 const handler = NextAuth({
   session: {
-    strategy: "jwt", // Use JWT for session management
-    maxAge: 30 * 24 * 60 * 60, // Session expiration (30 days)
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
   providers: [
     CredentialsProvider({
@@ -32,19 +33,16 @@ const handler = NextAuth({
           throw new Error("Email and password are required");
         }
 
-        // Connect to the database
         const db = await connectDB();
         if (!db) {
           throw new Error("Failed to connect to the database");
         }
 
-        // Find the user by email
         const currentUser = await db.collection("users").findOne({ email });
         if (!currentUser) {
           throw new Error("No user found with the provided email");
         }
 
-        // Compare the provided password with the stored hashed password
         const passwordMatched = await bcrypt.compare(
           password,
           currentUser.password
@@ -53,7 +51,6 @@ const handler = NextAuth({
           throw new Error("Incorrect password");
         }
 
-        // Return the user data, including the _id from MongoDB
         return {
           id: currentUser._id.toString(),
           email: currentUser.email,
@@ -72,7 +69,7 @@ const handler = NextAuth({
   ],
 
   pages: {
-    signIn: "/login", // Custom login page
+    signIn: "/login",
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -81,10 +78,9 @@ const handler = NextAuth({
       if (account?.provider === "github") {
         console.log("GitHub user data:", user);
 
-        // If GitHub email is missing, handle it
         if (!email) {
           console.log("GitHub user has no email.");
-          return false; // Or ask for an alternate identifier
+          return false;
         }
       }
 
@@ -92,26 +88,24 @@ const handler = NextAuth({
         const db = await connectDB();
         const userCollection = db?.collection("users");
 
-        // Find user by email
         const userExist = await userCollection?.findOne({ email });
 
         if (!userExist) {
-          // Insert new user
-          const res = await userCollection?.insertOne({
+          await userCollection?.insertOne({
             name,
             email,
             image,
             provider: account.provider,
           });
-          console.log("New user inserted:", res);
-          return user;
+          console.log("New user inserted");
         } else {
           console.log("User already exists:", userExist);
-          return user;
         }
+
+        return true; // Allow sign-in
       } catch (error) {
         console.log("Error during signIn:", error);
-        return false;
+        return false; // Deny sign-in
       }
     },
   },

@@ -4,7 +4,7 @@ export const getServices = async () => {
   return services;
 };
 
-export const getServicesDetails = async (id) => {
+export const getServicesDetails = async (id: string) => {
   const res = await fetch(`http://localhost:3000/services/api/${id}`);
   const services = res.json();
   return services;

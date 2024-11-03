@@ -4,7 +4,6 @@
 
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -23,20 +22,22 @@ interface CheckoutProps {
   };
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ params }) => {
+const Payment: React.FC<CheckoutProps> = ({ params }) => {
   const { data } = useSession();
   const [service, setService] = useState<Service>({});
-  const [isCashOnDelivery, setIsCashOnDelivery] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>({
     name: data?.user?.name || "",
     email: data?.user?.email || "",
     phone: "",
     address: "",
     date: new Date().toISOString().split("T")[0], // Default to today's date
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
   });
 
-  const loadService = async (id: string) => {
-    const details = await getServicesDetails(id);
+  const loadService = async () => {
+    const details = await getServicesDetails(params.id);
     setService(details.service);
   };
 
@@ -48,12 +49,12 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     const newBooking = {
       ...formData,
       productName: name,
-      ProductID: _id,
+      productID: _id,
       price: price,
-      paymentMethod: isCashOnDelivery ? "Cash on Delivery" : "Online Payment",
+      paymentMethod: "Online Payment",
     };
 
-    const resp = await fetch("http://localhost:3000/checkout/api/new-booking", {
+    const resp = await fetch("http://localhost:3000/payment/api/paymenting", {
       method: "POST",
       body: JSON.stringify(newBooking),
       headers: {
@@ -62,7 +63,7 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     });
 
     const response = await resp.json();
-    toast.success(response?.message);
+    toast.success(response?.message || "Payment successful!");
   };
 
   const handleChange = (
@@ -75,38 +76,19 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     }));
   };
 
-  // Unwrap the params object using React.use() here
   useEffect(() => {
-    const fetchService = async () => {
-      if (params) {
-        await loadService(params.id); // Pass the id after unwrapping
-      }
-    };
-    fetchService();
+    loadService();
   }, [params]);
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">
       <div className="flex-1">
-        <h1 className="text-4xl font-bold mb-6 text-gray-800">Checkout</h1>
-        <div className="flex items-center mb-4">
-          <label className="cursor-pointer">
-            <span className="mr-2">Online Payment</span>
-            <input
-              type="checkbox"
-              className="toggle toggle-primary"
-              checked={isCashOnDelivery}
-              onChange={() => setIsCashOnDelivery(!isCashOnDelivery)}
-            />
-            <span className="ml-2"> Cash on Delivery</span>
-          </label>
-        </div>
-
+        <h1 className="text-4xl font-bold mb-6 text-gray-800">
+          Payment AMR Pay
+        </h1>
         <form onSubmit={handleBooking}>
           <div className="flex justify-between">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-              Shipping Information
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4 text-gray-700">Infor</h2>
             <h2 className="text-2xl font-semibold mb-4 text-red-900">
               Total Amount: <span className="text-green-900">{price}</span>
             </h2>
@@ -189,20 +171,59 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
               />
             </div>
           </div>
-          <div className="form-control mt-6">
-            <div className="form-control mt-6">
-              {isCashOnDelivery ? (
-                <button type="submit" className="btn btn-secondary btn-block">
-                  Confirm Order
-                </button>
-              ) : (
-                <Link href={`/payment/${_id}`}>
-                  <button className="btn btn-primary btn-block">
-                    Proceed to Payment
-                  </button>
-                </Link>
-              )}
+
+          <h2 className="text-2xl font-semibold mt-6 text-gray-700">
+            Payment Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Card Number</span>
+              </label>
+              <input
+                type="text"
+                name="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                className="input input-bordered"
+                required
+                value={formData.cardNumber}
+                onChange={handleChange}
+              />
             </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Expiry Date</span>
+              </label>
+              <input
+                type="text"
+                name="expiryDate"
+                placeholder="MM/YY"
+                className="input input-bordered"
+                required
+                value={formData.expiryDate}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">CVV</span>
+              </label>
+              <input
+                type="text"
+                name="cvv"
+                placeholder="123"
+                className="input input-bordered"
+                required
+                value={formData.cvv}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="form-control mt-6">
+            <button className="btn btn-primary btn-block" type="submit">
+              Pay Now
+            </button>
           </div>
         </form>
       </div>
@@ -210,4 +231,4 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
   );
 };
 
-export default Checkout;
+export default Payment;

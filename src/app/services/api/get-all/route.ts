@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/connectDB";
 import { Collection, Document } from "mongodb";
+import { NextResponse } from "next/server";
 
 export const GET = async () => {
   const db = await connectDB();
@@ -7,12 +8,12 @@ export const GET = async () => {
 
   try {
     const services = await servicesCollection.find().toArray();
-    return new Response(JSON.stringify({ services }), {
+    return new NextResponse(JSON.stringify({ services }), {
       status: 200,
     });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ message: "Error occurred" }), {
+    return new NextResponse(JSON.stringify({ message: "Error occurred" }), {
       status: 500,
     });
   }

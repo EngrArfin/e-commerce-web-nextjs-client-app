@@ -1,12 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { connectDB } from "@/lib/connectDB";
-import { Collection, Document } from "mongodb";
+import { Collection, Document, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (
-  request: NextRequest,
-  { params }: { params: { email: string } }
-) => {
+type RouteParams = {
+  params: {
+    _id: string; // Adjusting _id type to string for compatibility
+    email: string;
+  };
+};
+
+export const GET = async (request: NextRequest, { params }: RouteParams) => {
   const db = await connectDB();
+
   if (!db) {
     return NextResponse.json(
       { error: "Database connection failed" },
@@ -17,12 +23,18 @@ export const GET = async (
   const userCollection: Collection<Document> = db.collection("users");
 
   try {
-    const allUsers = await userCollection.find({ id: params._id }).toArray();
+    // If `_id` represents a MongoDB ObjectId, convert it properly
+    const filter = ObjectId.isValid(params._id)
+      ? { _id: new ObjectId(params._id) }
+      : { id: params._id };
+
+    const allUsers = await userCollection.find(filter).toArray();
+
     return NextResponse.json({ allUsers });
   } catch (error) {
-    console.error("Error fetching email:", error);
+    console.error("Error fetching users:", error);
     return NextResponse.json(
-      { error: "Failed to fetch email" },
+      { error: "Failed to fetch users" },
       { status: 500 }
     );
   }

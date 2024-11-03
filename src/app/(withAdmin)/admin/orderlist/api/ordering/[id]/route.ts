@@ -1,63 +1,57 @@
 import { connectDB } from "@/lib/connectDB";
-import { ObjectId } from "mongodb";
+import { Collection, Document, ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
-export const DELETE = async (request, { params }) => {
+// Define the expected parameters for the route
+interface RouteParams {
+  id: string; // Ensure this matches the route [id]
+}
+
+// Define the context interface expected by Next.js
+interface RouteContext {
+  params: RouteParams;
+}
+
+export const GET = async (
+  request: NextRequest,
+  context: RouteContext // Use the defined context type
+) => {
   const db = await connectDB();
-  const bookingsCollection = db.collection("bookings");
-  const { id } = params;
-  try {
-    const resp = await bookingsCollection.deleteOne({
-      _id: new ObjectId(id),
-    });
-    return Response.json({
-      meaasge: " delete booking product",
-      response: resp,
-    });
-  } catch (error) {
-    return Response.json({ meaasge: " Somthing wrong" });
-  }
-};
 
-export const PATCH = async (request, { params }) => {
-  const db = await connectDB();
-  const bookingsCollection = db.collection("bookings");
-
-  const updateDoc = await request.json();
-  try {
-    const resp = await bookingsCollection.updateOne(
-      { _id: new ObjectId(params.id) },
-      {
-        $set: {
-          ...updateDoc,
-        },
-      },
-      {
-        upsert: true,
-      }
+  if (!db) {
+    return NextResponse.json(
+      { error: "Database connection failed" },
+      { status: 500 }
     );
-    return Response.json({
-      meaasge: " update booking product",
-      response: resp,
-    });
-  } catch (error) {
-    return Response.json({ meaasge: " Somthing wrong" });
   }
-};
 
-export const GET = async (request, { params }) => {
-  const db = await connectDB();
-  const bookingsCollection = db.collection("bookings");
-  const { id } = params;
+  const bookingsCollection: Collection<Document> = db.collection("bookings");
+  const { id } = context.params; // Extracting the id from params
 
   try {
-    const resp = await bookingsCollection.findOne({
-      _id: new ObjectId(id),
-    });
-    return Response.json({
-      meaasge: " booking found product",
-      data: resp,
-    });
+    // Ensure the id is a valid ObjectId
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { message: "Invalid ID format" },
+        { status: 400 }
+      );
+    }
+
+    const booking = await bookingsCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!booking) {
+      return NextResponse.json(
+        { message: "Booking not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ booking });
   } catch (error) {
-    return Response.json({ meaasge: " Somthing wrong" });
+    console.error("Error fetching booking:", error);
+    return NextResponse.json(
+      { message: "Something went wrong", error: (error as Error).message },
+      { status: 500 }
+    );
   }
 };

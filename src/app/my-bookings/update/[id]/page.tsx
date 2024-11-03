@@ -1,12 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const Page = ({ params }) => {
+interface Booking {
+  date?: string;
+  phone?: string;
+  address?: string;
+  price: number;
+}
+
+const Page = ({ params }: { params: { id: string } }) => {
   const { data } = useSession();
-  const [booking, setBooking] = useState([]);
+  const [booking, setBooking] = useState<Booking | null>(null); // Specify Booking type or null
 
   const loadBooking = async () => {
     const bookingDetail = await fetch(
@@ -16,12 +24,14 @@ const Page = ({ params }) => {
     setBooking(data.data);
   };
 
-  const handleUpdateBooking = async (event) => {
+  const handleUpdateBooking = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     const updatedBooking = {
-      date: event.target.date.value,
-      phone: event.target.phone.value,
-      address: event.target.address.value,
+      date: event.currentTarget.date.value,
+      phone: event.currentTarget.phone.value,
+      address: event.currentTarget.address.value,
     };
     const resp = await fetch(
       `http://localhost:3000/my-bookings/api/booking/${params.id}`,
@@ -35,16 +45,16 @@ const Page = ({ params }) => {
     );
     if (resp.status === 200) {
       toast.success("Updated Successfully");
+      loadBooking(); // Refresh booking data after update
     }
   };
 
   useEffect(() => {
     loadBooking();
-  }, [params]);
+  }, [params.id]); // Include params.id as a dependency
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">
-      {/* Checkout Form */}
       <div className="flex-1">
         <form onSubmit={handleUpdateBooking}>
           <div className="flex justify-between">
@@ -53,7 +63,7 @@ const Page = ({ params }) => {
             </h2>
             <h2 className="text-2xl font-semibold mb-4 text-red-900">
               Total Amount:{" "}
-              <span className="text-green-900">{booking.price}</span>
+              <span className="text-green-900">{booking?.price}</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -62,7 +72,7 @@ const Page = ({ params }) => {
                 <span className="label-text">Name</span>
               </label>
               <input
-                defaultValue={data?.user?.name}
+                defaultValue={data?.user?.name || ""}
                 type="text"
                 name="name"
                 className="input input-bordered"
@@ -73,7 +83,7 @@ const Page = ({ params }) => {
                 <span className="label-text">Date</span>
               </label>
               <input
-                defaultValue={booking.date}
+                defaultValue={booking?.date}
                 type="date"
                 name="date"
                 className="input input-bordered"
@@ -84,7 +94,7 @@ const Page = ({ params }) => {
                 <span className="label-text">Email</span>
               </label>
               <input
-                defaultValue={data?.user?.email}
+                defaultValue={data?.user?.email || ""}
                 type="text"
                 name="email"
                 placeholder="email"
@@ -96,7 +106,7 @@ const Page = ({ params }) => {
                 <span className="label-text">Due amount</span>
               </label>
               <input
-                defaultValue={booking.price}
+                defaultValue={booking?.price}
                 readOnly
                 type="text"
                 name="price"
@@ -108,7 +118,7 @@ const Page = ({ params }) => {
                 <span className="label-text">Phone</span>
               </label>
               <input
-                defaultValue={booking.phone}
+                defaultValue={booking?.phone}
                 type="text"
                 name="phone"
                 placeholder="Your Phone"
@@ -120,7 +130,7 @@ const Page = ({ params }) => {
                 <span className="label-text">Present Address</span>
               </label>
               <input
-                defaultValue={booking.address}
+                defaultValue={booking?.address}
                 type="text"
                 name="address"
                 placeholder="Your Address"

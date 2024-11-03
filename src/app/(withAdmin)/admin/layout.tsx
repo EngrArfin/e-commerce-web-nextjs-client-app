@@ -1,4 +1,3 @@
-import AdminNavbar from "@/components/AdminPage/AdminNavbar";
 import AdminSideBar from "@/components/AdminPage/AdminSideBar";
 import type { Metadata } from "next";
 

@@ -10,21 +10,21 @@ export type TProductCardProps = {
   price: number;
   image: string;
   quantity: number;
-  description: string; // Add this line if needed
+  description: string;
 };
 
 export interface TService {
-  _id: string; // Unique identifier for the service
-  title: string; // Title of the service
-  description: string; // Description of the service
-  img: string; // Image URL of the service
-  price: number; // Price of the service
+  _id: string;
+  title: string;
+  description: string;
+  img: string;
+  price: number;
 }
 
 export interface TUserData {
   _id: string;
-  email: string; // Title of the service
-  name: string; // Description of the service
-  imge: string; // Image URL of the service
-  price: number; // Price of the service
+  email: string;
+  name: string;
+  imge: string;
+  price: number;
 }

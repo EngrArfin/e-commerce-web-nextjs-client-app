@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-async-client-component */
@@ -6,47 +8,69 @@
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { toast } from "react-toastify";
 
-const AddToCart = ({ params }) => {
-  const { data } = useSession();
-  const [service, setService] = useState({});
-  const [total, setTotal] = useState(0);
+// Define the types
+interface Service {
+  name?: string;
+  image?: string;
+  price?: number;
+  _id?: string;
+}
 
+interface AddToCartProps {
+  params: {
+    id: string;
+  };
+}
+
+const AddToCart = ({ params }: AddToCartProps) => {
+  const { data } = useSession();
+  const [service, setService] = useState<Service>({});
+  const [total, setTotal] = useState<number>(0);
+
+  // Function to load service details
   const loadService = async () => {
     const details = await getServicesDetails(params.id);
     setService(details.service);
 
     // Calculate total amount
-    const totalAmount = calculateTotal(details.service.price);
+    const totalAmount = calculateTotal(details.service.price || 0);
     setTotal(totalAmount);
   };
 
   const vatRate = 0.1; // 10% VAT
   const shippingCharge = 50;
 
-  const calculateTotal = (price) => {
+  // Calculate total price
+  const calculateTotal = (price: number): number => {
     const vatAmount = price * vatRate;
-    const total = price + vatAmount + shippingCharge;
-    return total;
+    return price + vatAmount + shippingCharge;
   };
 
-  const { name, ratings, image, price, description, _id } = service;
+  const { name, image, price = 0, _id } = service;
 
-  const handleBooking = async (event) => {
+  // Function to handle booking form submission
+  const handleBooking = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Add order placement logic here
+    const form = event.target as HTMLFormElement & {
+      address: { value: string };
+      phone: { value: string };
+      date: { value: string };
+    };
+
     const newBooking = {
       email: data?.user?.email,
       name: data?.user?.name,
-      address: event.target.address.value,
-      phone: event.target.phone.value,
-      date: event.target.date.value,
+      address: form.address.value,
+      phone: form.phone.value,
+      date: form.date.value,
       productName: name,
       ProductID: _id,
-      price: price,
+      price,
     };
+
     const resp = await fetch("http://localhost:3000/checkout/api/new-booking", {
       method: "POST",
       body: JSON.stringify(newBooking),
@@ -54,10 +78,10 @@ const AddToCart = ({ params }) => {
         "content-type": "application/json",
       },
     });
-    console.log(resp);
-    const response = await resp?.json();
-    toast.success(response?.message);
-    event.target.reset();
+
+    const response = await resp.json();
+    toast.success(response.message);
+    form.reset(); // This works because `form` is explicitly typed as an HTMLFormElement
   };
 
   useEffect(() => {
@@ -70,8 +94,8 @@ const AddToCart = ({ params }) => {
       <div className="flex flex-col space-y-4 md:w-2/3">
         <div className="bg-white rounded-lg shadow-lg p-6 flex items-center space-x-6 hover:shadow-2xl transition-shadow duration-300">
           <img
-            src={image}
-            alt={name}
+            src={image || ""}
+            alt={name || "Service Image"}
             className="w-24 h-24 rounded-lg object-cover border border-gray-200"
           />
           <div className="flex-1">
@@ -81,6 +105,7 @@ const AddToCart = ({ params }) => {
               ${price}
             </h3>
           </div>
+          {/* Optional increment, decrement, delete buttons */}
           <div className="flex items-center space-x-3">
             <button className="p-2 bg-gray-200 rounded-full text-gray-800 hover:bg-gray-300 transition duration-200">
               -
@@ -94,8 +119,6 @@ const AddToCart = ({ params }) => {
             </button>
           </div>
         </div>
-
-        {/* Additional items can go here in similar divs */}
       </div>
 
       {/* Order Summary */}
@@ -111,7 +134,7 @@ const AddToCart = ({ params }) => {
             Product Amount - <span className="font-bold">${price}</span>
           </p>
           <p>
-            VAT (10%) - <span className="font-bold">${price}</span>
+            VAT (10%) - <span className="font-bold">${price * vatRate}</span>
           </p>
           <p>
             Shipping - <span className="font-bold">${shippingCharge}</span>
@@ -122,7 +145,6 @@ const AddToCart = ({ params }) => {
         </div>
         <Link
           href={`/checkout/${_id}`}
-          type="submit"
           className="w-full p-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Place Order

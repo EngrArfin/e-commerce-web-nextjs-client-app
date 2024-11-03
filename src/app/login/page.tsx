@@ -4,8 +4,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import login from "../../UI/image/backgroundLogin1.jpg"; // Ensure the path is correct
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import GoogleGithubLogin from "@/components/Shared/GoogleGithubLogin";
 
 export type FormValues = {
@@ -15,6 +15,9 @@ export type FormValues = {
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const path = searchParams.get("redirect");
+  const session = useSession();
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = (event.target as any).email.value;
@@ -22,7 +25,8 @@ const Login = () => {
     const resp = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: true,
+      callbackUrl: path ? path : "/",
     });
     if (resp?.status === 200) {
       router.push("/");

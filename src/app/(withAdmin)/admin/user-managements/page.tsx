@@ -5,7 +5,6 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import AdminDashboard from "../page";
 
 // Define User type for better type safety
 interface User {
@@ -15,7 +14,7 @@ interface User {
   email: string;
 }
 
-const Page = ({ user }) => {
+const Page = () => {
   const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
 
@@ -45,21 +44,18 @@ const Page = ({ user }) => {
 
   return (
     <div className="overflow-x-auto pt-8">
-      {/* Display total users */}
       <div className="text-3xl text-sky-900 mb-4">
         Total Users: {users.length}
       </div>
-
-      {/* Table for user data */}
       <table className="table table-zebra w-full mb-8">
         <thead>
-          <tr>
-            <th>No</th>
-            <th>Photo</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
+          <tr className="bg-gray-100 border-b font-bold text-sky-700">
+            <th className="py-2 px-4">No</th>
+            <th className="py-2 px-4">Photo</th>
+            <th className="py-2 px-4">Name</th>
+            <th className="py-2 px-4">Email</th>
+            <th className="py-2 px-4">Role</th>
+            <th className="py-2 px-4">Actions</th>
           </tr>
         </thead>
         <tbody>
