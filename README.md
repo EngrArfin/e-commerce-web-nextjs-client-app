@@ -35,15 +35,6 @@ Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built wi
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-Before you can run this project locally, make sure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-
 ### Installation
 
 1. **Clone the repository:**
@@ -52,3 +43,27 @@ Before you can run this project locally, make sure you have the following instal
    git clone https://github.com/yourusername/e-commerce-web-nextjs-client-app.git
    cd e-commerce-web-nextjs-client-app
    ```
+
+   # install
+
+   ```bash
+   npm install
+   ```
+
+   # Create .env file and give your info...
+
+```bash
+  NEXT_PUBLIC_MONGODB_URI=
+  NEXTAUTH_URL=http://localhost:3000
+  GITHUB_ID=
+  GITHUB_SECRET=
+  GOOGLE_ID=
+  GOOGLE_SECRET=
+  NEXTAUTH_SECRET=
+```
+
+# run project
+
+```bash
+   npm run dev
+```
