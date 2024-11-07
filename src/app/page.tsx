@@ -1,7 +1,3 @@
-// page.tsx
-
-"use client";
-
 export const dynamic = "force-dynamic";
 
 import Header from "@/components/Shared/Header";

@@ -1,25 +1,54 @@
-## e-commerce-web-nextjs-client-app ass-6 new
+## e-commerce-web-nextjs-client-app
 
 ## Getting Started
 
-First, run the development server:
+# E-commerce Web - Next.js Client App
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built with **Next.js** and **TypeScript**. This app serves as the front-end for an online shopping platform with a smooth user experience and powerful features.
 
-Open: http://localhost:3000
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- User Authentication (Sign Up, Login, Social Auth via NextAuth)
+- Browse and filter products
+- Product detail pages with reviews and ratings
+- Shopping cart with add/remove functionality
+- Real-time order management
+- Payment processing (Stripe integration)
+- Admin panel for managing products and orders
+- Fully responsive design for both mobile and desktop
 
-## Learn More
+---
 
-T
+## Technologies Used
 
-## Deploy on Vercel
+- **Next.js** - React framework for server-side rendering and static site generation
+- **TypeScript** - Strongly typed JavaScript
+- **Tailwind CSS** - Utility-first CSS framework for responsive design
+- **Ant Design** - Design system with a set of high-quality React components
+- **Redux Toolkit** - State management solution
+- **NextAuth** - Authentication library for managing user sign-ins
+- **Axios** - HTTP client for making requests
+- **MongoDB & Mongoose** - NoSQL database for storing data
+- **Stripe** - Payment gateway for handling transactions
+- **React** - JavaScript library for building UI components
+- **Chart.js & Recharts** - Data visualization for charts and graphs
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Before you can run this project locally, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v14 or later)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/e-commerce-web-nextjs-client-app.git
+   cd e-commerce-web-nextjs-client-app
+   ```

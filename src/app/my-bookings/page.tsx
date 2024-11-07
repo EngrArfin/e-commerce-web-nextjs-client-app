@@ -75,9 +75,7 @@ const Page = () => {
               <tr key={_id}>
                 <th>{index + 1}</th>
                 <td>{productName}</td>
-                {/* <td className="font-bold py-2 px-4 text-green-800">
-                  {paymentMethod}
-                </td> */}
+
                 <td
                   className={`font-bold py-2 px-4 ${
                     paymentMethod === "Online Payment"
