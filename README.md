@@ -1,7 +1,5 @@
 ## e-commerce-web-nextjs-client-app
 
-## Getting Started
-
 # E-commerce Web - Next.js Client App
 
 Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built with **Next.js** and **TypeScript**. This app serves as the front-end for an online shopping platform with a smooth user experience and powerful features.
@@ -35,7 +33,7 @@ Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built wi
 
 ---
 
-### Installation
+### Installation process
 
 1. **Clone the repository:**
 
@@ -51,6 +49,8 @@ Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built wi
    ```
 
    # Create .env file and give your info...
+
+   In order for this project to work, make sure to define the following environment variables in your .env file:
 
 ```bash
   NEXT_PUBLIC_MONGODB_URI=
