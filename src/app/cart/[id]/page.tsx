@@ -105,7 +105,6 @@ const AddToCart = ({ params }: AddToCartProps) => {
               ${price}
             </h3>
           </div>
-          {/* Optional increment, decrement, delete buttons */}
           <div className="flex items-center space-x-3">
             <button className="p-2 bg-gray-200 rounded-full text-gray-800 hover:bg-gray-300 transition duration-200">
               -

@@ -1,36 +1,58 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { connectDB } from "@/lib/connectDB";
 import { Collection, Document, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-// GET handler
-export const GET = async (request: NextRequest) => {
+interface RouteParams {
+  id: string;
+}
+
+interface RouteContext {
+  params: RouteParams;
+}
+
+// GET
+export const GET = async (request: NextRequest, context: RouteContext) => {
+  const db = await connectDB();
+
+  if (!db) {
+    return NextResponse.json(
+      { error: "Database connection failed" },
+      { status: 500 }
+    );
+  }
+
+  const bookingsCollection: Collection<Document> = db.collection("bookings");
+  const { id } = context.params;
+
   try {
-    const db = await connectDB();
-    if (!db) {
+    if (!ObjectId.isValid(id)) {
       return NextResponse.json(
-        { message: "Database connection failed" },
-        { status: 500 }
+        { message: "Invalid ID format" },
+        { status: 400 }
       );
     }
 
-    const bookingsCollection: Collection<Document> = db.collection("bookings");
-    const bookings = await bookingsCollection.find().toArray();
+    const booking = await bookingsCollection.findOne({ _id: new ObjectId(id) });
 
-    return NextResponse.json({ bookings }, { status: 200 });
-  } catch (error: unknown) {
-    console.error(error);
+    if (!booking) {
+      return NextResponse.json(
+        { message: "Booking not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ booking });
+  } catch (error) {
+    console.error("Error fetching booking:", error);
     return NextResponse.json(
-      { message: "An error occurred", error: (error as Error).message },
+      { message: "Something went wrong", error: (error as Error).message },
       { status: 500 }
     );
   }
 };
 
-// DELETE handler
-export const DELETE = async (request: NextRequest, { params }: any) => {
+// DELETE
+export const DELETE = async (request: NextRequest, context: RouteContext) => {
   const db = await connectDB();
   if (!db) {
     return new NextResponse(
@@ -40,9 +62,16 @@ export const DELETE = async (request: NextRequest, { params }: any) => {
   }
 
   const bookingsCollection = db.collection("bookings");
-  const { id } = params;
+  const { id } = context.params;
 
   try {
+    if (!ObjectId.isValid(id)) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid ID format" }),
+        { status: 400 }
+      );
+    }
+
     const resp = await bookingsCollection.deleteOne({
       _id: new ObjectId(id),
     });
@@ -54,7 +83,7 @@ export const DELETE = async (request: NextRequest, { params }: any) => {
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
+    console.error("Error deleting booking:", error);
     return new NextResponse(
       JSON.stringify({ message: "Something went wrong" }),
       {
@@ -64,22 +93,30 @@ export const DELETE = async (request: NextRequest, { params }: any) => {
   }
 };
 
-// PATCH handler
-export const PATCH = async (request: NextRequest, { params }: any) => {
+// PATCH
+export const PATCH = async (request: NextRequest, context: RouteContext) => {
   const db = await connectDB();
   if (!db) {
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ message: "Database connection failed" }),
       { status: 500 }
     );
   }
 
   const bookingsCollection = db.collection("bookings");
-  const updateDoc = await request.json(); // This is valid with NextRequest
+  const { id } = context.params;
+  const updateDoc = await request.json();
 
   try {
+    if (!ObjectId.isValid(id)) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid ID format" }),
+        { status: 400 }
+      );
+    }
+
     const resp = await bookingsCollection.updateOne(
-      { _id: new ObjectId(params.id) },
+      { _id: new ObjectId(id) },
       {
         $set: {
           ...updateDoc,
@@ -97,7 +134,7 @@ export const PATCH = async (request: NextRequest, { params }: any) => {
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
+    console.error("Error updating booking:", error);
     return new NextResponse(
       JSON.stringify({ message: "Something went wrong" }),
       {

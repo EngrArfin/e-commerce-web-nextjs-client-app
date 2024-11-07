@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,9 +19,7 @@ const OrderList = () => {
   // Function to load booking data
   const loadBooking = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/admin/orderlist/api/get`
-      );
+      const response = await fetch(`/admin/orderlist/api/get`);
       if (response.ok) {
         const data = await response.json();
         setBookings(data?.bookings || []); // Ensure 'bookings' is accessed correctly
@@ -40,12 +38,12 @@ const OrderList = () => {
 
   return (
     <div className="max-w-4xl mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-5  text-sky-800">
+      <h1 className="text-2xl font-bold mb-5 text-sky-800">
         Order Management ({bookings.length})
       </h1>
       <table className="min-w-full bg-white shadow-md rounded mb-4">
         <thead>
-          <tr className="bg-gray-100 border-b  font-bold text-sky-700">
+          <tr className="bg-gray-100 border-b font-bold text-sky-700">
             <th className="py-2 px-4">Customer</th>
             <th className="py-2 px-4">Product</th>
             <th className="py-2 px-4">Date</th>

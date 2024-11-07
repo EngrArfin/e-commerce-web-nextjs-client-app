@@ -2,20 +2,15 @@ import { connectDB } from "@/lib/connectDB";
 import { Collection, Document, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-// Define the expected parameters for the route
 interface RouteParams {
-  id: string; // Ensure this matches the route [id]
+  id: string;
 }
 
-// Define the context interface expected by Next.js
 interface RouteContext {
   params: RouteParams;
 }
 
-export const GET = async (
-  request: NextRequest,
-  context: RouteContext // Use the defined context type
-) => {
+export const GET = async (request: NextRequest, context: RouteContext) => {
   const db = await connectDB();
 
   if (!db) {
@@ -26,10 +21,9 @@ export const GET = async (
   }
 
   const bookingsCollection: Collection<Document> = db.collection("bookings");
-  const { id } = context.params; // Extracting the id from params
+  const { id } = context.params;
 
   try {
-    // Ensure the id is a valid ObjectId
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
         { message: "Invalid ID format" },

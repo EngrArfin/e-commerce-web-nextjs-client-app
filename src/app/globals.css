@@ -2,17 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Properties for Theming */
-
 /* globals.css or styles.css */
 :root {
-  --background: #ffffff; /* Light background */
-  --foreground: #000000; /* Light text color */
+  --background: #ffffff;
+  --foreground: #000000;
 }
 
 [data-theme="dark"] {
-  --background: #1e1e2f; /* Dark background */
-  --foreground: #ffffff; /* Dark text color */
+  --background: #1e1e2f;
+  --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {

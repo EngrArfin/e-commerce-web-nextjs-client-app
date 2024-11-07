@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import cover1 from "../../UI/image/header1.jpg"; // Left section image
-import cover2 from "../../UI/image/header2.jpg"; // Right section image
+import cover1 from "../../UI/image/header1.jpg";
+import cover2 from "../../UI/image/header2.jpg";
 import Link from "next/link";
 
 const Header = () => {

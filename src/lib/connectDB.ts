@@ -1,6 +1,6 @@
 import { MongoClient, Db, ServerApiVersion } from "mongodb";
 
-let db: Db | null = null; // Explicitly define the type of db
+let db: Db | null = null;
 
 export const connectDB = async (): Promise<Db | null> => {
   if (db) return db;
