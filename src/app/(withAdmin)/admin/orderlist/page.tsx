@@ -19,7 +19,9 @@ const OrderList = () => {
   // Function to load booking data
   const loadBooking = async () => {
     try {
-      const response = await fetch(`/admin/orderlist/api/get`);
+      const response = await fetch(
+        "http://localhost:3000/admin/orderlist/api/get"
+      );
       if (response.ok) {
         const data = await response.json();
         setBookings(data?.bookings || []); // Ensure 'bookings' is accessed correctly

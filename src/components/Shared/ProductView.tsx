@@ -6,12 +6,9 @@ import viewcart from "../../UI/image/sidephoto.jpg";
 const FeatureSection: React.FC = () => {
   return (
     <section className="container mx-auto my-10 px-4">
-      <h1 className="text-4xl font-bold text-center mb-10">
-        Our Featured Product
-      </h1>
+      <h1 className="text-4xl font-bold my-10">Our Feature Product</h1>
 
       <div className="relative flex flex-col lg:flex-row items-center justify-between bg-gray-900 text-white h-auto lg:h-[500px] p-8 rounded-lg shadow-md">
-        {/* Image Section */}
         <div className="w-full lg:w-1/2 h-64 lg:h-full relative overflow-hidden rounded-md shadow-lg">
           <Image
             src={viewcart}
@@ -22,7 +19,6 @@ const FeatureSection: React.FC = () => {
           />
         </div>
 
-        {/* Text Section */}
         <div className="w-full lg:w-1/2 mt-8 lg:mt-0 lg:pl-8">
           <p className="text-gray-400 text-sm mb-2">
             New Arrival - March 20, 2023

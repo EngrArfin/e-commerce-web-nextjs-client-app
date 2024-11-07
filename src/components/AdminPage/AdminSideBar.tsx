@@ -2,7 +2,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import {
   FaTachometerAlt,
   FaUserCog,
@@ -15,16 +15,15 @@ import {
 
 const AdminSideBar = () => {
   const { data: session } = useSession();
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut({ redirect: false }); // Perform sign out without automatic redirect
-    router.push("/"); // Redirect to home page after sign out
+    await signOut({ redirect: false });
+    router.push("/");
   };
 
   return (
     <div className="flex-shrink-0 w-64 h-full bg-base-200">
-      {/* Colorful Logo Section */}
       <div className="flex flex-col items-center justify-center my-4">
         {session && (
           <>
@@ -52,7 +51,6 @@ const AdminSideBar = () => {
                 </li>
               </ul>
             </div>
-            {/* Display User Name and Email */}
             <div className="text-center mt-2">
               <p className="font-semibold">{session.user?.name}</p>
               <p className="text-sm text-gray-600">{session.user?.email}</p>

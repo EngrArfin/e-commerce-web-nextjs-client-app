@@ -12,9 +12,7 @@ const NavBar: React.FC = () => {
   return (
     <header className="bg-gray-100 shadow-lg w-full">
       <nav className="navbar container mx-auto px-4">
-        {/* Navbar Start */}
         <div className="navbar-start flex items-center">
-          {/* Mobile Menu Button */}
           <div className="dropdown lg:hidden">
             <button
               tabIndex={0}
@@ -36,7 +34,6 @@ const NavBar: React.FC = () => {
                 />
               </svg>
             </button>
-            {/* Mobile Menu Dropdown */}
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-gray-100 rounded-box mt-3 w-52 p-2 shadow-md"
@@ -56,14 +53,9 @@ const NavBar: React.FC = () => {
             </ul>
           </div>
 
-          {/* Logo */}
           <div className="flex items-center space-x-2">
             <Link href="/" className="flex items-center">
-              <Image
-                alt="logo"
-                src={Logo}
-                className="w-12 h-12 rounded-full" // Added rounded effect
-              />
+              <Image alt="logo" src={Logo} className="w-12 h-12 rounded-full" />
               <span className="text-2xl font-bold">
                 <span className="text-sky-500">E-Com&nbsp;</span>
                 <span className="text-violet-600">Zone&nbsp;</span>
@@ -72,7 +64,6 @@ const NavBar: React.FC = () => {
           </div>
         </div>
 
-        {/* Navbar Center for larger screens */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal space-x-4">
             <li>
@@ -90,9 +81,7 @@ const NavBar: React.FC = () => {
           </ul>
         </div>
 
-        {/* Navbar End - Cart, Profile, Login */}
         <div className="navbar-end flex items-center space-x-4">
-          {/* Search Bar */}
           <div className="form-control">
             <input
               type="text"
@@ -101,7 +90,6 @@ const NavBar: React.FC = () => {
             />
           </div>
 
-          {/* Cart Icon */}
           <div className="dropdown dropdown-end">
             <button
               tabIndex={0}
@@ -130,7 +118,6 @@ const NavBar: React.FC = () => {
             </button>
           </div>
 
-          {/* Profile / Login */}
           {session ? (
             <div className="dropdown dropdown-end">
               <div
@@ -144,7 +131,7 @@ const NavBar: React.FC = () => {
                     src={session.user?.image || "/default-profile.png"}
                     height="40"
                     width="40"
-                    className="rounded-full" // Added rounded effect
+                    className="rounded-full"
                   />
                 </div>
               </div>

@@ -30,7 +30,7 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
     email: data?.user?.email || "",
     phone: "",
     address: "",
-    date: new Date().toISOString().split("T")[0], // Default to today's date
+    date: new Date().toISOString().split("T")[0],
     cardNumber: "",
     expiryDate: "",
     cvv: "",

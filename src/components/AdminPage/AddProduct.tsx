@@ -42,7 +42,6 @@ const AddProduct = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle product submission, e.g., send the data to an API endpoint
     console.log("Product submitted:", product);
   };
 
@@ -53,7 +52,6 @@ const AddProduct = () => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
-        {/* Product Name */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -71,8 +69,6 @@ const AddProduct = () => {
             required
           />
         </div>
-
-        {/* Description */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -90,7 +86,6 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Price */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -148,11 +143,8 @@ const AddProduct = () => {
             <option value="electronics">Electronics</option>
             <option value="clothing">Clothing</option>
             <option value="furniture">Furniture</option>
-            {/* Add more categories as needed */}
           </select>
         </div>
-
-        {/* Product Images */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -170,7 +162,6 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <div className="flex items-center justify-between">
           <button
             type="submit"

@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-async-client-component */
+
 "use client";
 
 import { getServicesDetails } from "@/services/getServices";
@@ -81,7 +82,7 @@ const AddToCart = ({ params }: AddToCartProps) => {
 
     const response = await resp.json();
     toast.success(response.message);
-    form.reset(); // This works because `form` is explicitly typed as an HTMLFormElement
+    form.reset();
   };
 
   useEffect(() => {
@@ -90,7 +91,6 @@ const AddToCart = ({ params }: AddToCartProps) => {
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">
-      {/* Checkout Form */}
       <div className="flex flex-col space-y-4 md:w-2/3">
         <div className="bg-white rounded-lg shadow-lg p-6 flex items-center space-x-6 hover:shadow-2xl transition-shadow duration-300">
           <img
@@ -120,7 +120,6 @@ const AddToCart = ({ params }: AddToCartProps) => {
         </div>
       </div>
 
-      {/* Order Summary */}
       <div className="w-full md:w-80 bg-white shadow-lg rounded-lg p-6 space-y-4">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Order Summary

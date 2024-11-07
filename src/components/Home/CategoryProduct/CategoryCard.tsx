@@ -28,10 +28,7 @@ const CategoryCard = ({ service }: { service: any }) => {
       </Link>
       <div className="card-body p-4 text-center">
         <h2 className="card-title text-sm lg:text-md font-semibold">{name}</h2>
-        {/* <p className="text-sm text-gray-500">Price: ${price}</p> */}
       </div>
-
-      {/* Add to Cart Button */}
       {isHovered && (
         <Link
           href={`/cart/${_id}`}
@@ -40,8 +37,6 @@ const CategoryCard = ({ service }: { service: any }) => {
           Add to Cart
         </Link>
       )}
-
-      {/* View Details Button */}
       <div
         className={`card-actions justify-center absolute bottom-4 w-full transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"

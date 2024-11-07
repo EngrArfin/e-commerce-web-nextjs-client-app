@@ -24,7 +24,7 @@ export const DELETE = async (
       response: resp,
     });
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     return NextResponse.json({ message: "Something went wrong" });
   }
 };
@@ -60,7 +60,7 @@ export const PATCH = async (
       response: resp,
     });
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     return NextResponse.json({ message: "Something went wrong" });
   }
 };
@@ -88,7 +88,7 @@ export const GET = async (
       data: resp,
     });
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     return NextResponse.json({ message: "Something went wrong" });
   }
 };

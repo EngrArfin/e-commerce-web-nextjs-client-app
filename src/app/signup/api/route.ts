@@ -9,7 +9,6 @@ export const POST = async (request: Request) => {
   try {
     const db = await connectDB();
 
-    // Check if the db connection was successful
     if (!db) {
       return NextResponse.json(
         { message: "Database connection failed" },

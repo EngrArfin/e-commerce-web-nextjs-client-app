@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 
-// Define the Booking type
 interface Booking {
   _id: string;
   name: string;
@@ -9,21 +8,20 @@ interface Booking {
   paymentMethod: string;
   date: string;
   phone: string;
-  price: string; // Optional: if you want to track status in the booking
+  price: string;
 }
 
 const PaymentRecord = () => {
-  const [bookings, setBookings] = useState<Booking[]>([]); // Use the Booking type
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
-  // Function to load booking data
   const loadBooking = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/orderlist/api/get`
+        "http://localhost:3000/admin/orderlist/api/get"
       );
       if (response.ok) {
         const data = await response.json();
-        setBookings(data?.bookings || []); // Ensure 'bookings' is accessed correctly
+        setBookings(data?.bookings || []);
       } else {
         console.error("Failed to fetch bookings data");
       }
@@ -32,10 +30,9 @@ const PaymentRecord = () => {
     }
   };
 
-  // Load data when the component mounts
   useEffect(() => {
     loadBooking();
-  }, []); // No dependencies to track, just run once on mount
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto py-10">

@@ -47,11 +47,10 @@ const ProductManagement = () => {
           : category
       )
     );
-    setEditCategoryId(null); // Exit edit mode
-    setEditCategoryName(""); // Reset edit input field
+    setEditCategoryId(null);
+    setEditCategoryName("");
   };
 
-  // Delete category
   const deleteCategory = (id: number) => {
     setCategories(categories.filter((category) => category.id !== id));
   };
@@ -59,8 +58,6 @@ const ProductManagement = () => {
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-8">Product Categories Management</h1>
-
-      {/* Add Category Form */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Add New Category</h2>
         <input

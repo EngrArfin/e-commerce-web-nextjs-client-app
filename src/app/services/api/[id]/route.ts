@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/connectDB";
-import { Collection, Document, ObjectId } from "mongodb"; // Import ObjectId
-import { NextRequest, NextResponse } from "next/server"; // Import types for Next.js API routes
+import { Collection, Document, ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   request: NextRequest,

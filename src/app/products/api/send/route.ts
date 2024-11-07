@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { connectDB } from "@/lib/connectDB";
 import { products } from "@/lib/products";
-import { Collection, Document } from "mongodb"; // Import Collection and Document types
+import { Collection, Document } from "mongodb";
 
 export const GET = async () => {
   const db = await connectDB();

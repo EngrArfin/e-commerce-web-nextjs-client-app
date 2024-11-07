@@ -16,8 +16,6 @@ const GoogleGithubLogin = () => {
       redirect: false,
       callbackUrl: path,
     });
-
-    // Check if signIn was successful and handle redirection
     if (response?.ok) {
       router.push(path);
     } else {

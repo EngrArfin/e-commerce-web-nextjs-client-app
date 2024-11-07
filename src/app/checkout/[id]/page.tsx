@@ -75,11 +75,10 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     }));
   };
 
-  // Unwrap the params object using React.use() here
   useEffect(() => {
     const fetchService = async () => {
       if (params) {
-        await loadService(params.id); // Pass the id after unwrapping
+        await loadService(params.id);
       }
     };
     fetchService();

@@ -7,7 +7,6 @@ import Link from "next/link";
 const Header = () => {
   return (
     <div className="w-full h-[90vh] flex flex-col lg:flex-row">
-      {/* Left Section */}
       <div className="relative w-full lg:w-1/2 h-[45vh] lg:h-full">
         <Image
           src={cover1}
@@ -34,7 +33,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Right Section with Button */}
       <div className="relative w-full lg:w-1/2 h-[45vh] lg:h-full flex items-center justify-center">
         <Image
           src={cover2}

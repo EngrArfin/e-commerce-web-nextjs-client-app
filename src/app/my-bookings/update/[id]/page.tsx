@@ -14,7 +14,7 @@ interface Booking {
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { data } = useSession();
-  const [booking, setBooking] = useState<Booking | null>(null); // Specify Booking type or null
+  const [booking, setBooking] = useState<Booking | null>(null);
 
   const loadBooking = async () => {
     const bookingDetail = await fetch(
@@ -45,13 +45,13 @@ const Page = ({ params }: { params: { id: string } }) => {
     );
     if (resp.status === 200) {
       toast.success("Updated Successfully");
-      loadBooking(); // Refresh booking data after update
+      loadBooking();
     }
   };
 
   useEffect(() => {
     loadBooking();
-  }, [params.id]); // Include params.id as a dependency
+  }, [params.id]);
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">

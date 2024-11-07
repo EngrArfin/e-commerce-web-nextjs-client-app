@@ -47,10 +47,10 @@ const Footer = () => {
           <a className="link link-hover">Trip Gardening</a>
         </nav>
         <nav>
-          <h6 className="footer-title">Gardening </h6>
-          <a className="link link-hover">Proper Advice</a>
+          <h6 className="footer-title">Top Sell Product </h6>
+          <a className="link link-hover">Product sell</a>
           <a className="link link-hover">Privacy policy</a>
-          <a className="link link-hover">Gardening policy</a>
+          <a className="link link-hover">Business policy</a>
         </nav>
       </footer>
     </div>

@@ -7,7 +7,6 @@ import { getServicesDetails } from "@/services/getServices";
 const ProductDetails = async ({ params }) => {
   const details = await getServicesDetails(params.id);
 
-  // Check if details.service exists and is not null
   if (!details?.service) {
     return (
       <div className="container mx-auto p-6">

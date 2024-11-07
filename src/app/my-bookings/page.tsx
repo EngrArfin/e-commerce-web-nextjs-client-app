@@ -10,7 +10,6 @@ const Page = () => {
   const { data: session } = useSession();
   const [bookings, setBookings] = useState<any[]>([]);
 
-  // Function to load bookings data
   const loadData = async () => {
     try {
       const response = await fetch(
@@ -49,7 +48,6 @@ const Page = () => {
     }
   };
 
-  /* Load data  */
   useEffect(() => {
     if (session) {
       loadData();
@@ -95,7 +93,7 @@ const Page = () => {
                       </button>
                     </Link>
                     <button
-                      onClick={() => handleDelete(_id)} // _id should be a string
+                      onClick={() => handleDelete(_id)}
                       className="bg-red-900 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
                     >
                       Delete

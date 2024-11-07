@@ -20,6 +20,6 @@ export const connectDB = async (): Promise<Db | null> => {
     return db;
   } catch (error) {
     console.log({ error });
-    return null; // Return null if there's an error
+    return null;
   }
 };
