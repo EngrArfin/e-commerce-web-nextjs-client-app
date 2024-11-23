@@ -6,7 +6,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-// Define User type for better type safety
 interface User {
   _id: string;
   image: string;
@@ -27,7 +26,7 @@ const Page = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/user-managements/api/${session.user.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session.user.id}`
       );
       if (response.ok) {
         const data = await response.json();

@@ -13,7 +13,7 @@ const Page = () => {
   const loadData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/my-bookings/api/${session?.user?.email}`
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -29,7 +29,7 @@ const Page = () => {
   const handleDelete = async (id: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/my-bookings/api/booking/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${id}`,
         {
           method: "DELETE",
         }

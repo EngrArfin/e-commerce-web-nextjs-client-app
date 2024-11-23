@@ -53,13 +53,16 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
       paymentMethod: isCashOnDelivery ? "Cash on Delivery" : "Online Payment",
     };
 
-    const resp = await fetch("http://localhost:3000/checkout/api/new-booking", {
-      method: "POST",
-      body: JSON.stringify(newBooking),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const resp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/checkout/api/new-booking`,
+      {
+        method: "POST",
+        body: JSON.stringify(newBooking),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const response = await resp.json();
     toast.success(response?.message);

@@ -20,7 +20,7 @@ const OrderList = () => {
   const loadBooking = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/admin/orderlist/api/get"
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/orderlist/api/get`
       );
       if (response.ok) {
         const data = await response.json();

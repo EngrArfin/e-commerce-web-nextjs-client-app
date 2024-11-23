@@ -39,7 +39,7 @@ const Page = () => {
   const loadData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/user-managements/api/${session?.user?.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session?.user?.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -56,7 +56,7 @@ const Page = () => {
   const loadBooking = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/my-bookings/api/${session?.user?.email}`
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
       );
       if (response.ok) {
         const data = await response.json();
