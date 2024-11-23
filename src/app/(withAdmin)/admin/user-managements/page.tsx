@@ -20,9 +20,14 @@ const Page = () => {
 
   // Function to load user data
   const loadData = async () => {
+    if (!session?.user?.id) {
+      console.error("User ID is missing");
+      return;
+    }
+
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/user-managements/api/${session?.user?.id}`
+        `http://localhost:3000/admin/user-managements/api/${session.user.id}`
       );
       if (response.ok) {
         const data = await response.json();

@@ -95,17 +95,17 @@ const handler = NextAuth({
             name,
             email,
             image,
-            provider: account.provider,
+            provider: account ? account.provider : undefined,
           });
           console.log("New user inserted");
         } else {
           console.log("User already exists:", userExist);
         }
 
-        return true; // Allow sign-in
+        return true;
       } catch (error) {
         console.log("Error during signIn:", error);
-        return false; // Deny sign-in
+        return false;
       }
     },
   },
