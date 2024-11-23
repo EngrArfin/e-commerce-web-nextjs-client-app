@@ -3,6 +3,7 @@
 
 "use client";
 
+/* import axios from "axios"; */
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -19,14 +20,15 @@ const Page = () => {
 
   // Function to load user data
   const loadData = async () => {
-    if (!session?.user?.id) {
-      console.error("User ID is missing");
+    if (!session?.user?.email) {
+      // Ensure you're using `email` from the session
+      console.error("User email is missing");
       return;
     }
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session.user.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session.user.email}` // Use `email` instead of `id`
       );
       if (response.ok) {
         const data = await response.json();

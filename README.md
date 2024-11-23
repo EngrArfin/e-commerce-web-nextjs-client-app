@@ -54,7 +54,7 @@ Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built wi
 
 ```bash
   NEXT_PUBLIC_MONGODB_URI=
-  NEXTAUTH_URL=${process.env.NEXT_PUBLIC_API_URL}
+  NEXT_PUBLIC_API_URLL=
   GITHUB_ID=
   GITHUB_SECRET=
   GOOGLE_ID=

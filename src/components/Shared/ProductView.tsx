@@ -13,8 +13,8 @@ const FeatureSection: React.FC = () => {
           <Image
             src={viewcart}
             alt="Featured product showcase"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: "cover" }}
             className="rounded-md"
           />
         </div>

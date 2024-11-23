@@ -5,7 +5,6 @@ import { connectDB } from "@/lib/connectDB";
 import { Collection, Document } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-// GET handler
 export const GET = async (request: NextRequest) => {
   try {
     const db = await connectDB();

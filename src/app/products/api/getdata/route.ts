@@ -1,8 +1,19 @@
 import { connectDB } from "@/lib/connectDB";
-import { Collection, Document } from "mongodb";
+import { Collection, Document, Db } from "mongodb";
 
 export const GET = async () => {
-  const db = await connectDB();
+  const db: Db | null = await connectDB();
+
+  // Check if db is null
+  if (!db) {
+    return new Response(
+      JSON.stringify({ message: "Database connection failed" }),
+      {
+        status: 500,
+      }
+    );
+  }
+
   const productsCollection: Collection<Document> = db.collection("products");
 
   try {

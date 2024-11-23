@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+/* import axios from "axios"; */
+
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
 import Link from "next/link";

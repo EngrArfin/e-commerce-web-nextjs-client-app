@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+/* import axios from "axios"; */
+
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";

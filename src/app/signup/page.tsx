@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
+/* import axios from "axios"; */
+
 import Image from "next/image";
 import Link from "next/link";
 import login from "../../UI/image/backgroundLogin1.jpg";

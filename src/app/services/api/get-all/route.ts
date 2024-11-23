@@ -4,6 +4,16 @@ import { NextResponse } from "next/server";
 
 export const GET = async () => {
   const db = await connectDB();
+
+  if (!db) {
+    return new NextResponse(
+      JSON.stringify({ message: "Database connection failed" }),
+      {
+        status: 500,
+      }
+    );
+  }
+
   const servicesCollection: Collection<Document> = db.collection("services");
 
   try {

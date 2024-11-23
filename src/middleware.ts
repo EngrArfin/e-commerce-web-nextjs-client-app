@@ -8,7 +8,7 @@ export const middleware = async (request: NextRequest) => {
 
   const pathname = request.nextUrl.pathname;
 
-  console.log("Token:", token); // This will log the decoded token if valid, or null if not
+  console.log("Token:", token);
 
   if (pathname.includes("api")) {
     return NextResponse.next();

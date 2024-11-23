@@ -11,8 +11,8 @@ const Header = () => {
         <Image
           src={cover1}
           alt="E-Commerce Zone - Premium Products, Unbeatable Prices"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           className="object-cover"
           quality={90}
           priority
@@ -37,8 +37,8 @@ const Header = () => {
         <Image
           src={cover2}
           alt="Shop Quality Beauty Products & Electronics"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           className="object-cover h-20 w-32"
           quality={90}
           priority
