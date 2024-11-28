@@ -1,16 +1,15 @@
-// src/components/ServicesCard.tsx
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Link from "next/link";
 import { useState } from "react";
 import { TService } from "@/types";
-import Image from "next/image";
 
 interface ServicesCardProps {
   service: TService;
 }
 
 const ServicesCard = ({ service }: ServicesCardProps) => {
-  const { title, img, price, _id } = service;
+  const { _id, name, description, price, image, ratings } = service;
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -29,16 +28,23 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
             margin: "0 auto",
           }}
         >
-          <Image
-            src={img || "/default-profile.jpg"}
-            alt={title}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          <img
+            src={image || "/default-profile.jpg"} // Fallback to default image
+            alt={name}
+            className="object-cover w-full h-full"
+            width={300}
+            height={200}
           />
         </figure>
       </Link>
+
       <div className="card-body p-4">
-        <h2 className="card-title text-sm lg:text-md font-semibold">{title}</h2>
-        <p className="text-sm text-gray-500">Price: ${price}</p>
+        <h2 className="card-title text-sm lg:text-md font-semibold">{name}</h2>
+        <p className="text-sm text-gray-500">{description}</p>
+        <p className="text-sm text-gray-700">Price: ${price}</p>
+        <div className="flex items-center">
+          <span className="text-yellow-500">{"⭐".repeat(ratings)}</span>
+        </div>
       </div>
 
       {isHovered && (

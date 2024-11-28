@@ -1,4 +1,3 @@
-// src/services/getServices.ts
 import axios from "axios";
 import { TService, TServiceDetails } from "@/types";
 
@@ -8,18 +7,24 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 // Fetch all services
 export const getServices = async (): Promise<TService[]> => {
   try {
-    const res = await axios.get(`${BASE_URL}/services/api/get-all`);
+    // Specify the response type to match the structure of the data
+    const res = await axios.get<{ services: TService[] }>(
+      `${BASE_URL}/services/api/get-all`
+    );
 
-    // Assert that res.data is of type TService[]
-    if (res.status !== 200) {
+    // Log the response data to check the structure
+    console.log("Fetched services:", res.data);
+
+    // Check if the response has a 'services' key and return its value
+    if (res.status !== 200 || !res.data.services) {
       throw new Error(`Failed to fetch services: ${res.statusText}`);
     }
 
-    // Assert the type of res.data to be TService[]
-    return res.data as TService[];
+    // Return the array of services
+    return res.data.services;
   } catch (error) {
     console.error("Error fetching services:", error);
-    return []; // return an empty array in case of error
+    return []; // Return an empty array in case of an error
   }
 };
 
@@ -30,15 +35,17 @@ export const getServicesDetails = async (
   try {
     const res = await axios.get(`${BASE_URL}/services/api/${id}`);
 
+    // Log the response data to check
+    console.log("Fetched service details:", res.data);
+
     if (res.status !== 200) {
       throw new Error(`Failed to fetch service details: ${res.statusText}`);
     }
 
-    // Assert the type of res.data to be TServiceDetails
     return res.data as TServiceDetails;
   } catch (error) {
     console.error(`Error fetching service details for ID ${id}:`, error);
-    return {} as TServiceDetails; // Return empty object with type
+    return {} as TServiceDetails;
   }
 };
 

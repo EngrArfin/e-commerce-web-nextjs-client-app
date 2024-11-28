@@ -24,10 +24,12 @@ export type TProductCardProps = {
 // src/types/index.ts
 export interface TService {
   _id: string;
-  title: string;
+  id: number;
+  name: string;
   description: string;
-  img: string;
-  price: number;
+  price: string;
+  image: string;
+  ratings: number;
 }
 
 export interface TServiceDetails {

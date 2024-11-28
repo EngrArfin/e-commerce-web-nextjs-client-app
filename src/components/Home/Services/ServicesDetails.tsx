@@ -1,4 +1,3 @@
-// src/components/ServiceDetails.tsx
 import { getServicesDetails } from "@/services/getServices";
 import { TServiceDetails } from "@/types";
 import Image from "next/image";
@@ -16,7 +15,6 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
     <div className="container mx-auto p-6">
       <hr className="mb-6" />
       <div className="grid lg:grid-cols-2 gap-8 items-center">
-        {/* Image Section */}
         <figure className="flex justify-center">
           <Image
             src={img || "/default-profile.jpg"}
@@ -26,13 +24,10 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
           />
         </figure>
 
-        {/* Details Section */}
         <div className="flex flex-col space-y-4">
-          {/* Title */}
           <h2 className="text-3xl font-semibold text-gray-900">{title}</h2>
           <p className="text-gray-600">{description}</p>
 
-          {/* Rating */}
           <div className="flex items-center">
             <span className="text-yellow-500 font-semibold mr-2">
               {ratings} ★
@@ -40,7 +35,6 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             <span className="text-gray-500">Rating</span>
           </div>
 
-          {/* Price */}
           <div className="text-lg text-gray-700">
             <span className="font-semibold text-blue-600">${price}</span>
             {price && (
@@ -50,7 +44,6 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             )}
           </div>
 
-          {/* Stock Availability */}
           <p className="text-gray-700">
             <span
               className={`font-semibold ${
@@ -61,7 +54,6 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             </span>
           </p>
 
-          {/* Quantity Selector */}
           <div className="flex items-center">
             <label
               htmlFor="quantity"
@@ -78,7 +70,6 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             />
           </div>
 
-          {/* Action Buttons */}
           <div className="flex space-x-4 pt-4">
             <button className="px-5 py-3 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105">
               Buy Now
