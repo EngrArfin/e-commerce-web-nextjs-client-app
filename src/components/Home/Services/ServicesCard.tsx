@@ -9,25 +9,17 @@ interface ServicesCardProps {
 }
 
 const ServicesCard = ({ service }: ServicesCardProps) => {
-  const { _id, name, description, price, image, ratings } = service;
+  const { _id, name, /*  description,  */ price, image, ratings } = service;
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
-      className="card bg-base-100 w-56 md:w-64 shadow-lg m-3 overflow-hidden relative border"
+      className="card bg-white w-full max-w-sm shadow-lg m-3 overflow-hidden relative border rounded-lg transition-all duration-300 hover:scale-105"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link href={`/services/${_id}`}>
-        <figure
-          style={{
-            width: "140%",
-            height: "160px",
-            overflow: "hidden",
-            cursor: "pointer",
-            margin: "0 auto",
-          }}
-        >
+        <figure className="relative w-full h-64 overflow-hidden">
           <img
             src={image || "/default-profile.jpg"} // Fallback to default image
             alt={name}
@@ -38,11 +30,13 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
         </figure>
       </Link>
 
-      <div className="card-body p-4">
-        <h2 className="card-title text-sm lg:text-md font-semibold">{name}</h2>
-        <p className="text-sm text-gray-500">{description}</p>
-        <p className="text-sm text-gray-700">Price: ${price}</p>
-        <div className="flex items-center">
+      <div className="card-body p-6">
+        <h2 className="card-title text-xl font-semibold text-gray-900">
+          {name}
+        </h2>
+        {/* <p className="text-sm text-gray-600 mb-4">{description}</p> */}
+        <p className="text-lg font-semibold text-gray-800">Price: ${price}</p>
+        <div className="flex items-center mt-2">
           <span className="text-yellow-500">{"⭐".repeat(ratings)}</span>
         </div>
       </div>
@@ -50,7 +44,7 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
       {isHovered && (
         <Link
           href={`/cart/${_id}`}
-          className="absolute top-2 left-2 bg-orange-500 text-white font-semibold py-1 px-4 rounded hover:bg-orange-600 transition-transform duration-300 transform hover:scale-105"
+          className="absolute top-4 left-4 bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-transform duration-300 transform hover:scale-105"
         >
           Add to Cart
         </Link>
@@ -63,7 +57,7 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
       >
         <Link
           href={`/services/${_id}`}
-          className="bg-blue-600 text-white py-2 px-5 rounded font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
+          className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
         >
           View Details
         </Link>

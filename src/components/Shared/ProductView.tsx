@@ -1,4 +1,3 @@
-// components/FeatureSection.tsx
 import Image from "next/image";
 import React from "react";
 import viewcart from "../../UI/image/sidephoto.jpg";

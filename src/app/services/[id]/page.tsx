@@ -5,7 +5,6 @@
 import Link from "next/link";
 import { getServicesDetails } from "@/services/getServices";
 
-// Define the Service type
 interface Service {
   name: string;
   ratings: number;
@@ -15,9 +14,8 @@ interface Service {
   _id: string;
 }
 
-// Define the Response type from getServicesDetails
 interface ServiceDetailsResponse {
-  service?: Service; // Service could be undefined if not found
+  service?: Service;
 }
 
 type Params = {
@@ -25,14 +23,13 @@ type Params = {
 };
 
 const ProductDetails = async ({ params }: { params: Params }) => {
-  // Type assertion to tell TypeScript that details is of type ServiceDetailsResponse
   const details = (await getServicesDetails(
     params.id
   )) as ServiceDetailsResponse;
 
   if (!details?.service) {
     return (
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-6 ">
         <h2 className="text-2xl font-semibold">Service not found</h2>
         <p className="text-gray-600">
           The requested service details could not be found.
@@ -44,7 +41,7 @@ const ProductDetails = async ({ params }: { params: Params }) => {
   const { name, ratings, image, price, description, _id } = details.service;
 
   return (
-    <div className="container mx-auto p-6 grid lg:grid-cols-2 gap-8">
+    <div className="container mx-auto p-6 grid lg:grid-cols-2 gap-8 mt-20">
       <div className="space-y-4">
         <div className="flex justify-center">
           <img

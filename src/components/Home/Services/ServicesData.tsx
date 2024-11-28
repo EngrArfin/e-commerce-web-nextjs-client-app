@@ -14,11 +14,11 @@ const ServicesData = () => {
     const fetchServices = async () => {
       try {
         const fetchedServices = await getServices();
-        setServices(fetchedServices); // Set fetched services to state
+        setServices(fetchedServices);
       } catch (err) {
         setError("Failed to fetch services");
       } finally {
-        setLoading(false); // Stop loading once data is fetched
+        setLoading(false);
       }
     };
 
@@ -26,26 +26,38 @@ const ServicesData = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-4">Loading services...</div>;
+    return (
+      <div className="flex justify-center items-center py-8">
+        <span className="text-xl text-gray-500">Loading services...</span>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center py-4 text-red-500">{error}</div>;
+    return (
+      <div className="flex justify-center items-center py-8">
+        <span className="text-xl text-red-500">{error}</span>
+      </div>
+    );
   }
 
   return (
-    <div className="container px-4 py-10">
-      <h1 className="text-4xl font-bold text-center my-10">All Services</h1>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
+    <section className="container mx-auto px-4 py-10">
+      <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
+        Our Services
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
         {services.length > 0 ? (
           services.map((service) => (
             <ServicesCard service={service} key={service._id} />
           ))
         ) : (
-          <div className="text-center py-4">No services available</div>
+          <div className="col-span-full text-center py-4 text-lg text-gray-500">
+            No services available at the moment.
+          </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

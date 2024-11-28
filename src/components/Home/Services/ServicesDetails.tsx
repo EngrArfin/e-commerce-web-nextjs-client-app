@@ -12,7 +12,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
   const { title, ratings, img, price, description, _id } = details;
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 ">
       <hr className="mb-6" />
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         <figure className="flex justify-center">
