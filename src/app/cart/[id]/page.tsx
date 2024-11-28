@@ -1,52 +1,58 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @next/next/no-async-client-component */
-
 "use client";
-
-/* import axios from "axios"; */
-
-import { getServicesDetails } from "@/services/getServices";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useEffect, useState, FormEvent } from "react";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
-// Define the types
-interface Service {
-  name?: string;
-  image?: string;
-  price?: number;
-  _id?: string;
-}
-
-interface AddToCartProps {
+// Define types for your component props
+type AddToCartProps = {
   params: {
     id: string;
   };
-}
+};
+
+// Define type for the service (you may need to adjust this based on your service structure)
+type Service = {
+  name: string;
+  image: string;
+  price: number;
+  _id: string;
+};
+
+// Define the response type from the booking API
+type BookingResponse = {
+  message: string;
+};
 
 const AddToCart = ({ params }: AddToCartProps) => {
   const { data } = useSession();
-  const [service, setService] = useState<Service>({});
+  const [service, setService] = useState<Service>({} as Service);
   const [total, setTotal] = useState<number>(0);
 
   // Function to load service details
   const loadService = async () => {
-    const details = await getServicesDetails(params.id);
-    setService(details.service);
+    try {
+      const response = await axios.get<{ service: Service }>(
+        `/api/services/${params.id}`
+      );
+      const serviceDetails = response.data.service;
+      setService(serviceDetails);
 
-    // Calculate total amount
-    const totalAmount = calculateTotal(details.service.price || 0);
-    setTotal(totalAmount);
+      // Calculate total amount
+      const totalAmount = calculateTotal(serviceDetails.price || 0);
+      setTotal(totalAmount);
+    } catch (error) {
+      console.error("Failed to load service details", error);
+      toast.error("Failed to load service details.");
+    }
   };
 
   const vatRate = 0.1; // 10% VAT
   const shippingCharge = 50;
 
-  // Calculate total price
+  // Function to calculate total price with VAT and shipping
   const calculateTotal = (price: number): number => {
     const vatAmount = price * vatRate;
     return price + vatAmount + shippingCharge;
@@ -54,7 +60,7 @@ const AddToCart = ({ params }: AddToCartProps) => {
 
   const { name, image, price = 0, _id } = service;
 
-  // Function to handle booking form submission
+  // Handle booking form submission
   const handleBooking = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement & {
@@ -74,34 +80,39 @@ const AddToCart = ({ params }: AddToCartProps) => {
       price,
     };
 
-    const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/checkout/api/new-booking`,
-      {
-        method: "POST",
-        body: JSON.stringify(newBooking),
-        headers: {
-          "content-type": "application/json",
-        },
-      }
-    );
+    try {
+      const response = await axios.post<BookingResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/checkout/api/new-booking`,
+        newBooking,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    const response = await resp.json();
-    toast.success(response.message);
-    form.reset();
+      toast.success(response.data.message); // Now you can safely access response.data
+      form.reset();
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error("There was an error with your booking.");
+    }
   };
 
   useEffect(() => {
-    loadService();
-  }, [params]);
+    loadService(); // Load service details on component mount
+  }, [params]); // Include `params` in the dependency array to reload when `params` changes
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">
       <div className="flex flex-col space-y-4 md:w-2/3">
         <div className="bg-white rounded-lg shadow-lg p-6 flex items-center space-x-6 hover:shadow-2xl transition-shadow duration-300">
-          <img
-            src={image || ""}
+          <Image
+            src={image || "/default-image.jpg"} // Use a default image if `image` is missing
             alt={name || "Service Image"}
-            className="w-24 h-24 rounded-lg object-cover border border-gray-200"
+            width={96} // Set fixed width
+            height={96} // Set fixed height
+            className="rounded-lg object-cover border border-gray-200"
           />
           <div className="flex-1">
             <h2 className="text-xl font-semibold text-gray-900">{name}</h2>
@@ -146,12 +157,31 @@ const AddToCart = ({ params }: AddToCartProps) => {
             Total Amount: <span className="text-blue-600">${total}</span>
           </p>
         </div>
-        <Link
-          href={`/checkout/${_id}`}
-          className="w-full p-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-200"
-        >
-          Place Order
-        </Link>
+        <form onSubmit={handleBooking}>
+          <input
+            type="text"
+            name="address"
+            placeholder="Enter your address"
+            className="p-2 border rounded-md w-full mb-3"
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Enter your phone number"
+            className="p-2 border rounded-md w-full mb-3"
+          />
+          <input
+            type="date"
+            name="date"
+            className="p-2 border rounded-md w-full mb-3"
+          />
+          <button
+            type="submit"
+            className="w-full p-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-200"
+          >
+            Place Order
+          </button>
+        </form>
       </div>
     </div>
   );

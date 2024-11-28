@@ -1,20 +1,22 @@
 "use client";
-import { signOut, useSession } from "next-auth/react";
-import Image from "next/image";
+import { signOut /*  useSession  */ } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  FaTachometerAlt,
-  FaUserCog,
-  FaBoxOpen,
-  FaPlusSquare,
-  FaListUl,
-  FaFileInvoiceDollar,
-  FaSignOutAlt,
-} from "react-icons/fa";
+  MdCategory,
+  MdDashboard,
+  MdManageAccounts,
+  MdMessage,
+  MdOutlineAddShoppingCart,
+  MdPayments,
+  MdProductionQuantityLimits,
+} from "react-icons/md";
+import { GoListOrdered } from "react-icons/go";
+import { CgProfile } from "react-icons/cg";
+import { IoIosListBox, IoMdLogOut } from "react-icons/io";
 
 const AdminSideBar = () => {
-  const { data: session } = useSession();
+  /* const { data: session } = useSession(); */
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -23,8 +25,8 @@ const AdminSideBar = () => {
   };
 
   return (
-    <div className="flex-shrink-0 w-64 h-full bg-base-200">
-      <div className="flex flex-col items-center justify-center my-4">
+    <div className="min-h-screen flex-shrink-0 w-74 h-full bg-base-300">
+      {/* <div className="flex flex-col items-center justify-center">
         {session && (
           <>
             <div className="dropdown dropdown-end">
@@ -57,63 +59,107 @@ const AdminSideBar = () => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
 
       <ul className="menu max-h-screen overflow-y-auto">
         <li>
           <Link
             href="/admin"
-            className="flex items-center p-4 hover:bg-base-300 rounded"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
-            <FaTachometerAlt className="mr-2" /> Dashboard
+            <MdDashboard className="mr-2 text-2xl text-sky-800" />
+            Dashboard
           </Link>
         </li>
         <li>
           <Link
-            href="/admin/user-managements"
-            className="flex items-center p-4 hover:bg-base-300 rounded"
+            href="/admin/profile"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
-            <FaUserCog className="mr-2" /> User Management
+            <CgProfile className="mr-2 text-2xl text-sky-8S00" />
+            Profile
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/admin/productmanagement"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+          >
+            <IoIosListBox className="mr-2 text-2xl text-sky-800" />
+            Products List
           </Link>
         </li>
         <li>
           <Link
             href="/admin/productmanagement"
-            className="flex items-center p-4 hover:bg-base-300 rounded"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
-            <FaBoxOpen className="mr-2" /> Product Management
+            <MdCategory className="mr-2 text-2xl text-sky-800" />
+            Category
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/admin/productmanagement"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+          >
+            <MdProductionQuantityLimits className="mr-2 text-2xl text-sky-800" />
+            Product Management
           </Link>
         </li>
         <li>
           <Link
             href="/admin/addproduct"
-            className="flex items-center p-4 hover:bg-base-300 rounded"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
-            <FaPlusSquare className="mr-2" /> Add Product
+            <MdOutlineAddShoppingCart className="mr-2 text-2xl text-sky-800" />
+            Add Product
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/admin/user-managements"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+          >
+            <MdManageAccounts className="mr-2 text-2xl text-sky-800" />
+            User Account
           </Link>
         </li>
         <li>
           <Link
             href="/admin/orderlist"
-            className="flex items-center p-4 hover:bg-base-300 rounded"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
-            <FaListUl className="mr-2" /> Order View
+            <GoListOrdered className="mr-2 text-2xl text-sky-800" />
+            Order View
           </Link>
         </li>
         <li>
           <Link
             href="/admin/paymentrecord"
-            className="flex items-center p-4 hover:bg-base-300 rounded"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
-            <FaFileInvoiceDollar className="mr-2" /> Payment Record
+            <MdPayments className="mr-2 text-2xl text-sky-800" />
+            Payment Record
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/admin/paymentrecord"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+          >
+            <MdMessage className="mr-2 text-2xl text-sky-800" />
+            Meassage
           </Link>
         </li>
         <li>
           <button
             onClick={handleLogout}
-            className="flex items-center p-4 text-red-600 hover:bg-base-300 rounded"
+            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-red-700 hover:text-red-800 transition duration-300"
           >
-            <FaSignOutAlt className="mr-2" /> Logout
+            <IoMdLogOut className="mr-2 text-2xl text-red-500" /> Logout
           </button>
         </li>
       </ul>

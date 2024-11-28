@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 interface Product {
@@ -46,131 +47,142 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-5">Add New Product</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-      >
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="name"
-          >
-            Product Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={product.name}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={product.description}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
+    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="flex flex-col items-center justify-center p-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-8">
+            Add New Product
+          </h1>
+          <form onSubmit={handleSubmit} className="w-full space-y-6">
+            {/* Product Name */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Product Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={product.name}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
+                required
+              />
+            </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="price"
-          >
-            Price
-          </label>
-          <input
-            id="price"
-            name="price"
-            type="number"
-            value={product.price}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
+            {/* Price */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="price"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Price ($)
+              </label>
+              <input
+                id="price"
+                name="price"
+                type="number"
+                value={product.price}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
+                required
+              />
+            </div>
 
-        {/* Stock Quantity */}
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="stockQuantity"
-          >
-            Stock Quantity
-          </label>
-          <input
-            id="stockQuantity"
-            name="stockQuantity"
-            type="number"
-            value={product.stockQuantity}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
+            {/* Stock Quantity */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="stockQuantity"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Stock Quantity
+              </label>
+              <input
+                id="stockQuantity"
+                name="stockQuantity"
+                type="number"
+                value={product.stockQuantity}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
+                required
+              />
+            </div>
 
-        {/* Category */}
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="category"
-          >
-            Category
-          </label>
-          <select
-            id="category"
-            name="category"
-            value={product.category}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          >
-            <option value="">Select a category</option>
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
-            <option value="furniture">Furniture</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="images"
-          >
-            Product Images
-          </label>
-          <input
-            id="images"
-            name="images"
-            type="file"
-            multiple
-            onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+            {/* Category */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="category"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={product.category}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
+                required
+              >
+                <option value="">Select a category</option>
+                <option value="electronics">Electronics</option>
+                <option value="clothing">Clothing</option>
+                <option value="furniture">Furniture</option>
+              </select>
+            </div>
 
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Add Product
-          </button>
+            {/* Description */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="description"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={product.description}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
+                rows={4}
+                required
+              />
+            </div>
+
+            {/* Images */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="images"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Product Images
+              </label>
+              <input
+                id="images"
+                name="images"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-600 hover:file:bg-blue-200"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md shadow-lg transition"
+              >
+                Add Product
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

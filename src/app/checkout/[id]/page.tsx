@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
-
-/* import axios from "axios"; */
-
-import { getServicesDetails } from "@/services/getServices";
+import axios from "axios";
+import { getServicesDetails } from "@/services/getServices"; // Assuming getServicesDetails is defined in this file
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
+// Define the Service type
 interface Service {
   name?: string;
   ratings?: number;
@@ -17,6 +17,17 @@ interface Service {
   price?: number;
   description?: string;
   _id?: string;
+}
+
+// Define the ServiceDetailsResponse interface to specify the structure of the response
+interface ServiceDetailsResponse {
+  service: Service;
+}
+
+// Define the BookingResponse interface to specify the structure of the response
+interface BookingResponse {
+  message: string;
+  status: string; // Adjust based on your actual API response
 }
 
 interface CheckoutProps {
@@ -37,13 +48,26 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     date: new Date().toISOString().split("T")[0], // Default to today's date
   });
 
+  // Load service details by id
   const loadService = async (id: string) => {
-    const details = await getServicesDetails(id);
-    setService(details.service);
+    try {
+      // Fetch service details
+      const response = await getServicesDetails(id);
+
+      // Ensure you're safely casting the response to the expected type
+      const details = response as ServiceDetailsResponse;
+
+      // Now you can confidently set the state
+      setService(details.service);
+    } catch (error) {
+      console.error("Failed to load service details:", error);
+      toast.error("Something went wrong! Could not load service details.");
+    }
   };
 
   const { _id, name, price } = service;
 
+  // Handle booking form submission
   const handleBooking = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -55,21 +79,31 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
       paymentMethod: isCashOnDelivery ? "Cash on Delivery" : "Online Payment",
     };
 
-    const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/checkout/api/new-booking`,
-      {
-        method: "POST",
-        body: JSON.stringify(newBooking),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    try {
+      // Making the POST request to the backend to create a new booking
+      const resp = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/checkout/api/new-booking`,
+        newBooking,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    const response = await resp.json();
-    toast.success(response?.message);
+      // Ensure the response is typed as BookingResponse
+      const response = resp.data as BookingResponse;
+
+      // Show success message using toast
+      toast.success(response?.message);
+    } catch (error: any) {
+      // Handle error and display error message
+      console.error(error);
+      toast.error("Booking failed. Please try again.");
+    }
   };
 
+  // Handle form input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -80,6 +114,7 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     }));
   };
 
+  // Fetch service details on component mount or when params change
   useEffect(() => {
     const fetchService = async () => {
       if (params) {

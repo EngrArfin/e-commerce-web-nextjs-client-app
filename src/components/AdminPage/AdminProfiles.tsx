@@ -1,3 +1,5 @@
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useState, ChangeEvent, FormEvent } from "react";
 
 const AdminProfiles = () => {
@@ -37,37 +39,79 @@ const AdminProfiles = () => {
     setConfirmPassword("");
   };
 
+  const { data: session } = useSession();
+
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8">Admin Profile</h1>
-
       <div className="bg-white p-6 shadow rounded-lg mb-8">
-        <h2 className="text-2xl font-bold mb-4">Update Profile</h2>
-        <form onSubmit={handleProfileUpdate}>
-          <div className="mb-4">
-            <label className="block text-lg font-semibold mb-2">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={adminData.name}
-              onChange={handleInputChange}
-              className="border p-2 rounded w-full"
-              placeholder="Enter your name"
-              required
-            />
-          </div>
+        <h2 className="text-2xl font-bold mb-4">Admin Profile</h2>
 
-          <div className="mb-4">
-            <label className="block text-lg font-semibold mb-2">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={adminData.email}
-              onChange={handleInputChange}
-              className="border p-2 rounded w-full"
-              placeholder="Enter your email"
-              required
-            />
+        <div className="flex flex-col items-center justify-center">
+          {session && (
+            <>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-40 rounded-full">
+                    <Image
+                      alt="Profile"
+                      src={session.user?.image || "/default-profile.png"}
+                      height="100"
+                      width="100"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                ></ul>
+              </div>
+
+              {/* <div className="text-center mt-2">
+                <p className="font-semibold">{session.user?.name}</p>
+                <p className="text-sm text-gray-600">{session.user?.email}</p>
+              </div> */}
+            </>
+          )}
+        </div>
+
+        <form onSubmit={handleProfileUpdate}>
+          <div>
+            {session && (
+              <>
+                <div className="mb-4">
+                  <label className="block text-lg font-semibold mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={session.user?.name || ""}
+                    onChange={handleInputChange}
+                    className="border p-2 rounded w-full"
+                    placeholder="Enter your name"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-lg font-semibold mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={session.user?.email || ""}
+                    onChange={handleInputChange}
+                    className="border p-2 rounded w-full"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+              </>
+            )}
           </div>
 
           <button

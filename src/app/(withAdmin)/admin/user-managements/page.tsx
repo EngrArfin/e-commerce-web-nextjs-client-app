@@ -1,11 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
-
 "use client";
-
-/* import axios from "axios"; */
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Image from "next/image"; // Import the Next.js Image component
 
 interface User {
   _id: string;
@@ -14,39 +11,30 @@ interface User {
   email: string;
 }
 
+// Define the type for the response data
+interface UsersResponse {
+  allUsers: User[];
+}
+
 const Page = () => {
   const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
 
-  // Function to load user data
-  const loadData = async () => {
-    if (!session?.user?.email) {
-      // Ensure you're using `email` from the session
-      console.error("User email is missing");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session.user.email}` // Use `email` instead of `id`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data?.allUsers || []);
-      } else {
-        console.error("Failed to fetch user data");
-      }
-    } catch (error) {
-      console.error("Error loading users:", error);
-    }
-  };
-
-  // Load data when component mounts or session changes
   useEffect(() => {
-    if (session) {
+    if (session?.user?.email) {
+      const loadData = async () => {
+        try {
+          const response = await axios.get<UsersResponse>(
+            `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session.user.email}`
+          );
+          setUsers(response.data.allUsers || []);
+        } catch (error) {
+          console.error("Error loading users:", error);
+        }
+      };
       loadData();
     }
-  }, [session]);
+  }, [session]); // Add session as a dependency
 
   return (
     <div className="overflow-x-auto pt-8">
@@ -69,11 +57,11 @@ const Page = () => {
             <tr key={_id}>
               <th>{index + 1}</th>
               <td>
-                <img
+                <Image
                   src={image}
-                  height="50"
-                  width="50"
                   alt={name}
+                  height={50}
+                  width={50}
                   className="rounded-full"
                 />
               </td>

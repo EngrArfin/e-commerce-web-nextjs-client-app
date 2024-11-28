@@ -15,7 +15,6 @@ export const GET = async (
   }
 
   const servicesCollection: Collection<Document> = db.collection("services");
-
   try {
     const service = await servicesCollection.findOne({
       _id: new ObjectId(params.id),

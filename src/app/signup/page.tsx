@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
-/* import axios from "axios"; */
+import axios from "axios";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -22,16 +21,22 @@ const SignUp = () => {
       password: target.password.value,
     };
 
-    const resp = await fetch("${process.env.NEXT_PUBLIC_API_URL}/signup/api", {
-      method: "POST",
-      body: JSON.stringify(newUser),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    try {
+      const resp = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/signup/api`,
+        newUser,
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
 
-    if (resp.status === 200) {
-      target.reset();
+      if (resp.status === 200) {
+        target.reset();
+      }
+    } catch (error) {
+      console.error("Sign Up failed", error);
     }
   };
 

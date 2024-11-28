@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 
-/* import axios from "axios"; */
-
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -26,6 +26,7 @@ ChartJS.register(
   Legend
 );
 
+// Define data interfaces
 interface User {
   _id: string;
   image: string;
@@ -33,39 +34,45 @@ interface User {
   email: string;
 }
 
+interface UserResponse {
+  allUsers: User[];
+}
+
+interface Booking {
+  _id: string;
+  user: string;
+  date: string;
+  amount: number;
+}
+
+interface BookingResponse {
+  myBookings: Booking[];
+}
+
 const Page = () => {
   const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
+  // Fetch user data
   const loadData = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get<UserResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session?.user?.id}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data?.allUsers || []);
-      } else {
-        console.error("Failed to fetch user data");
-      }
+      setUsers(response.data.allUsers || []);
     } catch (error) {
       console.error("Error loading users:", error);
     }
   };
 
-  //  booking data
+  // Fetch booking data
   const loadBooking = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get<BookingResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setBookings(data?.myBookings || []);
-      } else {
-        console.error("Failed to fetch bookings data");
-      }
+      setBookings(response.data.myBookings || []);
     } catch (error) {
       console.error("Error loading bookings:", error);
     }
@@ -78,6 +85,7 @@ const Page = () => {
     }
   }, [session]);
 
+  // Chart data
   const salesData = {
     labels: ["Total Users", "Total Orders", "Total Sales"],
     datasets: [
@@ -99,7 +107,7 @@ const Page = () => {
   };
 
   return (
-    <div className="overflow-x-auto pt-2">
+    <div className="min-h-screen w-full pt-2">
       <div>
         <h2 className="text-2xl font-semibold text-center mb-4">
           E-commerce Sell Details with Chart
@@ -118,12 +126,14 @@ const Page = () => {
 
         <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
           <h3 className="text-2xl font-semibold text-sky-600">Total Sales</h3>
-          <p className="text-3xl font-bold">50</p>{" "}
+          <p className="text-3xl font-bold">50</p>
         </div>
       </div>
 
       <div className="p-4 bg-gray-100 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-center mb-1"></h2>
+        <h2 className="text-2xl font-semibold text-center mb-1">
+          Sales Statistics
+        </h2>
         <Bar data={salesData} options={salesOptions} />
       </div>
     </div>

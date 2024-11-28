@@ -1,10 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
+// src/components/ServiceDetails.tsx
 import { getServicesDetails } from "@/services/getServices";
+import { TServiceDetails } from "@/types";
+import Image from "next/image";
 import Link from "next/link";
 
-const ServiceDetails = async ({ params }) => {
-  const details = await getServicesDetails(params.id);
-  const { name, ratings, image, price, description, _id } = details.service;
+interface ServiceDetailsProps {
+  params: { id: string };
+}
+
+const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
+  const details: TServiceDetails = await getServicesDetails(params.id);
+  const { title, ratings, img, price, description, _id } = details;
 
   return (
     <div className="container mx-auto p-6">
@@ -12,9 +18,9 @@ const ServiceDetails = async ({ params }) => {
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         {/* Image Section */}
         <figure className="flex justify-center">
-          <img
-            src={image || "/default-profile.jpg"}
-            alt={name || "Service Image"}
+          <Image
+            src={img || "/default-profile.jpg"}
+            alt={title}
             className="rounded-lg shadow-lg object-cover"
             style={{ height: "400px", width: "100%", maxWidth: "500px" }}
           />
@@ -23,7 +29,7 @@ const ServiceDetails = async ({ params }) => {
         {/* Details Section */}
         <div className="flex flex-col space-y-4">
           {/* Title */}
-          <h2 className="text-3xl font-semibold text-gray-900">{name}</h2>
+          <h2 className="text-3xl font-semibold text-gray-900">{title}</h2>
           <p className="text-gray-600">{description}</p>
 
           {/* Rating */}
@@ -78,7 +84,7 @@ const ServiceDetails = async ({ params }) => {
               Buy Now
             </button>
             <Link
-              href={`/products/${_id}`}
+              href={`/cart/${_id}`}
               className="px-5 py-3 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105"
             >
               Add to Cart

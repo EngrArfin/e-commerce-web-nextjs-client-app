@@ -1,9 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
+// src/components/ServicesCard.tsx
+"use client";
 import Link from "next/link";
 import { useState } from "react";
+import { TService } from "@/types";
+import Image from "next/image";
 
-const ServicesCard = ({ service }) => {
-  const { name, image, price, _id } = service || {};
+interface ServicesCardProps {
+  service: TService;
+}
+
+const ServicesCard = ({ service }: ServicesCardProps) => {
+  const { title, img, price, _id } = service;
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -22,15 +29,15 @@ const ServicesCard = ({ service }) => {
             margin: "0 auto",
           }}
         >
-          <img
-            src={image || "/default-profile.jpg"}
-            alt={name}
+          <Image
+            src={img || "/default-profile.jpg"}
+            alt={title}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </figure>
       </Link>
       <div className="card-body p-4">
-        <h2 className="card-title text-sm lg:text-md font-semibold">{name}</h2>
+        <h2 className="card-title text-sm lg:text-md font-semibold">{title}</h2>
         <p className="text-sm text-gray-500">Price: ${price}</p>
       </div>
 

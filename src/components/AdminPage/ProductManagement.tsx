@@ -1,4 +1,3 @@
-// Add "use client" directive to make this a client component
 "use client";
 
 import { useState } from "react";
@@ -9,7 +8,6 @@ interface Category {
 }
 
 const ProductManagement = () => {
-  // Sample data, replace with real data fetching from the server
   const initialCategories: Category[] = [
     { id: 1, name: "Electronics" },
     { id: 2, name: "Apparel" },
@@ -29,7 +27,7 @@ const ProductManagement = () => {
         name: newCategoryName,
       };
       setCategories([...categories, newCategory]);
-      setNewCategoryName(""); // Reset input field
+      setNewCategoryName("");
     }
   };
 

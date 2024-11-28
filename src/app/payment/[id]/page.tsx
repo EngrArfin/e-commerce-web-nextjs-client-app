@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
 
-/* import axios from "axios"; */
+"use client";
+import axios from "axios";
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -23,6 +23,12 @@ interface CheckoutProps {
   };
 }
 
+// Define the type for the response data
+interface PaymentResponse {
+  message: string;
+  // You can add other properties here as needed
+}
+
 const Payment: React.FC<CheckoutProps> = ({ params }) => {
   const { data } = useSession();
   const [service, setService] = useState<Service>({});
@@ -37,6 +43,7 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
     cvv: "",
   });
 
+  // Load service details
   const loadService = async () => {
     const details = await getServicesDetails(params.id);
     setService(details.service);
@@ -44,6 +51,7 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
 
   const { _id, name, price } = service;
 
+  // Handle booking submission
   const handleBooking = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -55,21 +63,27 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
       paymentMethod: "Online Payment",
     };
 
-    const resp = await fetch(
-      "${process.env.NEXT_PUBLIC_API_URL}/payment/api/paymenting",
-      {
-        method: "POST",
-        body: JSON.stringify(newBooking),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    try {
+      const resp = await axios.post<PaymentResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/api/paymenting`, // Use POST method
+        newBooking, // Send the newBooking as request body
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    const response = await resp.json();
-    toast.success(response?.message || "Payment successful!");
+      // Success toast notification
+      toast.success(resp.data?.message || "Payment successful!");
+    } catch (error) {
+      // Error handling and failure toast notification
+      toast.error("Payment failed. Please try again.");
+      console.error(error);
+    }
   };
 
+  // Handle form field changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -80,6 +94,7 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
     }));
   };
 
+  // Fetch service details when component mounts
   useEffect(() => {
     loadService();
   }, [params]);

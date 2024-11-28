@@ -1,25 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
-/* import axios from "axios"; */
-
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+// Define types
+interface Booking {
+  _id: string;
+  productName: string;
+  price: string;
+  date: string;
+  paymentMethod: string;
+}
+
+interface BookingResponse {
+  myBookings: Booking[];
+}
+
+interface DeleteResponse {
+  response: {
+    deletedCount: number;
+  };
+}
+
 const Page = () => {
   const { data: session } = useSession();
-  const [bookings, setBookings] = useState<any[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
   const loadData = async () => {
     try {
-      const response = await fetch(
+      // Get bookings data with the appropriate type
+      const response = await axios.get<BookingResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setBookings(data?.myBookings || []);
+      if (response.status === 200) {
+        setBookings(response.data.myBookings || []);
       } else {
         console.error("Failed to fetch bookings data");
       }
@@ -30,20 +47,15 @@ const Page = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${id}`,
-        {
-          method: "DELETE",
-        }
+      // Delete booking and ensure proper typing for the response
+      const response = await axios.delete<DeleteResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${id}`
       );
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result?.response?.deletedCount > 0) {
-          loadData();
-        }
+      if (response.status === 200 && response.data.response?.deletedCount > 0) {
+        loadData();
       } else {
-        console.error("Failed to delete booking:", await response.text());
+        console.error("Failed to delete booking:", response.data);
       }
     } catch (error) {
       console.error("Error deleting booking:", error);
@@ -57,7 +69,10 @@ const Page = () => {
   }, [session]);
 
   return (
-    <div className="overflow-x-auto pt-8">
+    <div className="overflow-x-auto pt-8 mt-20">
+      <h1 className="flex items-center justify-center mb-2 text-3xl">
+        My Booking
+      </h1>
       <table className="table table-zebra">
         <thead>
           <tr className="bg-gray-100 border-b font-bold text-sky-700">

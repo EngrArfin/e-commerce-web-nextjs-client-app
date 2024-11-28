@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
@@ -6,11 +7,12 @@ import Link from "next/link";
 import Logo from "../../UI/icon/Logo.jpg";
 import { signOut, useSession } from "next-auth/react";
 
-const NavBar: React.FC = () => {
+const NavBar = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: session } = useSession();
 
   return (
-    <header className="bg-gray-100 shadow-lg w-full">
+    <header className="bg-gray-100 shadow-lg w-full fixed top-0 z-50">
       <nav className="navbar container mx-auto px-4">
         <div className="navbar-start flex items-center">
           <div className="dropdown lg:hidden">
@@ -39,11 +41,16 @@ const NavBar: React.FC = () => {
               className="menu menu-sm dropdown-content bg-gray-100 rounded-box mt-3 w-52 p-2 shadow-md"
             >
               <li>
-                <Link href="/">Home</Link>
+                <Link
+                  className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+                  href="/"
+                >
+                  Home
+                </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/products">Products</Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/my-bookings">My Bookings</Link>
               </li>
@@ -55,7 +62,7 @@ const NavBar: React.FC = () => {
 
           <div className="flex items-center space-x-2">
             <Link href="/" className="flex items-center">
-              <Image alt="logo" src={Logo} className="w-12 h-12 rounded-full" />
+              <Image alt="logo" src={Logo} className=" w-10 rounded-full" />
               <span className="text-2xl font-bold">
                 <span className="text-sky-500">E-Com&nbsp;</span>
                 <span className="text-violet-600">Zone&nbsp;</span>
@@ -67,16 +74,36 @@ const NavBar: React.FC = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal space-x-4">
             <li>
-              <Link href="/">Home</Link>
+              <Link
+                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+                href="/"
+              >
+                Home
+              </Link>
+            </li>
+            {/* <li>
+              <Link
+                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+                href="/products"
+              >
+                Products
+              </Link>
+            </li> */}
+            <li>
+              <Link
+                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+                href="/my-bookings"
+              >
+                My Bookings
+              </Link>
             </li>
             <li>
-              <Link href="/products">Products</Link>
-            </li>
-            <li>
-              <Link href="/my-bookings">My Bookings</Link>
-            </li>
-            <li>
-              <Link href="/about">About</Link>
+              <Link
+                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+                href="/about"
+              >
+                About
+              </Link>
             </li>
           </ul>
         </div>

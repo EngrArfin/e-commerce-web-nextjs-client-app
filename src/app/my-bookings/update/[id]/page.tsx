@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
-/* import axios from "axios"; */
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -18,11 +17,16 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [booking, setBooking] = useState<Booking | null>(null);
 
   const loadBooking = async () => {
-    const bookingDetail = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${params.id}`
-    );
-    const data = await bookingDetail.json();
-    setBooking(data.data);
+    try {
+      // Specify the type of response data to be Booking
+      const response = await axios.get<Booking>(
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${params.id}`
+      );
+      setBooking(response.data); // No need for .json() here
+    } catch (error) {
+      console.error("Error loading booking:", error);
+      toast.error("Failed to load booking");
+    }
   };
 
   const handleUpdateBooking = async (
@@ -34,19 +38,23 @@ const Page = ({ params }: { params: { id: string } }) => {
       phone: event.currentTarget.phone.value,
       address: event.currentTarget.address.value,
     };
-    const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${params.id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(updatedBooking),
-        headers: {
-          "content-type": "application/json",
-        },
+    try {
+      const resp = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${params.id}`,
+        updatedBooking,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (resp.status === 200) {
+        toast.success("Updated Successfully");
+        loadBooking();
       }
-    );
-    if (resp.status === 200) {
-      toast.success("Updated Successfully");
-      loadBooking();
+    } catch (error) {
+      console.error("Error updating booking:", error);
+      toast.error("Failed to update booking");
     }
   };
 

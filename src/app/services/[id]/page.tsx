@@ -1,11 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
 import { getServicesDetails } from "@/services/getServices";
 
-const ProductDetails = async ({ params }) => {
-  const details = await getServicesDetails(params.id);
+// Define the Service type
+interface Service {
+  name: string;
+  ratings: number;
+  image: string;
+  price: number;
+  description: string;
+  _id: string;
+}
+
+// Define the Response type from getServicesDetails
+interface ServiceDetailsResponse {
+  service?: Service; // Service could be undefined if not found
+}
+
+type Params = {
+  id: string;
+};
+
+const ProductDetails = async ({ params }: { params: Params }) => {
+  // Type assertion to tell TypeScript that details is of type ServiceDetailsResponse
+  const details = (await getServicesDetails(
+    params.id
+  )) as ServiceDetailsResponse;
 
   if (!details?.service) {
     return (

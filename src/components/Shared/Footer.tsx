@@ -10,13 +10,13 @@ const Footer = () => {
       <footer className="footer bg-base-200 text-base-content p-10">
         <div>
           <div className="flex align-item-center items-center justify-center space-x-2">
-            <div className="overflow-hidden rounded-full w-20 h-10 bg-gray-200 flex items-center justify-center">
+            <div className="overflow-hidden rounded-full w-12 h-112 bg-gray-200 flex items-center justify-center">
               <Image
                 src={logo}
                 alt="Logo"
-                width={100}
-                height={60}
-                className="object-cover"
+                width={80}
+                height={100}
+                className="object-cover rounded-full w-12"
               />
             </div>
 
