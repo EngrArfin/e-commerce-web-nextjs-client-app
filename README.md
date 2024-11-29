@@ -2,6 +2,9 @@
 
 # E-commerce Web - Next.js Client App
 
+🌐 Live Demo: (https://e-commerce-web-nextjs-client-app.vercel.app/)
+📂 GitHub Repo: (https://github.com/EngrArfin/e-commerce-web-nextjs-client-app)
+
 Welcome to **E-commerce Web**, a modern, responsive e-commerce platform built with **Next.js** and **TypeScript**. This app serves as the front-end for an online shopping platform with a smooth user experience and powerful features.
 
 ## Features
