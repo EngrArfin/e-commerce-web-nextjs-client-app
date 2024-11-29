@@ -9,7 +9,7 @@ interface ServicesCardProps {
 }
 
 const ServicesCard = ({ service }: ServicesCardProps) => {
-  const { _id, name, /*  description,  */ price, image, ratings } = service;
+  const { _id, name, price, image, ratings } = service;
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -19,13 +19,13 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link href={`/services/${_id}`}>
-        <figure className="relative w-full h-64 overflow-hidden">
+        <figure className="relative w-full h-60 overflow-hidden">
           <img
             src={image || "/default-profile.jpg"} // Fallback to default image
             alt={name}
             className="object-cover w-full h-full"
-            width={300}
-            height={200}
+            width={250}
+            height={120}
           />
         </figure>
       </Link>

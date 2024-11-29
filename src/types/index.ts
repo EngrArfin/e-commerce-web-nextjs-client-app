@@ -13,15 +13,6 @@ export type TProductCardProps = {
   description: string;
 };
 
-/* export interface TService {
-  _id: string;
-  title: string;
-  description: string;
-  img: string;
-  price: number;
-} */
-
-// src/types/index.ts
 export interface TService {
   _id: string;
   id: number;
@@ -40,6 +31,44 @@ export interface TServiceDetails {
   price: number;
   ratings: number;
   reviews: string[];
+}
+
+export interface TProduct {
+  _id: string;
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+  ratings: number;
+}
+
+export interface TProductDetails {
+  _id: string;
+  title: string;
+  description: string;
+  img: string;
+  price: number;
+  ratings: number;
+  reviews: string[];
+}
+
+// Define the service details response type
+export interface TProductDetailsResponse {
+  service: TProduct;
+}
+
+// Define the service list response type
+export interface TProductListResponse {
+  services: TProduct[];
+}
+
+export interface TUserData {
+  _id: string;
+  email: string;
+  name: string;
+  imge: string;
+  price: number;
 }
 
 // Define the service details response type

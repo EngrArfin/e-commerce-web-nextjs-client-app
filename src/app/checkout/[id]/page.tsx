@@ -45,19 +45,15 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     email: data?.user?.email || "",
     phone: "",
     address: "",
-    date: new Date().toISOString().split("T")[0], // Default to today's date
+    date: new Date().toISOString().split("T")[0],
   });
 
-  // Load service details by id
   const loadService = async (id: string) => {
     try {
-      // Fetch service details
       const response = await getServicesDetails(id);
 
-      // Ensure you're safely casting the response to the expected type
-      const details = response as ServiceDetailsResponse;
+      const details = response as unknown as ServiceDetailsResponse;
 
-      // Now you can confidently set the state
       setService(details.service);
     } catch (error) {
       console.error("Failed to load service details:", error);
@@ -65,9 +61,8 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
     }
   };
 
-  const { _id, name, price } = service;
+  const { _id, name, price } = service || {};
 
-  // Handle booking form submission
   const handleBooking = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 

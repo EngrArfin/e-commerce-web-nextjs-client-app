@@ -1,11 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import viewcart from "../../UI/image/sidephoto.jpg";
+import Link from "next/link";
 
 const FeatureSection: React.FC = () => {
   return (
     <section className="container mx-auto my-10 px-4">
-      <h1 className="text-4xl font-bold my-10">Our Feature Product</h1>
+      <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
+        Our Feature Product
+      </h1>
 
       <div className="relative flex flex-col lg:flex-row items-center justify-between bg-gray-900 text-white h-auto lg:h-[500px] p-8 rounded-lg shadow-md">
         <div className="w-full lg:w-1/2 h-64 lg:h-full relative overflow-hidden rounded-md shadow-lg">
@@ -31,9 +34,12 @@ const FeatureSection: React.FC = () => {
             deliver the ultimate user experience. Perfect for anyone who values
             quality, durability, and style in their shopping cart.
           </p>
-          <button className="px-6 py-2 bg-transparent border border-white text-white hover:bg-white hover:text-gray-900 transition duration-300">
+          <Link
+            href="/products"
+            className="px-6 py-2 bg-transparent border border-white text-white hover:bg-white hover:text-gray-900 transition duration-300"
+          >
             Shop Now
-          </button>
+          </Link>
         </div>
       </div>
     </section>

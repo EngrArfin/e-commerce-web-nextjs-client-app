@@ -31,7 +31,9 @@ const services = [
 const DeveleryWay: FC = () => {
   return (
     <div className="py-10">
-      <h1 className="text-4xl font-bold my-10">Delevery Shiping</h1>
+      <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
+        Delevery Shiping
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {services.map((service, index) => (

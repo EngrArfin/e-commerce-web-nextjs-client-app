@@ -6,54 +6,152 @@ import logo from "../../UI/icon/Logo.jpg";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="footer bg-base-200 text-base-content p-10">
-        <div>
-          <div className="flex align-item-center items-center justify-center space-x-2">
-            <div className="overflow-hidden rounded-full w-12 h-112 bg-gray-200 flex items-center justify-center">
+    <footer className="bg-gray-800 text-white py-10">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
+        {/* Company Info */}
+        <div className="flex flex-col items-center md:items-start">
+          <div className="flex items-center space-x-4">
+            <div className="rounded-full overflow-hidden w-16 h-16 bg-gray-100">
               <Image
                 src={logo}
-                alt="Logo"
+                alt="E-Commerce Zone Logo"
                 width={80}
-                height={100}
-                className="object-cover rounded-full w-12"
+                height={80}
+                className="object-cover"
               />
             </div>
-
-            <div className="mt-8">
-              <Link
-                href="/"
-                className="text-xl font-semibold text-gray-800 hover:text-gray-600 transition duration-200"
-              >
-                <span className="text-red-500 text-center">E-com Zone </span>
-              </Link>
-            </div>
+            <Link href="/">
+              <p className="text-2xl font-bold">
+                <span className="text-sky-500">E-Com</span>
+                <span className="text-violet-600">Zone</span>
+              </p>
+            </Link>
           </div>
-          <p>Providing reliable tech since 1992</p>
-          <p>Providing reliable tech since 1992</p>
+          <p className="mt-4 text-sm text-gray-400 text-center md:text-left">
+            Your one-stop shop for premium products. Delivering trust and
+            quality since January 2024.
+          </p>
         </div>
 
-        <nav>
-          <h6 className="footer-title">Trip Services</h6>
-          <a className="link link-hover">Branding</a>
-          <a className="link link-hover">Gardening</a>
-          <a className="link link-hover">Advising</a>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Gardening</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Advice</a>
-          <a className="link link-hover">Trip Gardening</a>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Top Sell Product </h6>
-          <a className="link link-hover">Product sell</a>
-          <a className="link link-hover">Privacy policy</a>
-          <a className="link link-hover">Business policy</a>
-        </nav>
-      </footer>
-    </div>
+        {/* Services */}
+        <div>
+          <h6 className="text-lg font-semibold mb-4">Our Services</h6>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/services/branding">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Branding Solutions
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/services/electronics">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Electronics
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/services/fashion">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Fashion Advice
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/services/beauty">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Beauty Products
+                </p>
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* About Us */}
+        <div>
+          <h6 className="text-lg font-semibold mb-4">About Us</h6>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/about">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Who We Are
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Contact Us
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Terms of Service
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Privacy Policy
+                </p>
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Quick Links */}
+        <div>
+          <h6 className="text-lg font-semibold mb-4">Quick Links</h6>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/products">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Shop All Products
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/products/sale">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Top Deals
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/help">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  Help Center
+                </p>
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq">
+                <p className="text-gray-400 hover:text-sky-400 transition">
+                  FAQs
+                </p>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-500">
+        <p>
+          &copy; {new Date().getFullYear()} E-Com Zone. All rights reserved.
+        </p>
+        <p className="mt-2">
+          Made with ❤️ by{" "}
+          <Link href="/" className="text-sky-400 hover:underline">
+            E-Com Team
+          </Link>
+          .
+        </p>
+      </div>
+    </footer>
   );
 };
 

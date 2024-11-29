@@ -48,9 +48,9 @@ const NavBar = () => {
                   Home
                 </Link>
               </li>
-              {/* <li>
+              <li>
                 <Link href="/products">Products</Link>
-              </li> */}
+              </li>
               <li>
                 <Link href="/my-bookings">My Bookings</Link>
               </li>
@@ -81,14 +81,14 @@ const NavBar = () => {
                 Home
               </Link>
             </li>
-            {/* <li>
+            <li>
               <Link
                 className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
                 href="/products"
               >
                 Products
               </Link>
-            </li> */}
+            </li>
             <li>
               <Link
                 className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"

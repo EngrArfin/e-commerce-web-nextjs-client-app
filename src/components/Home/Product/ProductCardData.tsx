@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { TService } from "@/types";
-import { getServices } from "@/services/getServices";
+import { getProducts } from "@/services/getServices";
 import { useEffect, useState } from "react";
-import ServicesCard from "./ServicesCard";
+import ProductCard from "./ProductCard";
+import { TProduct } from "@/types";
 
-const ServicesData = () => {
-  const [services, setServices] = useState<TService[]>([]);
+const ProductCardData = () => {
+  const [products, setProducts] = useState<TProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchProducts = async () => {
       try {
-        const fetchedServices = await getServices();
-        setServices(fetchedServices);
+        const fetchedProducts = await getProducts();
+        setProducts(fetchedProducts);
       } catch (err) {
         setError("Failed to fetch services");
       } finally {
@@ -22,13 +22,13 @@ const ServicesData = () => {
       }
     };
 
-    fetchServices();
+    fetchProducts();
   }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-8 ">
-        <span className="text-xl text-gray-500">Loading Products...</span>
+      <div className="flex justify-center items-center py-8">
+        <span className="text-xl text-gray-500">Loading services...</span>
       </div>
     );
   }
@@ -44,12 +44,12 @@ const ServicesData = () => {
   return (
     <section className="container mx-auto px-2 py-10 mr-8">
       <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
-        Our Products
+        All Products
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-        {services.length > 0 ? (
-          services.map((service) => (
-            <ServicesCard service={service} key={service._id} />
+        {products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard product={product} key={product._id} />
           ))
         ) : (
           <div className="col-span-full text-center py-4 text-lg text-gray-500">
@@ -61,4 +61,4 @@ const ServicesData = () => {
   );
 };
 
-export default ServicesData;
+export default ProductCardData;
