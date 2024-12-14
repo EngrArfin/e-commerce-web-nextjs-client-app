@@ -1,9 +1,11 @@
 import Image from "next/image";
-import about1 from "../../UI/icon/profile.jpg";
+import about1 from "../../UI/icon/photo1.png";
+import about2 from "../../UI/icon/photo2.png";
+import about3 from "../../UI/icon/photo3.png";
 
 const aboutPage: React.FC = () => {
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto px-6 py-12 mt-10">
       <h1 className="text-4xl font-bold text-center mb-8">About Us</h1>
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         <div className="flex justify-center">
@@ -40,23 +42,23 @@ const aboutPage: React.FC = () => {
       <div className="mt-12">
         <h2 className="text-3xl font-bold text-center mb-8">Our Core Values</h2>
         <div className="grid lg:grid-cols-3 gap-8 text-center">
-          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+          <div className="card shadow-lg p-6 text-white rounded-lg bg-gradient-to-r from-sky-500 to-sky-700">
             <h3 className="text-xl font-semibold mb-2">Quality</h3>
-            <p className="text-gray-600">
+            <p className="text-white">
               We never compromise on quality. Every product is carefully
               selected and rigorously tested to meet your expectations.
             </p>
           </div>
-          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+          <div className="card shadow-lg p-6 text-white rounded-lg bg-gradient-to-r from-sky-500 to-sky-700">
             <h3 className="text-xl font-semibold mb-2">Customer First</h3>
-            <p className="text-gray-600">
+            <p className="text-white">
               Your satisfaction is our priority. We listen, we adapt, and we
               strive to make every interaction positive and memorable.
             </p>
           </div>
-          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+          <div className="card shadow-lg p-6 text-white rounded-lg bg-gradient-to-r from-sky-500 to-sky-700">
             <h3 className="text-xl font-semibold mb-2">Innovation</h3>
-            <p className="text-gray-600">
+            <p className="text-white">
               We stay ahead of the curve, bringing you the latest trends and
               cutting-edge products to enhance your shopping experience.
             </p>
@@ -75,29 +77,29 @@ const aboutPage: React.FC = () => {
               alt="Team Member 1"
               className="rounded-full w-32 h-32 object-cover shadow-lg mb-4"
             />
-            <h3 className="text-xl font-semibold">John Doe</h3>
+            <h3 className="text-xl font-semibold">Md Samsel Arfin</h3>
             <p className="text-gray-600">Founder & CEO</p>
           </div>
           <div className="flex flex-col items-center">
             <Image
-              src={about1}
+              src={about2}
               height="150"
               width="200"
               alt="Team Member 2"
               className="rounded-full w-32 h-32 object-cover shadow-lg mb-4"
             />
-            <h3 className="text-xl font-semibold">Jane Smith</h3>
+            <h3 className="text-xl font-semibold">Shadman Shuvo</h3>
             <p className="text-gray-600">Head of Marketing</p>
           </div>
           <div className="flex flex-col items-center">
             <Image
-              src={about1}
+              src={about3}
               height="150"
               width="200"
               alt="Team Member 3"
               className="rounded-full w-32 h-32 object-cover shadow-lg mb-4"
             />
-            <h3 className="text-xl font-semibold">Mike Johnson</h3>
+            <h3 className="text-xl font-semibold">Mira Akter</h3>
             <p className="text-gray-600">Lead Developer</p>
           </div>
         </div>

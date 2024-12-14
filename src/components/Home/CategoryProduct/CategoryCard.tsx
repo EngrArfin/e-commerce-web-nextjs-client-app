@@ -16,7 +16,7 @@ const CategoryCard = ({ service }: ServicesCardProps) => {
 
   return (
     <div
-      className="card bg-base-100 w-50 md:w-60 shadow-lg m-3 overflow-hidden relative border rounded-lg"
+      className="card bg-base-100 w-100 md:w-60 shadow-lg m-3 overflow-hidden relative border rounded-lg"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -32,10 +32,12 @@ const CategoryCard = ({ service }: ServicesCardProps) => {
           />
         </figure>
       </Link>
-      <div className="card-body p-4 text-center">
-        <h2 className="card-title text-sm lg:text-md font-semibold">{name}</h2>
+      <div className="card-body p-4 ">
+        <h2 className="text-lg font-medium text-gray-900 truncate">{name}</h2>
         {/* <p className="text-sm text-gray-600 mb-4">{description}</p> */}
-        <p className="text-lg font-semibold text-gray-800">Price: ${price}</p>
+        <p className="text-sm text-gray-700 mr-2">
+          Price: <span className=" text-sm text-orange-600">${price}</span>
+        </p>
       </div>
       {isHovered && (
         <Link
@@ -52,9 +54,9 @@ const CategoryCard = ({ service }: ServicesCardProps) => {
       >
         <Link
           href={`/services/${_id}`}
-          className="bg-blue-600 text-white py-2 px-5 rounded font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
+          className="bg-sky-600 text-white py-2 px-5 rounded font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
         >
-          View Details
+          View Detailss
         </Link>
       </div>
     </div>

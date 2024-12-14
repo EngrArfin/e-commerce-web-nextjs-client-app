@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import axios from "axios";
 
-import Image from "next/image";
+import GoogleGithubLogin from "@/components/Shared/GoogleGithubLogin";
+import axios from "axios";
 import Link from "next/link";
-import login from "../../UI/image/backgroundLogin1.jpg";
+import { Suspense } from "react";
+import signupImage from "../../UI/image/backgroundsignup1.jpg";
 
 const SignUp = () => {
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,23 +42,25 @@ const SignUp = () => {
   };
 
   return (
-    <div className="max-h-screen flex items-center justify-center bg-gray-100 py-14 px-12 sm:px-8 lg:px-10">
-      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
-          <span className="text-sky-600">Sign Up Page</span>
-        </h2>
-        <div className="flex gap-6">
-          <div className="hidden lg:block w-1/2">
-            <Image
-              src={login}
-              width={600}
-              height={300}
-              alt="sign up page"
-              className="rounded-md object-cover"
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="max-h-screen flex items-center justify-center bg-slate-200 py-3 px-12 sm:px-8 lg:px-10">
+        <div className="flex w-full max-w-5xl bg-slate-50 shadow-lg rounded-lg overflow-hidden">
+          {/* Image Section */}
+          <div className="w-1/2 hidden lg:block">
+            <img
+              src={signupImage.src}
+              alt="Sign Up Background"
+              className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-full lg:w-1/2">
-            <form onSubmit={handleSignUp} className="space-y-6">
+
+          {/* Form Section */}
+          <div className="w-full lg:w-1/2 px-8 py-10">
+            <h2 className="text-3xl font-semibold text-center mb-8 text-gray-900">
+              <span className="text-sky-600">Sign Up</span> for Your Account
+            </h2>
+
+            <form onSubmit={handleSignUp} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Full Name
@@ -65,11 +68,12 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="name"
-                  placeholder="User Name"
-                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your full name"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"
                   required
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Email
@@ -77,11 +81,12 @@ const SignUp = () => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Email"
-                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your email"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"
                   required
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Password
@@ -89,11 +94,12 @@ const SignUp = () => {
                 <input
                   type="password"
                   name="password"
-                  placeholder="Password"
-                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your password"
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"
                   required
                 />
               </div>
+
               <div>
                 <button
                   type="submit"
@@ -103,35 +109,23 @@ const SignUp = () => {
                 </button>
               </div>
             </form>
+
             <p className="text-center mt-4 text-sm text-gray-600">
               Already have an account?{" "}
               <Link href="/login" className="text-sky-600 hover:underline">
                 Login
               </Link>
             </p>
-            <div className="text-center mt-6 text-gray-500 divider">Or</div>
-            <div className="flex justify-center gap-4 mt-4">
-              <button className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg">
-                <Image
-                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                  width={30}
-                  height={30}
-                  alt="github logo"
-                />
-              </button>
-              <button className="p-3 bg-white border rounded-full shadow-md hover:shadow-lg">
-                <Image
-                  src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
-                  width={30}
-                  height={30}
-                  alt="google logo"
-                />
-              </button>
+
+            <div className="text-center mt-8 text-gray-500">
+              <span className="divider">Or</span>
             </div>
+
+            <GoogleGithubLogin />
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 

@@ -69,19 +69,19 @@ const Page = () => {
   }, [session]);
 
   return (
-    <div className="overflow-x-auto pt-8 mt-20">
+    <div className="overflow-x-auto mt-4 mb-4 m-4 ">
       <h1 className="flex items-center justify-center mb-2 text-3xl">
         My Booking
       </h1>
       <table className="table table-zebra">
         <thead>
-          <tr className="bg-gray-100 border-b font-bold text-sky-700">
+          <tr className="bg-gray-100 text-sm border-b font-bold text-sky-700">
             <th className="py-2 px-4">No</th>
             <th className="py-2 px-4">Name</th>
             <th className="py-2 px-4">Payment</th>
             <th className="py-2 px-4">Price</th>
             <th className="py-2 px-4">Date</th>
-            <th className="py-2 px-4">Actions</th>
+            <th className="py-2 px-4 flex justify-end mr-12">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -103,7 +103,7 @@ const Page = () => {
                 <td>{price}</td>
                 <td>{date}</td>
                 <td>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex justify-end mr-4 space-x-2">
                     <Link href={`/my-bookings/update/${_id}`}>
                       <button className="bg-sky-900 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
                         Edit

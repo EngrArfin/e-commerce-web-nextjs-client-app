@@ -27,7 +27,7 @@ const CategoryDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-8 ">
+      <div className="flex justify-center items-center py-10 px-10 h-screen">
         <span className="text-xl text-gray-500">Loading products...</span>
       </div>
     );
@@ -35,18 +35,18 @@ const CategoryDetails = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center py-8">
+      <div className="flex justify-center items-center py-10 px-10 h-screen">
         <span className="text-xl text-red-500">{error}</span>
       </div>
     );
   }
 
   return (
-    <section className="container mx-auto px-2 py-10 mr-8">
-      <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
+    <section className="container mx-auto py-5 px-5">
+      <h1 className="text-4xl font-medium text-center mb-5 text-gray-900 truncate">
         Feature Product
       </h1>
-      <div className="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 gap-10">
+      <div className="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-10">
         {services.length > 0 ? (
           services.map((service) => (
             <CategoryCard service={service} key={service._id} />
@@ -62,7 +62,3 @@ const CategoryDetails = () => {
 };
 
 export default CategoryDetails;
-
-{
-  /* <div className="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 gap-10"> */
-}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { TService } from "@/types";
+import { useCart } from "../Cart/CartContext";
 
 interface ServicesCardProps {
   service: TService;
@@ -11,53 +12,65 @@ interface ServicesCardProps {
 const ServicesCard = ({ service }: ServicesCardProps) => {
   const { _id, name, price, image, ratings } = service;
   const [isHovered, setIsHovered] = useState(false);
+  const { addToCart } = useCart();
 
   return (
     <div
-      className="card bg-white w-full max-w-sm shadow-lg m-3 overflow-hidden relative border rounded-lg transition-all duration-300 hover:scale-105"
+      className="card bg-white w-full max-w-sm shadow-lg rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:scale-105 m-1 p-1 relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link href={`/services/${_id}`}>
-        <figure className="relative w-full h-60 overflow-hidden">
+        <figure className="relative w-full h-56 overflow-hidden">
           <img
             src={image || "/default-profile.jpg"} // Fallback to default image
             alt={name}
-            className="object-cover w-full h-full"
-            width={250}
-            height={120}
+            className="object-cover w-full h-full rounded-t-lg"
+            width={320}
+            height={160}
           />
         </figure>
       </Link>
 
-      <div className="card-body p-6">
-        <h2 className="card-title text-xl font-semibold text-gray-900">
-          {name}
-        </h2>
-        {/* <p className="text-sm text-gray-600 mb-4">{description}</p> */}
-        <p className="text-lg font-semibold text-gray-800">Price: ${price}</p>
-        <div className="flex items-center mt-2">
-          <span className="text-yellow-500">{"⭐".repeat(ratings)}</span>
+      <div className="card-body p-2">
+        <h2 className="text-lg font-medium text-gray-900 truncate">{name}</h2>
+        <div className="flex items-center ">
+          <p className="text-sm text-gray-700 mr-2">
+            Price: <span className=" text-sm text-orange-600">{price}</span>
+          </p>
+          {price && (
+            <div className="flex flex-col items-start">
+              <p className="text-sm text-gray-600 line-through">{price}</p>
+            </div>
+          )}
+        </div>
+        <div className="flex items-center">
+          <span className="text-yellow-500 text-sm">
+            {"⭐".repeat(ratings)}{" "}
+            <span className="text-sm text-gray-500 ml-2">({ratings})</span>
+          </span>
         </div>
       </div>
 
+      {/* Add to Cart Button */}
       {isHovered && (
-        <Link
-          href={`/cart/${_id}`}
-          className="absolute top-4 left-4 bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-transform duration-300 transform hover:scale-105"
+        <button
+          onClick={() => addToCart(service)}
+          className="absolute top-4 left-1/2 transform -translate-x-1/2 text-center text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300 font-semibold rounded-lg text-sm px-8 py-1 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl active:scale-95"
         >
-          Add to Cart
-        </Link>
+          Add Cart
+        </button>
       )}
 
+      {/* View Details Button */}
       <div
-        className={`card-actions justify-center ${
+        className={`card-actions justify-center absolute bottom-4 w-full transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"
-        } transition-opacity duration-300 absolute bottom-4 w-full`}
+        }`}
       >
         <Link
           href={`/services/${_id}`}
-          className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
+          className="bg-sky-600 text-white py-2 px-8 rounded font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
         >
           View Details
         </Link>

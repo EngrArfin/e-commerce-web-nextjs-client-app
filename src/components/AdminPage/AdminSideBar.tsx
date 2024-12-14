@@ -9,7 +9,6 @@ import {
   MdMessage,
   MdOutlineAddShoppingCart,
   MdPayments,
-  MdProductionQuantityLimits,
 } from "react-icons/md";
 import { GoListOrdered } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
@@ -100,7 +99,7 @@ const AdminSideBar = () => {
           </Link>
         </li>
 
-        <li>
+        {/*  <li>
           <Link
             href="/admin/productmanagement"
             className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
@@ -108,7 +107,7 @@ const AdminSideBar = () => {
             <MdProductionQuantityLimits className="mr-2 text-2xl text-sky-800" />
             Product Management
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             href="/admin/addproduct"

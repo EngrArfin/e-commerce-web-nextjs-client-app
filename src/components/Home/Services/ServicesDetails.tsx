@@ -1,18 +1,34 @@
+/* eslint-disable @next/next/no-async-client-component */
+"use client";
+
+import { useCart } from "@/components/Home/Cart/CartData";
 import { getServicesDetails } from "@/services/getServices";
 import { TServiceDetails } from "@/types";
 import Image from "next/image";
-import Link from "next/link";
 
 interface ServiceDetailsProps {
   params: { id: string };
 }
 
 const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { addToCart } = useCart();
   const details: TServiceDetails = await getServicesDetails(params.id);
   const { title, ratings, img, price, description, _id } = details;
 
+  const handleAddToCart = () => {
+    const cartItem = {
+      id: _id,
+      name: title,
+      image: img,
+      price: price,
+      quantity: 1, // You can dynamically change this if needed
+    };
+    addToCart(cartItem);
+  };
+
   return (
-    <div className="container mx-auto p-6 ">
+    <div className="container mx-auto p-6">
       <hr className="mb-6" />
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         <figure className="flex justify-center">
@@ -37,11 +53,6 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
 
           <div className="text-lg text-gray-700">
             <span className="font-semibold text-blue-600">${price}</span>
-            {price && (
-              <span className="ml-2 text-gray-500 line-through">
-                ${price + 20}
-              </span>
-            )}
           </div>
 
           <p className="text-gray-700">
@@ -54,32 +65,13 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             </span>
           </p>
 
-          <div className="flex items-center">
-            <label
-              htmlFor="quantity"
-              className="mr-4 font-semibold text-gray-700"
-            >
-              Quantity:
-            </label>
-            <input
-              type="number"
-              id="quantity"
-              min="1"
-              defaultValue="1"
-              className="w-16 p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
           <div className="flex space-x-4 pt-4">
-            <button className="px-5 py-3 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105">
-              Buy Now
-            </button>
-            <Link
-              href={`/cart/${_id}`}
+            <button
+              onClick={handleAddToCart}
               className="px-5 py-3 bg-sky-700 text-white text-sm lg:text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition-transform duration-300 transform hover:scale-105"
             >
-              Add to Cart
-            </Link>
+              Add to Car
+            </button>
           </div>
         </div>
       </div>

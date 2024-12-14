@@ -27,7 +27,7 @@ const ServicesData = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-8 ">
+      <div className="flex justify-center items-center py-8">
         <span className="text-xl text-gray-500">Loading Products...</span>
       </div>
     );
@@ -42,18 +42,18 @@ const ServicesData = () => {
   }
 
   return (
-    <section className="container mx-auto px-2 py-10 mr-8">
-      <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
+    <section className="container mx-auto px-5 py-5 m-5">
+      <h1 className="text-4xl font-medium text-center mb-5 text-gray-900 truncate">
         Our Products
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {services.length > 0 ? (
           services.map((service) => (
             <ServicesCard service={service} key={service._id} />
           ))
         ) : (
           <div className="col-span-full text-center py-4 text-lg text-gray-500">
-            No services available at the moment.
+            No services available.
           </div>
         )}
       </div>

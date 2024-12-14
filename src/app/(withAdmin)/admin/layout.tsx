@@ -13,11 +13,13 @@ export default function adminLayout({
 }>) {
   return (
     <div>
-      <div className="w-full  my-2 mt-20">
+      <div className="w-full min-h-screen ">
         <div className="flex ">
-          <div className="w-[10%] "></div>
-          <AdminSideBar />
-          <div className=" w-[90%] bg-base-200 rounded-box mb-10 ml-2">
+          <div className="w-[18%] ml-6 ">
+            <AdminSideBar />
+          </div>
+
+          <div className=" w-[78%] bg-base-200 rounded-box mb-10 ml-2">
             {children}
           </div>
         </div>

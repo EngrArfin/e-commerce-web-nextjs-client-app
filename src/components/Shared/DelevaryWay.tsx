@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC } from "react";
-import freeshiping1 from "../../UI/icon/freeshiping1.jpg";
-import freeshiping2 from "../../UI/icon/freeshiping2.jpg";
-import freeshiping3 from "../../UI/icon/freeshiping3.jpg";
-import freeshiping4 from "../../UI/icon/freeshiping4.jpg";
+import { motion } from "framer-motion";
+import freeshiping1 from "../../UI/icon/freeshiping1.png";
+import freeshiping2 from "../../UI/icon/freeshiping2.png";
+import freeshiping3 from "../../UI/icon/freeshiping3.png";
+import freeshiping4 from "../../UI/icon/freeshiping4.png";
 
 const services = [
   {
@@ -30,18 +31,47 @@ const services = [
 
 const DeveleryWay: FC = () => {
   return (
-    <div className="py-10">
-      <h1 className="text-4xl font-semibold text-center mb-10 text-gray-900">
-        Delevery Shiping
-      </h1>
+    <div className="py-5 px-5">
+      {/* Title animation */}
+      <motion.h1
+        className="text-4xl font-medium text-center mb-5 text-gray-900 truncate"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }} // Slow motion for title
+      >
+        Delivery Shipping
+      </motion.h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Card grid animation */}
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.5, // Slower stagger for each card
+            },
+          },
+        }}
+      >
         {services.map((service, index) => (
-          <div
+          <motion.div
             key={index}
-            className={
-              "card shadow-lg p-6 text-white rounded-lg bg-gradient-to-r from-sky-500 to-sky-700"
-            }
+            className="card shadow-lg p-6 text-gray-800 rounded-lg bg-gradient-to-r bg-sky-100"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 1.5, // Slow-motion entry for each card
+                  ease: "easeInOut", // Smooth easing
+                },
+              },
+            }}
           >
             <figure>
               <img
@@ -53,10 +83,10 @@ const DeveleryWay: FC = () => {
             <h2 className="card-title text-center text-xl font-bold">
               {service.title}
             </h2>
-            <p className="text-center mt-2">{service.description}</p>
-          </div>
+            <p className="max-auto text-left mt-2">{service.description}</p>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

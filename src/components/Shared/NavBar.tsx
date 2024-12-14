@@ -2,23 +2,42 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "../../UI/icon/Logo.jpg";
 import { signOut, useSession } from "next-auth/react";
+import { FaRegUserCircle } from "react-icons/fa";
+import Image from "next/image";
+import { useCart } from "../Home/Cart/CartContext";
 
 const NavBar = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: session } = useSession();
+  const [isFixed, setIsFixed] = useState(false);
+  const { cart } = useCart();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsFixed(window.scrollY > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <header className="bg-gray-100 shadow-lg w-full fixed top-0 z-50">
+    <header
+      className={`${
+        isFixed ? "fixed top-0 z-50 shadow-lg" : "relative"
+      } w-full /* bg-sky-200 */ transition-all duration-300`} /* bg-sky-700 */
+    >
       <nav className="navbar container mx-auto px-4">
         <div className="navbar-start flex items-center">
           <div className="dropdown lg:hidden">
             <button
               tabIndex={0}
-              className="btn btn-ghost"
+              className="btn btn-ghost text-white"
               aria-label="Mobile Menu"
             >
               <svg
@@ -38,15 +57,10 @@ const NavBar = () => {
             </button>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-gray-100 rounded-box mt-3 w-52 p-2 shadow-md"
+              className="menu menu-sm dropdown-content bg-white text-gray-700 text-2xl rounded-box mt-3 w-52 p-1 shadow-md"
             >
               <li>
-                <Link
-                  className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-                  href="/"
-                >
-                  Home
-                </Link>
+                <Link href="/">Home</Link>
               </li>
               <li>
                 <Link href="/products">Products</Link>
@@ -57,15 +71,16 @@ const NavBar = () => {
               <li>
                 <Link href="/about">About</Link>
               </li>
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
             </ul>
           </div>
-
           <div className="flex items-center space-x-2">
             <Link href="/" className="flex items-center">
-              <Image alt="logo" src={Logo} className=" w-10 rounded-full" />
-              <span className="text-2xl font-bold">
-                <span className="text-sky-500">E-Com&nbsp;</span>
-                <span className="text-violet-600">Zone&nbsp;</span>
+              <Image alt="logo" src={Logo} className="w-10 rounded-full" />
+              <span className=" text-3xl font-medium text-center m-1 text-gray-900 truncate">
+                E-Com Zone
               </span>
             </Link>
           </div>
@@ -75,50 +90,51 @@ const NavBar = () => {
           <ul className="menu menu-horizontal space-x-4">
             <li>
               <Link
-                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
                 href="/"
+                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
               >
                 Home
               </Link>
             </li>
             <li>
               <Link
-                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
                 href="/products"
+                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
               >
                 Products
               </Link>
             </li>
             <li>
               <Link
-                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
                 href="/my-bookings"
+                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
               >
                 My Bookings
               </Link>
             </li>
             <li>
               <Link
-                className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
                 href="/about"
+                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
               >
                 About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
+              >
+                Contact
               </Link>
             </li>
           </ul>
         </div>
 
         <div className="navbar-end flex items-center space-x-4">
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto bg-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500"
-            />
-          </div>
-
           <div className="dropdown dropdown-end">
-            <button
+            <Link
+              href="/cart"
               tabIndex={0}
               className="btn btn-ghost btn-circle"
               aria-label="Shopping Cart"
@@ -126,7 +142,7 @@ const NavBar = () => {
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-700"
+                  className="h-5 w-5 text-black"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -139,10 +155,10 @@ const NavBar = () => {
                   />
                 </svg>
                 <span className="badge badge-sm indicator-item bg-yellow-300">
-                  8
+                  {cart.length > 0 ? cart.length : 0}
                 </span>
               </div>
-            </button>
+            </Link>
           </div>
 
           {session ? (
@@ -164,7 +180,7 @@ const NavBar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-gray-100 rounded-box z-[1] mt-1 w-72 p-4 shadow-md"
+                className="menu menu-sm dropdown-content bg-white text-gray-800 rounded-box z-[1] mt-1 w-72 p-4 shadow-md"
               >
                 <li>
                   <a>{session.user?.name}</a>
@@ -172,11 +188,20 @@ const NavBar = () => {
                 <li>
                   <a>{session.user?.email}</a>
                 </li>
+                <li>
+                  <Link className="" href="user/profile">
+                    User Dashboard
+                  </Link>
+                </li>
                 <Link href="/admin">
                   <li>
-                    <span>Admin</span>
+                    <span>Admin Dashboard</span>
                   </li>
                 </Link>
+                <li>
+                  <Link href="/user/my-bookings">My Bookings</Link>
+                </li>
+
                 <li>
                   <button onClick={() => signOut()} className="text-red-600">
                     Logout
@@ -185,8 +210,8 @@ const NavBar = () => {
               </ul>
             </div>
           ) : (
-            <Link href="/login" className="btn btn-outline text-green-600 px-4">
-              Login
+            <Link href="/login" className="btn btn-ghost">
+              <FaRegUserCircle className="text-xl" />
             </Link>
           )}
         </div>

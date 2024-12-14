@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 export type TProductCardProps = {
   _id: string;
   id: string;
@@ -18,12 +20,13 @@ export interface TService {
   id: number;
   name: string;
   description: string;
-  price: string;
+  price: number;
   image: string;
   ratings: number;
 }
 
 export interface TServiceDetails {
+  service: SetStateAction<TService>;
   _id: string;
   title: string;
   description: string;
@@ -33,14 +36,37 @@ export interface TServiceDetails {
   reviews: string[];
 }
 
+export interface TTProduct {
+  _id: string;
+  id: number;
+  name: string;
+  description?: string; // Optional field
+  price: number; // Must be a number
+  image?: string; // Optional field
+  ratings?: number; // Optional field
+  quantity: number; // Add quantity property
+}
+
+// src/types/index.ts
 export interface TProduct {
   _id: string;
   id: number;
   name: string;
+  description: string; // Make description required
+  image: string;
+  price: number;
+  ratings: number;
+}
+
+export interface TProductNumberPrice {
+  _id: string;
+  id: number;
+  name: string;
   description: string;
-  price: string;
+  price: number; // Number type, keep as is
   image: string;
   ratings: number;
+  quantity: number;
 }
 
 export interface TProductDetails {

@@ -6,28 +6,29 @@ import logo from "../../UI/icon/Logo.jpg";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-10">
+    <footer className="bg-sky-700 text-white py-10">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
         {/* Company Info */}
         <div className="flex flex-col items-center md:items-start">
           <div className="flex items-center space-x-4">
-            <div className="rounded-full overflow-hidden w-16 h-16 bg-gray-100">
+            <div className="rounded-full overflow-hidden ">
               <Image
                 src={logo}
                 alt="E-Commerce Zone Logo"
-                width={80}
-                height={80}
-                className="object-cover"
+                width={54} // Smaller logo width
+                height={54} // Smaller logo height
+                className="object-cover "
               />
             </div>
+
             <Link href="/">
               <p className="text-2xl font-bold">
-                <span className="text-sky-500">E-Com</span>
-                <span className="text-violet-600">Zone</span>
+                <span className="text-white">E-Com</span>
+                <span className="text-white">Zone</span>
               </p>
             </Link>
           </div>
-          <p className="mt-4 text-sm text-gray-400 text-center md:text-left">
+          <p className="mt-4 text-sm text-white  text-center md:text-left">
             Your one-stop shop for premium products. Delivering trust and
             quality since January 2024.
           </p>
@@ -39,28 +40,28 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>
               <Link href="/services/branding">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800 transition">
                   Branding Solutions
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/services/electronics">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Electronics
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/services/fashion">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Fashion Advice
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/services/beauty">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Beauty Products
                 </p>
               </Link>
@@ -74,28 +75,28 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>
               <Link href="/about">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Who We Are
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/contact">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Contact Us
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/terms">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Terms of Service
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/privacy">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800  transition">
                   Privacy Policy
                 </p>
               </Link>
@@ -109,28 +110,28 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>
               <Link href="/products">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800 transition">
                   Shop All Products
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/products/sale">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800 transition">
                   Top Deals
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/help">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800 transition">
                   Help Center
                 </p>
               </Link>
             </li>
             <li>
               <Link href="/faq">
-                <p className="text-gray-400 hover:text-sky-400 transition">
+                <p className="text-white  hover:text-gray-800 transition">
                   FAQs
                 </p>
               </Link>
@@ -139,13 +140,13 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-500">
+      <div className="border-t border-gray-950 mt-8 pt-6 text-center text-sm text-gray-950">
         <p>
           &copy; {new Date().getFullYear()} E-Com Zone. All rights reserved.
         </p>
         <p className="mt-2">
           Made with ❤️ by{" "}
-          <Link href="/" className="text-sky-400 hover:underline">
+          <Link href="/" className="text-white hover:underline">
             E-Com Team
           </Link>
           .

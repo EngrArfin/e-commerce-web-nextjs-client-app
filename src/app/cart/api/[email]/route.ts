@@ -15,7 +15,7 @@ export const GET = async (
     );
   }
 
-  const bookingsCollection = db.collection("bookings");
+  const bookingsCollection = db.collection("carts");
   const { id } = context.params;
 
   try {

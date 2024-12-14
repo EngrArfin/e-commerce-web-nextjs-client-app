@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-// Define the types
 interface Booking {
   _id: string;
   name: string;
   productName: string;
   date: string;
-  status: string; // Optional: if you want to track status in the booking
+  status: string;
 }
 
 interface BookingsResponse {
@@ -23,7 +22,6 @@ const OrderList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Function to load booking data
   const loadBooking = async () => {
     try {
       const response = await axios.get<BookingsResponse>(
@@ -35,17 +33,14 @@ const OrderList = () => {
     }
   };
 
-  // Load data when the component mounts
   useEffect(() => {
     loadBooking();
   }, []);
 
-  // Pagination calculations
   const totalPages = Math.ceil(bookings.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentBookings = bookings.slice(startIndex, startIndex + itemsPerPage);
 
-  // Function to handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -90,7 +85,6 @@ const OrderList = () => {
           </table>
         </div>
 
-        {/* Pagination Controls */}
         <div className="flex justify-center items-center mt-6">
           {Array.from({ length: totalPages }, (_, index) => index + 1).map(
             (page) => (
