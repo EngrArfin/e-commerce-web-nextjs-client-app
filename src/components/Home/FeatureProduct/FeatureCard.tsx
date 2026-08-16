@@ -12,51 +12,30 @@ interface ServicesCardProps {
 
 const FeatureCard = ({ service }: ServicesCardProps) => {
   const { name, image, price, _id } = service;
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      className="relative card bg-white w-44 md:w-48 lg:w-52 shadow-md m-3 overflow-hidden rounded-lg transition-transform duration-300 transform hover:scale-105"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Link href={`/services/${_id}`}>
-        <figure className="relative w-full h-32 cursor-pointer overflow-hidden">
+    <Link href={`/services/${_id}`} className="block">
+      <div className="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-[230px] mx-1">
+        <div className="relative w-full h-32 overflow-hidden bg-slate-50">
           <img
             src={image || "/default-profile.jpg"}
             alt={name}
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
           />
-        </figure>
-      </Link>
+        </div>
 
-      <div className="card-body p-3 text-center">
-        <h2 className="text-lg font-medium text-gray-900 truncate">{name}</h2>
-        {/* <p className="text-md font-semibold text-gray-600">{`$${price}`}</p> */}
+        <div className="p-3 text-center flex-grow flex flex-col justify-between">
+          <h3 className="text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-sky-600 transition-colors duration-200 line-clamp-2 h-10 flex items-center justify-center leading-snug">
+            {name}
+          </h3>
+          {price && (
+            <p className="text-xs sm:text-sm font-bold text-orange-600 mt-1">
+              {price}
+            </p>
+          )}
+        </div>
       </div>
-
-      {/*  {isHovered && (
-        <Link
-          href={`/cart/${_id}`}
-          className="absolute top-2 left-2 bg-orange-500 text-white text-sm font-semibold py-1 px-4 rounded-full hover:bg-orange-600 transition-transform duration-300 transform hover:scale-105"
-        >
-          Add to Cart
-        </Link>
-      )} */}
-
-      {/*  <div
-        className={`card-actions justify-center absolute bottom-4 w-full transition-opacity duration-300 ${
-          isHovered ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <Link
-          href={`/services/${_id}`}
-          className="bg-sky-600 text-white text-sm py-2 px-5 rounded-full font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
-        >
-          View Details
-        </Link>
-      </div> */}
-    </div>
+    </Link>
   );
 };
 

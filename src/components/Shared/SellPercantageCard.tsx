@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const SellPercantageCard = () => {
+const SellPercentageCard = () => {
   const [experience, setExperience] = useState(0);
   const [projects, setProjects] = useState(0);
   const [customers, setCustomers] = useState(0);
@@ -25,7 +25,7 @@ const SellPercantageCard = () => {
         setExperience(Math.min(Math.floor(progress * 240), 240));
         setProjects(Math.min(Math.floor(progress * 400), 400));
         setCustomers(Math.min(Math.floor(progress * 900), 900));
-        setAwards(Math.min(Math.floor(progress * 457), 457)); // For awards, it remains 0
+        setAwards(Math.min(Math.floor(progress * 457), 457));
 
         if (frame === totalFrames) clearInterval(interval);
       }, increment);
@@ -35,60 +35,62 @@ const SellPercantageCard = () => {
   }, []);
 
   return (
-    <div className=" text-white mx-auto mb-5">
-      <h2 className="text-4xl font-medium text-center mb-5 text-gray-900 truncate">
-        Sell Generate
+    <div className="py-16 px-6 bg-slate-50/50">
+      <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-slate-800 tracking-tight">
+        Platform Statistics
       </h2>
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Personal Info */}
-          <div>
-            <ul className="space-y-6 text-lg">
-              <div className="flex flex-wrap gap-6">
-                <div>
-                  <div>
-                    <h1 className="text-3xl font-medium text-center mb-5 text-gray-900 truncate">
-                      Explore millions of offerings tailored <br /> to your
-                      business needs
-                    </h1>
-                  </div>
-                </div>
-                <div></div>
-              </div>
-            </ul>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Left Section */}
+          <div className="lg:col-span-5 flex flex-col justify-center items-start">
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 leading-tight">
+              Explore millions of offerings tailored to your business needs
+            </h3>
+            <p className="mt-4 text-slate-500 leading-relaxed text-sm sm:text-base">
+              Connecting buyers and sellers worldwide with secure transactions, verified suppliers, and dynamic inventory matching.
+            </p>
           </div>
 
-          <div>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-sky-600 hover:scale-105 transition-transform p-8 rounded-lg text-center shadow-md">
-                <p className="text-3xl  font-medium mb-3">products</p>
-                <h3 className="text-5xl font-extrabold text-yellow-400">
-                  {experience}K+
-                </h3>
-              </div>
+          {/* Right Section */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Card 1 */}
+            <div className="bg-white border border-slate-100 p-6 sm:p-8 rounded-2xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Products
+              </p>
+              <h3 className="text-4xl sm:text-5xl font-extrabold text-sky-600">
+                {experience}K+
+              </h3>
+            </div>
 
-              <div className="bg-sky-600 hover:scale-105 transition-transform p-8 rounded-lg text-center shadow-md">
-                <p className="text-3xl font-medium mt-3">suppliers</p>
-                <h3 className="text-5xl font-extrabold text-yellow-400">
-                  {projects}+
-                </h3>
-              </div>
+            {/* Card 2 */}
+            <div className="bg-white border border-slate-100 p-6 sm:p-8 rounded-2xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Suppliers
+              </p>
+              <h3 className="text-4xl sm:text-5xl font-extrabold text-sky-600">
+                {projects}+
+              </h3>
+            </div>
 
-              <div className="bg-sky-600 hover:scale-105 transition-transform p-8 rounded-lg text-center shadow-md">
-                <p className="text-3xl font-medium mb-3">product categories</p>
-                <h3 className="text-5xl font-extrabold text-yellow-400">
-                  {customers}
-                </h3>
-              </div>
+            {/* Card 3 */}
+            <div className="bg-white border border-slate-100 p-6 sm:p-8 rounded-2xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Product Categories
+              </p>
+              <h3 className="text-4xl sm:text-5xl font-extrabold text-sky-600">
+                {customers}
+              </h3>
+            </div>
 
-              <div className="bg-sky-600 hover:scale-105 transition-transform p-8 rounded-lg text-center shadow-md">
-                <p className="text-3xl font-medium mb-3">
-                  countries and regions
-                </p>
-                <h3 className="text-5xl font-extrabold text-yellow-400">
-                  {awards}
-                </h3>
-              </div>
+            {/* Card 4 */}
+            <div className="bg-white border border-slate-100 p-6 sm:p-8 rounded-2xl text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Countries & Regions
+              </p>
+              <h3 className="text-4xl sm:text-5xl font-extrabold text-sky-600">
+                {awards}
+              </h3>
             </div>
           </div>
         </div>
@@ -97,4 +99,4 @@ const SellPercantageCard = () => {
   );
 };
 
-export default SellPercantageCard;
+export default SellPercentageCard;

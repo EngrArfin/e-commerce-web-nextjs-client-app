@@ -16,9 +16,8 @@ import Card from "@/components/Home/Card/Card";
 
 const Page = () => {
   return (
-    <div>
+    <div className="bg-white">
       <NavBarTop />
-      <hr />
       <NavBar />
       <Header />
       <DeveleryWay />

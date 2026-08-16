@@ -1,25 +1,23 @@
 "use client";
 
 import { useState } from "react";
-
-interface Product {
-  name: string;
-  description: string;
-  price: number;
-  stockQuantity: number;
-  category: string;
-  images: FileList | null;
-}
+import axios from "axios";
 
 const AdminAddProduct = () => {
-  const [product, setProduct] = useState<Product>({
+  const [product, setProduct] = useState({
+    id: "",
     name: "",
     description: "",
     price: 0,
     stockQuantity: 0,
-    category: "",
-    images: null,
+    category: "electronics",
+    image: null as File | null,
+    ratings: 0,
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -27,35 +25,112 @@ const AdminAddProduct = () => {
     >
   ) => {
     const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
-    });
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]:
+        name === "price" || name === "stockQuantity" || name === "ratings"
+          ? Number(value)
+          : value,
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    setProduct({
-      ...product,
-      images: files,
-    });
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      image: files && files[0] ? files[0] : null,
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Product submitted:", product);
+    setIsSubmitting(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("id", product.id);
+      formData.append("name", product.name);
+      formData.append("description", product.description);
+      formData.append("price", String(product.price));
+      formData.append("stockQuantity", String(product.stockQuantity));
+      formData.append("ratings", String(product.ratings));
+      formData.append("category", product.category);
+
+      if (product.image) {
+        formData.append("image", product.image);
+      }
+
+      const response = await axios.post("/admin/addproduct/api", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201) {
+        setProduct({
+          id: "",
+          name: "",
+          description: "",
+          price: 0,
+          stockQuantity: 0,
+          category: "electronics",
+          image: null,
+          ratings: 0,
+        });
+        setSuccessMessage("Product added successfully!");
+      }
+    } catch (error: any) {
+      console.error("Error adding product:", error);
+      setErrorMessage(
+        error?.response?.data?.error ||
+          "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
       <div className="w-full max-w-7xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
+          <h1 className="text-3xl font-medium text-center mb-5 text-gray-900 truncate">
             Add New Product
           </h1>
+
+          {successMessage && (
+            <p className="mb-6 text-center text-lg font-medium text-green-600">
+              {successMessage}
+            </p>
+          )}
+          {errorMessage && (
+            <p className="mb-6 text-center text-lg font-medium text-red-600">
+              {errorMessage}
+            </p>
+          )}
+
           <form onSubmit={handleSubmit} className="w-full space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Product Name */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="id"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  Product ID
+                </label>
+                <input
+                  id="id"
+                  name="id"
+                  type="text"
+                  value={product.id}
+                  onChange={handleChange}
+                  required
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
+                />
+              </div>
+
               <div className="flex flex-col">
                 <label
                   htmlFor="name"
@@ -69,12 +144,11 @@ const AdminAddProduct = () => {
                   type="text"
                   value={product.name}
                   onChange={handleChange}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
                   required
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
                 />
               </div>
 
-              {/* Price */}
               <div className="flex flex-col">
                 <label
                   htmlFor="price"
@@ -88,12 +162,11 @@ const AdminAddProduct = () => {
                   type="number"
                   value={product.price}
                   onChange={handleChange}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
                   required
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
                 />
               </div>
 
-              {/* Stock Quantity */}
               <div className="flex flex-col">
                 <label
                   htmlFor="stockQuantity"
@@ -107,12 +180,29 @@ const AdminAddProduct = () => {
                   type="number"
                   value={product.stockQuantity}
                   onChange={handleChange}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
                   required
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
                 />
               </div>
 
-              {/* Category */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="ratings"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  Ratings
+                </label>
+                <input
+                  id="ratings"
+                  name="ratings"
+                  type="number"
+                  value={product.ratings}
+                  onChange={handleChange}
+                  required
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
+                />
+              </div>
+
               <div className="flex flex-col">
                 <label
                   htmlFor="category"
@@ -125,18 +215,17 @@ const AdminAddProduct = () => {
                   name="category"
                   value={product.category}
                   onChange={handleChange}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
                   required
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
                 >
-                  <option value="">Select a category</option>
                   <option value="electronics">Electronics</option>
-                  <option value="clothing">Clothing</option>
-                  <option value="furniture">Furniture</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="home">Home</option>
+                  <option value="sports">Sports</option>
                 </select>
               </div>
             </div>
 
-            {/* Description */}
             <div className="flex flex-col">
               <label
                 htmlFor="description"
@@ -149,39 +238,36 @@ const AdminAddProduct = () => {
                 name="description"
                 value={product.description}
                 onChange={handleChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2"
-                rows={4}
+                required
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="image"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Image
+              </label>
+              <input
+                id="image"
+                name="image"
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                className="block w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
                 required
               />
             </div>
 
-            {/* Images */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="images"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Product Images
-              </label>
-              <input
-                id="images"
-                name="images"
-                type="file"
-                multiple
-                onChange={handleFileChange}
-                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-600 hover:file:bg-blue-200"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="w-full max-w-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md shadow-lg transition"
-              >
-                Add Product
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 disabled:bg-blue-300"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Add Product"}
+            </button>
           </form>
         </div>
       </div>

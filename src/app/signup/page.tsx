@@ -40,88 +40,110 @@ const SignUp = () => {
       console.error("Sign Up failed", error);
     }
   };
-
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="max-h-screen flex items-center justify-center bg-slate-200 py-3 px-12 sm:px-8 lg:px-10">
-        <div className="flex w-full max-w-5xl bg-slate-50 shadow-lg rounded-lg overflow-hidden">
-          {/* Image Section */}
-          <div className="w-1/2 hidden lg:block">
-            <img
-              src={signupImage.src}
-              alt="Sign Up Background"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Form Section */}
-          <div className="w-full lg:w-1/2 px-8 py-10">
-            <h2 className="text-3xl font-semibold text-center mb-8 text-gray-900">
-              <span className="text-sky-600">Sign Up</span> for Your Account
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen text-slate-500 font-semibold">Loading...</div>}>
+      <div className="flex flex-col md:flex-row min-h-screen bg-slate-100">
+        {/* Left Column - Hero Accent */}
+        <div
+          className="hidden md:flex md:w-1/2 bg-cover bg-center relative items-center justify-center p-12"
+          style={{ backgroundImage: `url(${signupImage.src})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/95 to-sky-950/85 z-0" />
+          <div className="relative z-10 text-center space-y-6 max-w-lg">
+            <h2 className="text-white text-5xl font-extrabold tracking-tight">
+              Join <span className="text-sky-400">E-com Zone</span>
             </h2>
+            <p className="text-slate-200 text-lg font-light leading-relaxed">
+              Create an account to start shopping. Save items to your cart, place orders securely, and manage your account.
+            </p>
+          </div>
+        </div>
 
+        {/* Right Column - Premium Signup Form */}
+        <div className="flex-1 flex items-center justify-center bg-slate-50 py-12 px-6 sm:px-12 lg:px-16">
+          <div className="w-full max-w-md bg-white shadow-xl rounded-2xl border border-slate-100 p-8 md:p-10 space-y-6">
+            <div className="text-center space-y-2">
+              <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">
+                Create Account
+              </h2>
+              <p className="text-sm text-slate-500 font-medium">
+                to get started with <span className="text-sky-600">E-com Zone</span>
+              </p>
+            </div>
+
+            {/* Sign Up Form */}
             <form onSubmit={handleSignUp} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Full Name
+              <div className="form-control">
+                <label className="label py-1">
+                  <span className="label-text text-slate-600 font-bold text-xs">Full Name</span>
                 </label>
                 <input
                   type="text"
                   name="name"
-                  placeholder="Enter your full name"
-                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                  placeholder="John Doe"
+                  className="input input-bordered w-full focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Email
+              <div className="form-control">
+                <label className="label py-1">
+                  <span className="label-text text-slate-600 font-bold text-xs">Email Address</span>
                 </label>
                 <input
                   type="email"
                   name="email"
-                  placeholder="Enter your email"
-                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                  placeholder="name@example.com"
+                  className="input input-bordered w-full focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
+              <div className="form-control">
+                <label className="label py-1">
+                  <span className="label-text text-slate-600 font-bold text-xs">Password</span>
                 </label>
                 <input
                   type="password"
                   name="password"
-                  placeholder="Enter your password"
-                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                  placeholder="••••••••"
+                  className="input input-bordered w-full focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
                   required
                 />
               </div>
 
-              <div>
+              <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-gradient-to-r from-blue-900 to-sky-600 text-white font-semibold rounded-lg shadow-lg hover:from-sky-900 hover:to-sky-900 focus:outline-none focus:ring-4 focus:ring-sky-500 transition duration-200 ease-in-out transform hover:scale-105"
+                  className="w-full py-3 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-bold rounded-xl shadow-md transition duration-200 transform hover:scale-[1.01] active:scale-[0.99]"
                 >
                   Sign Up
                 </button>
               </div>
             </form>
 
-            <p className="text-center mt-4 text-sm text-gray-600">
+            {/* Toggle Link */}
+            <p className="text-center text-xs text-slate-500 font-medium">
               Already have an account?{" "}
-              <Link href="/login" className="text-sky-600 hover:underline">
-                Login
+              <Link href="/login" className="font-semibold text-sky-600 hover:underline">
+                Sign In
               </Link>
             </p>
 
-            <div className="text-center mt-8 text-gray-500">
-              <span className="divider">Or</span>
+            {/* Divider */}
+            <div className="relative flex items-center justify-center my-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-200"></div>
+              </div>
+              <span className="relative px-3 bg-white text-xs font-bold text-slate-400 uppercase tracking-widest">
+                Or
+              </span>
             </div>
 
-            <GoogleGithubLogin />
+            {/* Social Logins */}
+            <div className="flex justify-center">
+              <GoogleGithubLogin />
+            </div>
           </div>
         </div>
       </div>

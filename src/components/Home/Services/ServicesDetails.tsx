@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-async-client-component */
 "use client";
 
-import { useCart } from "@/components/Home/Cart/CartData";
+import { useCart } from "@/components/Home/Cart/CartContext";
 import { getServicesDetails } from "@/services/getServices";
 import { TServiceDetails } from "@/types";
 import Image from "next/image";
@@ -24,7 +24,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
       price: price,
       quantity: 1, // You can dynamically change this if needed
     };
-    addToCart(cartItem);
+    addToCart(cartItem as any);
   };
 
   return (

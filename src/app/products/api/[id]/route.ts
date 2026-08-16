@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   const db = await connectDB();
   if (!db) {
@@ -14,10 +14,11 @@ export const GET = async (
     );
   }
 
+  const { id } = await params;
   const productsCollection: Collection<Document> = db.collection("products");
   try {
     const product = await productsCollection.findOne({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     return NextResponse.json({ product });
   } catch (error) {

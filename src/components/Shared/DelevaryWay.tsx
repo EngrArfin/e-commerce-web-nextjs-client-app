@@ -31,20 +31,20 @@ const services = [
 
 const DeveleryWay: FC = () => {
   return (
-    <div className="py-5 px-5">
+    <div className="py-12 px-6 bg-slate-50/50">
       {/* Title animation */}
       <motion.h1
-        className="text-4xl font-medium text-center mb-5 text-gray-900 truncate"
-        initial={{ opacity: 0, y: -50 }}
+        className="text-3xl md:text-4xl font-bold text-center mb-10 text-slate-800 tracking-tight"
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }} // Slow motion for title
+        transition={{ duration: 0.8 }}
       >
-        Delivery Shipping
+        Delivery & Shipping
       </motion.h1>
 
       {/* Card grid animation */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto"
         initial="hidden"
         animate="visible"
         variants={{
@@ -52,7 +52,7 @@ const DeveleryWay: FC = () => {
           visible: {
             opacity: 1,
             transition: {
-              staggerChildren: 0.5, // Slower stagger for each card
+              staggerChildren: 0.2,
             },
           },
         }}
@@ -60,30 +60,30 @@ const DeveleryWay: FC = () => {
         {services.map((service, index) => (
           <motion.div
             key={index}
-            className="card shadow-lg p-6 text-gray-800 rounded-lg bg-gradient-to-r bg-sky-100"
+            className="bg-white border border-slate-100 hover:border-sky-100 p-6 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
             variants={{
-              hidden: { opacity: 0, y: 50 },
+              hidden: { opacity: 0, y: 20 },
               visible: {
                 opacity: 1,
                 y: 0,
                 transition: {
-                  duration: 1.5, // Slow-motion entry for each card
-                  ease: "easeInOut", // Smooth easing
+                  duration: 0.6,
+                  ease: "easeOut",
                 },
               },
             }}
           >
-            <figure>
+            <div className="w-14 h-14 bg-sky-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
               <img
                 src={service.icon}
                 alt={service.title}
-                className="h-12 w-12 mb-4 mx-auto"
+                className="h-8 w-8 object-contain"
               />
-            </figure>
-            <h2 className="card-title text-center text-xl font-bold">
+            </div>
+            <h2 className="text-lg font-bold text-slate-800 mb-2">
               {service.title}
             </h2>
-            <p className="max-auto text-left mt-2">{service.description}</p>
+            <p className="text-sm text-slate-500 leading-relaxed">{service.description}</p>
           </motion.div>
         ))}
       </motion.div>

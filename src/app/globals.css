@@ -2,22 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* globals.css or styles.css */
 :root {
   --background: #ffffff;
-  --foreground: #000000;
-}
-
-[data-theme="dark"] {
-  --background: #1e1e2f;
-  --foreground: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a; /* Dark background */
-    --foreground: #ededed; /* Light text */
-  }
+  --foreground: #0f172a;
 }
 
 /* Apply styles to body */
@@ -32,16 +19,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-/* Tailwind Dark Mode Support */
-.dark {
-  --background: #0a0a0a; /* Dark background */
-  --foreground: #ededed; /* Light text */
-}
-
-/* Additional styling for dark mode */
-body.dark {
-  color: var(--foreground);
-  background: var(--background);
 }

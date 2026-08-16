@@ -18,7 +18,7 @@ export const connectDB = async (): Promise<Db> => {
         deprecationErrors: true,
       },
     });
-    await client.connect(); // Ensure the connection is established
+    await client.connect();
     db = client.db("Ecom-Zone");
     console.log("Connected to MongoDB successfully.");
     return db;

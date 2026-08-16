@@ -6,7 +6,7 @@ import axios from "axios";
 import { getServicesDetails } from "@/services/getServices"; // Assuming getServicesDetails is defined in this file
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { toast } from "react-toastify";
 
 // Define the Service type
@@ -31,12 +31,14 @@ interface BookingResponse {
 }
 
 interface CheckoutProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const Checkout: React.FC<CheckoutProps> = ({ params }) => {
+  const resolvedParams = use(params);
+  const { id } = resolvedParams;
   const { data } = useSession();
   const [service, setService] = useState<Service>({});
   const [isCashOnDelivery, setIsCashOnDelivery] = useState<boolean>(false);
@@ -112,12 +114,12 @@ const Checkout: React.FC<CheckoutProps> = ({ params }) => {
   // Fetch service details on component mount or when params change
   useEffect(() => {
     const fetchService = async () => {
-      if (params) {
-        await loadService(params.id);
+      if (id) {
+        await loadService(id);
       }
     };
     fetchService();
-  }, [params]);
+  }, [id]);
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">

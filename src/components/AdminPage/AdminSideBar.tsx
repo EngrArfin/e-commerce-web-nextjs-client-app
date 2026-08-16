@@ -64,7 +64,7 @@ const AdminSideBar = () => {
         <li>
           <Link
             href="/admin"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <MdDashboard className="mr-2 text-2xl text-sky-800" />
             Dashboard
@@ -73,7 +73,7 @@ const AdminSideBar = () => {
         <li>
           <Link
             href="/admin/profile"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <CgProfile className="mr-2 text-2xl text-sky-8S00" />
             Profile
@@ -83,7 +83,7 @@ const AdminSideBar = () => {
         <li>
           <Link
             href="/admin/productmanagement"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <IoIosListBox className="mr-2 text-2xl text-sky-800" />
             Products List
@@ -92,7 +92,7 @@ const AdminSideBar = () => {
         <li>
           <Link
             href="/admin/productmanagement"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <MdCategory className="mr-2 text-2xl text-sky-800" />
             Category
@@ -111,7 +111,7 @@ const AdminSideBar = () => {
         <li>
           <Link
             href="/admin/addproduct"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <MdOutlineAddShoppingCart className="mr-2 text-2xl text-sky-800" />
             Add Product
@@ -138,7 +138,7 @@ const AdminSideBar = () => {
         <li>
           <Link
             href="/admin/paymentrecord"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <MdPayments className="mr-2 text-2xl text-sky-800" />
             Payment Record
@@ -146,8 +146,8 @@ const AdminSideBar = () => {
         </li>
         <li>
           <Link
-            href="/admin/paymentrecord"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
+            href="/admin/usermessage"
+            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
           >
             <MdMessage className="mr-2 text-2xl text-sky-800" />
             Meassage

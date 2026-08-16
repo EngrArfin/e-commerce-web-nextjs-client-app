@@ -2,8 +2,8 @@ import AdminSideBar from "@/components/AdminPage/AdminSideBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "gardening Trip Advice",
-  description: "Its For gardening",
+  title: "E Com Zone",
+  description: "Its For e-commerce",
 };
 
 export default function adminLayout({
@@ -12,16 +12,16 @@ export default function adminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <div className="w-full min-h-screen ">
-        <div className="flex ">
-          <div className="w-[18%] ml-6 ">
-            <AdminSideBar />
-          </div>
+    <div className="w-full min-h-screen">
+      <div className="flex flex-col lg:flex-row">
+        {/* Sidebar */}
+        <div className="w-full lg:w-1/5 p-4 lg:p-6 bg-gray-100 shadow-md">
+          <AdminSideBar />
+        </div>
 
-          <div className=" w-[78%] bg-base-200 rounded-box mb-10 ml-2">
-            {children}
-          </div>
+        {/* Main Content */}
+        <div className="flex-1 w-full p-4 lg:p-6 bg-base-200 rounded-box mb-10">
+          {children}
         </div>
       </div>
     </div>

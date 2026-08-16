@@ -1,21 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useCart } from "@/components/Home/Cart/CartContext";
+import { useCart, parsePrice } from "@/components/Home/Cart/CartContext";
+import Link from "next/link";
 
 const CartPage = () => {
   const { cart, removeFromCart, clearCart, updateCartQuantity } = useCart();
 
   // Calculate total price and total items
   const totalPrice = cart.reduce(
-    (acc, item) => acc + (Number(item.price) || 0) * item.quantity, // Ensure price is treated as a number
+    (acc, item) => acc + parsePrice(item.price) * item.quantity,
     0
   );
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const tax = totalPrice * 0.1; // Tax at 10%
-  const totalAmount = totalPrice + tax;
+  const deliveryCharge = 69; // Delivery charge 69 Taka
+  const totalAmount = totalPrice + deliveryCharge;
 
   const handleIncreaseQuantity = (id: string) => {
     updateCartQuantity(id, "increase");
@@ -58,8 +59,7 @@ const CartPage = () => {
                       {item.name}
                     </h2>
                     <p className="text-gray-600 text-sm mt-1">
-                      ${Number(item.price).toFixed(2)}{" "}
-                      {/* Ensure price is treated as a number */}
+                      ${parsePrice(item.price).toFixed(2)}
                     </p>
 
                     {/* Quantity Controls */}
@@ -118,17 +118,17 @@ const CartPage = () => {
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-lg font-medium">
-                <span>Tax (10%):</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>Delivery Charge:</span>
+                <span>${deliveryCharge.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-lg font-medium">
                 <span>Total Amount:</span>
                 <span>${totalAmount.toFixed(2)}</span>
               </div>
 
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg w-full mt-6 hover:bg-blue-700 transition-colors">
+              <Link href="/checkout" className="block text-center bg-blue-600 text-white px-6 py-3 rounded-lg w-full mt-6 hover:bg-blue-700 transition-colors">
                 Proceed to Checkout
-              </button>
+              </Link>
             </div>
           </div>
         </div>

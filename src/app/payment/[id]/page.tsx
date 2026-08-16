@@ -5,7 +5,7 @@
 import axios from "axios";
 import { getServicesDetails } from "@/services/getServices";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { toast } from "react-toastify";
 
 interface Service {
@@ -18,9 +18,9 @@ interface Service {
 }
 
 interface CheckoutProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // Define the type for the response data
@@ -30,6 +30,8 @@ interface PaymentResponse {
 }
 
 const Payment: React.FC<CheckoutProps> = ({ params }) => {
+  const resolvedParams = use(params);
+  const { id } = resolvedParams;
   const { data } = useSession();
   const [service, setService] = useState<Service>({});
   const [formData, setFormData] = useState<any>({
@@ -45,8 +47,8 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
 
   // Load service details
   const loadService = async () => {
-    const details = await getServicesDetails(params.id);
-    setService(details.service);
+    const details = await getServicesDetails(id);
+    setService(details.service as any);
   };
 
   const { _id, name, price } = service;
@@ -97,7 +99,7 @@ const Payment: React.FC<CheckoutProps> = ({ params }) => {
   // Fetch service details when component mounts
   useEffect(() => {
     loadService();
-  }, [params]);
+  }, [id]);
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">

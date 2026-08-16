@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/connectDB";
 import { Collection } from "mongodb";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const POST = async (request: { json: () => any }) => {
+export const POST = async (request: Request) => {
   const newBooking = await request.json();
   const db = await connectDB();
   const bookingsCollection: Collection<Document> = db.collection("bookings");

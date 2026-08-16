@@ -5,7 +5,7 @@ import { FaWhatsapp, FaLanguage } from "react-icons/fa"; // Import WhatsApp and 
 
 const NavBarTop = () => {
   return (
-    <header className="text-black w-full bg-gray-100">
+    <div className="text-slate-600 w-full bg-slate-50 border-b border-slate-100">
       <nav className="navbar container mx-auto px-1  flex items-center justify-between">
         {/* Left side menu */}
         <div className="navbar-start flex items-center space-x-2">
@@ -119,7 +119,7 @@ const NavBarTop = () => {
           </div>
         </div>
       </nav>
-    </header>
+    </div>
   );
 };
 

@@ -5,6 +5,7 @@
 import Link from "next/link";
 import { getServicesDetails } from "@/services/getServices";
 import CategoryDetails from "@/components/Home/CategoryProduct/CategoryDetails";
+import ProductActions from "@/components/Shared/ProductActions";
 
 interface Service {
   name: string;
@@ -23,9 +24,10 @@ type Params = {
   id: string;
 };
 
-const ProductDetails = async ({ params }: { params: Params }) => {
+const ProductDetails = async ({ params }: { params: Promise<Params> }) => {
+  const resolvedParams = await params;
   const details = (await getServicesDetails(
-    params.id
+    resolvedParams.id
   )) as unknown as ServiceDetailsResponse;
 
   if (!details?.service) {
@@ -42,76 +44,111 @@ const ProductDetails = async ({ params }: { params: Params }) => {
   const { name, ratings, image, price, description, _id } = details.service;
 
   return (
-    <div>
-      <div className="container mx-auto p-6 mt-20 bg-white shadow-lg rounded-lg">
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Product Image Section */}
-          <div className="flex justify-center items-center">
-            <img
-              src={image || "/default-profile.jpg"}
-              alt={name}
-              className="rounded-lg shadow-lg object-cover w-full max-w-md h-96"
-            />
+    <div className="min-h-screen bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8 mt-12">
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden p-6 md:p-10">
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Image Gallery Column */}
+          <div className="space-y-6">
+            <div className="relative group overflow-hidden rounded-xl bg-slate-50 border border-slate-100 flex justify-center items-center h-[400px]">
+              {ratings > 0 && (
+                <span className="absolute top-4 left-4 z-10 bg-sky-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                  Premium Service
+                </span>
+              )}
+              <img
+                src={image || "/default-profile.jpg"}
+                alt={name}
+                className="object-contain w-full h-full max-h-[350px] transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
           </div>
 
-          {/* Product Details Section */}
-          <div className="space-y-6">
-            <h2 className="text-4xl font-medium  text-gray-900 truncate">
-              {name}
-            </h2>
-            <p className="text-lg text-gray-700">{description}</p>
-
-            <div className="flex items-center space-x-4">
-              {/* Rating */}
-              <div className="flex items-center text-yellow-500">
-                <span className="text-xl font-semibold">{ratings} ★</span>
-                <span className="text-gray-600">
-                  ({ratings > 0 ? "Excellent" : "No Reviews"})
+          {/* Details Column */}
+          <div className="flex flex-col justify-between space-y-6">
+            <div>
+              {/* Stock / Availability Status Badge */}
+              <div className="mb-4">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${
+                  ratings > 0 ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
+                }`}>
+                  <span className={`w-2 h-2 rounded-full ${
+                    ratings > 0 ? "bg-emerald-500 animate-pulse" : "bg-rose-500"
+                  }`} />
+                  {ratings > 0 ? "Available" : "Fully Booked"}
                 </span>
+              </div>
+
+              {/* Title */}
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-none mb-3">
+                {name}
+              </h1>
+
+              {/* Rating Block */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className={`w-5 h-5 ${i < Math.min(5, Math.max(0, Math.round(ratings))) ? "fill-current" : "text-slate-200 fill-none stroke-current"}`}
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                    >
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-sm font-semibold text-slate-500">
+                  {ratings || 0} / 5 Rating
+                </span>
+              </div>
+
+              {/* Price Details */}
+              <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex items-baseline gap-4 mb-6">
+                <span className="text-3xl font-extrabold text-sky-600">${price}</span>
+                {price && (
+                  <span className="text-lg text-slate-400 line-through font-medium">
+                    ${(Number(price) + 20).toFixed(0)}
+                  </span>
+                )}
+                <span className="text-xs text-emerald-600 bg-emerald-50 font-bold px-2 py-0.5 rounded ml-auto">
+                  Best Price Guarantee
+                </span>
+              </div>
+
+              {/* Description */}
+              <div className="prose prose-slate max-w-none mb-6">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">Description</h3>
+                <p className="text-slate-600 text-base leading-relaxed">
+                  {description || "No description available for this premium service."}
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
-              {/* Price */}
-              <div className="text-sm text-orange-600">${price}</div>
-              {price && (
-                <span className="text-lg text-gray-500 line-through">
-                  ${price}
-                </span>
-              )}
+            {/* Buy / Cart Actions */}
+            <div className="border-t border-slate-100 pt-6">
+              <ProductActions item={details.service} />
             </div>
 
-            {/* Stock Status */}
-            <p
-              className={`font-semibold text-lg ${
-                ratings > 0 ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {ratings > 0 ? "In Stock" : "Out of Stock"}
-            </p>
-
-            <div className="flex items-center space-x-4">
-              {/* Quantity Input */}
-              <input
-                type="number"
-                min="1"
-                defaultValue="1"
-                className="w-20 p-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-
-              {/* Buttons */}
-              <Link
-                href={`/checkout/${_id}`}
-                className="px-6 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-sky-700 transition duration-300 transform hover:scale-105"
-              >
-                Buy Now
-              </Link>
-              <Link
-                href={`/cart/${_id}`}
-                className="px-6 py-3 bg-yellow-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-yellow-700 transition duration-300 transform hover:scale-105"
-              >
-                Add to Cart
-              </Link>
+            {/* Trust Badges */}
+            <div className="grid grid-cols-3 gap-2 border-t border-slate-100 pt-6 text-center text-xs text-slate-500 font-medium">
+              <div className="p-2 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center gap-1">
+                <svg className="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span>Verified Provider</span>
+              </div>
+              <div className="p-2 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center gap-1">
+                <svg className="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <span>Satisfaction Guarantee</span>
+              </div>
+              <div className="p-2 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center gap-1">
+                <svg className="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span>Instant Booking</span>
+              </div>
             </div>
           </div>
         </div>

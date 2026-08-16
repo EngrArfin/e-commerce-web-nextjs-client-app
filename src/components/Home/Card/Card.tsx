@@ -26,7 +26,7 @@ const products = [
 
 const Card: FC = () => {
   return (
-    <div className="py-10 px-5 ">
+    <div className="py-5 px-5 ">
       {/* Card grid animation */}
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 "
@@ -45,35 +45,35 @@ const Card: FC = () => {
         {products.map((product, index) => (
           <motion.div
             key={index}
-            className="shadow-lg p-6 rounded-lg bg-sky-200 border  hover:shadow-xl transition duration-300"
+            className="relative bg-gradient-to-br from-sky-50 to-blue-50/50 border border-sky-100/50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[300px] group"
             variants={{
-              hidden: { opacity: 0, y: 50 },
+              hidden: { opacity: 0, y: 30 },
               visible: {
                 opacity: 1,
                 y: 0,
                 transition: {
-                  duration: 1,
-                  ease: "easeInOut",
+                  duration: 0.8,
+                  ease: "easeOut",
                 },
               },
             }}
           >
-            <div className="flex flex-col items-center text-center bg-sky-100">
+            <div className="w-24 h-24 mb-6 transform group-hover:scale-110 transition-transform duration-500 ease-out flex items-center justify-center">
               <img
                 src={product.image}
                 alt={product.title}
-                className="h-24 w-24 mb-4"
+                className="max-h-full max-w-full object-contain"
               />
-              <h2 className="text-2xl font-medium text-center mb-5 text-gray-900  ">
-                {product.title}
-              </h2>
-              <Link
-                href="/products"
-                className="mt-4 bg-sky-600 text-black py-2 px-4 rounded-full hover:bg-sky-300 transition duration-300"
-              >
-                Shop Now
-              </Link>
             </div>
+            <h2 className="text-xl font-bold text-slate-800 leading-snug mb-6 flex-grow flex items-center justify-center">
+              {product.title}
+            </h2>
+            <Link
+              href="/products"
+              className="bg-sky-600 hover:bg-sky-700 text-white font-semibold text-sm py-2.5 px-6 rounded-full shadow-sm hover:shadow active:scale-95 transition-all duration-200"
+            >
+              Shop Now
+            </Link>
           </motion.div>
         ))}
       </motion.div>

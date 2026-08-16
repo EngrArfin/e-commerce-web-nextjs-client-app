@@ -4,10 +4,9 @@ import { Collection, Document, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 type RouteParams = {
-  params: {
-    _id: string; // Adjusting _id type to string for compatibility
+  params: Promise<{
     email: string;
-  };
+  }>;
 };
 
 export const GET = async (request: NextRequest, { params }: RouteParams) => {
@@ -23,10 +22,11 @@ export const GET = async (request: NextRequest, { params }: RouteParams) => {
   const userCollection: Collection<Document> = db.collection("users");
 
   try {
-    // If `_id` represents a MongoDB ObjectId, convert it properly
-    const filter = ObjectId.isValid(params._id)
-      ? { _id: new ObjectId(params._id) }
-      : { id: params._id };
+    const { email } = await params;
+    // If `email` represents a MongoDB ObjectId, convert it properly
+    const filter = ObjectId.isValid(email)
+      ? { _id: new ObjectId(email) }
+      : { id: email };
 
     const allUsers = await userCollection.find(filter).toArray();
 

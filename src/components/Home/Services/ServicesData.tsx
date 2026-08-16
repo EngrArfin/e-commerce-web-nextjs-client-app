@@ -42,8 +42,8 @@ const ServicesData = () => {
   }
 
   return (
-    <section className="container mx-auto px-5 py-5 m-5">
-      <h1 className="text-4xl font-medium text-center mb-5 text-gray-900 truncate">
+    <section className="py-12 px-6 mx-auto max-w-7xl relative">
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-slate-800 tracking-tight">
         Our Products
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">

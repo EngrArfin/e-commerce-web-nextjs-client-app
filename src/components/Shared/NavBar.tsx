@@ -29,15 +29,15 @@ const NavBar = () => {
   return (
     <header
       className={`${
-        isFixed ? "fixed top-0 z-50 shadow-lg" : "relative"
-      } w-full /* bg-sky-200 */ transition-all duration-300`} /* bg-sky-700 */
+        isFixed ? "fixed top-0 z-50 shadow-md" : "relative"
+      } w-full bg-white border-b border-slate-100 transition-all duration-300`}
     >
-      <nav className="navbar container mx-auto px-4">
+      <nav className="navbar container mx-auto px-4 py-3">
         <div className="navbar-start flex items-center">
           <div className="dropdown lg:hidden">
             <button
               tabIndex={0}
-              className="btn btn-ghost text-white"
+              className="btn btn-ghost text-slate-700"
               aria-label="Mobile Menu"
             >
               <svg
@@ -57,7 +57,7 @@ const NavBar = () => {
             </button>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-white text-gray-700 text-2xl rounded-box mt-3 w-52 p-1 shadow-md"
+              className="menu menu-sm dropdown-content bg-white text-slate-800 text-2xl rounded-box mt-3 w-52 p-1 shadow-md"
             >
               <li>
                 <Link href="/">Home</Link>
@@ -79,7 +79,7 @@ const NavBar = () => {
           <div className="flex items-center space-x-2">
             <Link href="/" className="flex items-center">
               <Image alt="logo" src={Logo} className="w-10 rounded-full" />
-              <span className=" text-3xl font-medium text-center m-1 text-gray-900 truncate">
+              <span className=" text-2xl font-bold text-center m-1 text-slate-800 truncate">
                 E-Com Zone
               </span>
             </Link>
@@ -87,11 +87,11 @@ const NavBar = () => {
         </div>
 
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal space-x-4">
+          <ul className="menu menu-horizontal space-x-2 ">
             <li>
               <Link
                 href="/"
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
+                className="text-base font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 Home
               </Link>
@@ -99,7 +99,7 @@ const NavBar = () => {
             <li>
               <Link
                 href="/products"
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
+                className="text-base font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 Products
               </Link>
@@ -107,7 +107,7 @@ const NavBar = () => {
             <li>
               <Link
                 href="/my-bookings"
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
+                className="text-base font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 My Bookings
               </Link>
@@ -115,7 +115,7 @@ const NavBar = () => {
             <li>
               <Link
                 href="/about"
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
+                className="text-base font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 About
               </Link>
@@ -123,7 +123,7 @@ const NavBar = () => {
             <li>
               <Link
                 href="/contact"
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-colors duration-200"
+                className="text-base font-semibold text-slate-700 hover:text-sky-600 hover:bg-sky-50 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 Contact
               </Link>
@@ -180,7 +180,7 @@ const NavBar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-white text-gray-800 rounded-box z-[1] mt-1 w-72 p-4 shadow-md"
+                className="menu menu-sm dropdown-content bg-white text-gray-900 rounded-box z-[1] mt-1 w-72 p-4 shadow-md"
               >
                 <li>
                   <a>{session.user?.name}</a>
@@ -203,7 +203,7 @@ const NavBar = () => {
                 </li>
 
                 <li>
-                  <button onClick={() => signOut()} className="text-red-600">
+                  <button onClick={() => signOut()} className="textwhite">
                     Logout
                   </button>
                 </li>

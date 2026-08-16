@@ -17,20 +17,27 @@ export const POST = async (request: Request) => {
     }
 
     const userCollection = db.collection("users");
+
     const exist = await userCollection.findOne({ email: newUser.email });
-    console.log(exist);
 
     if (exist) {
       return NextResponse.json({ message: "User Exists" }, { status: 304 });
     }
-
     const hashedPassword = bcrypt.hashSync(newUser.password, 14);
-    const resp = await userCollection.insertOne({
+    const userToInsert = {
       ...newUser,
       password: hashedPassword,
-    });
+      role: newUser.role || "admin",
+    };
 
-    return NextResponse.json({ message: "User Created" }, { status: 200 });
+    const resp = await userCollection.insertOne(userToInsert);
+
+    const path = newUser.role === "admin" ? "/admin" : "/user";
+
+    return NextResponse.json(
+      { message: "User Created", data: resp, redirectTo: path },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: "Something Went Wrong", error },

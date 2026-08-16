@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { email: string } }
+  { params }: { params: Promise<{ email: string }> }
 ) => {
   const db = await connectDB();
   if (!db) {
@@ -17,8 +17,9 @@ export const GET = async (
   const bookingsCollection: Collection<Document> = db.collection("bookings");
 
   try {
+    const { email } = await params;
     const myBookings = await bookingsCollection
-      .find({ email: params.email })
+      .find({ email })
       .toArray();
     return NextResponse.json({ myBookings });
   } catch (error) {

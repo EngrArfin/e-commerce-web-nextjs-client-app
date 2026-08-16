@@ -1,16 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { connectDB } from "@/lib/connectDB";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-
-interface User {
-  id: string;
-  email: string;
-  name?: string;
-}
 
 const handler = NextAuth({
   session: {
@@ -55,6 +48,7 @@ const handler = NextAuth({
           id: currentUser._id.toString(),
           email: currentUser.email,
           name: currentUser.name,
+          role: currentUser.role,
         };
       },
     }),
@@ -71,15 +65,13 @@ const handler = NextAuth({
   pages: {
     signIn: "/login",
   },
+
   callbacks: {
     async signIn({ user, account }) {
-      const { name, email, image } = user;
+      const { name, email, image, role } = user;
 
-      if (account?.provider === "github") {
-        console.log("GitHub user data:", user);
-
+      if (account?.provider === "github" || account?.provider === "google") {
         if (!email) {
-          console.log("GitHub user has no email.");
           return false;
         }
       }
@@ -96,17 +88,25 @@ const handler = NextAuth({
             email,
             image,
             provider: account ? account.provider : undefined,
+            role: role || "admin",
           });
-          console.log("New user inserted");
         } else {
-          console.log("User already exists:", userExist);
+          await userCollection?.updateOne(
+            { email },
+            { $set: { role: role || "admin" } }
+          );
         }
 
         return true;
       } catch (error) {
-        console.log("Error during signIn:", error);
+        console.error("Error during signIn:", error);
         return false;
       }
+    },
+
+    async session({ session, user }) {
+      session.user.role = user?.role || "admin";
+      return session;
     },
   },
 

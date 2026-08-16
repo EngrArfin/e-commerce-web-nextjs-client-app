@@ -21,27 +21,28 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         />
       </div>
       <div className="p-4">
-        <h2 className="text-lg font-medium text-gray-900 truncate">
+        <h2 className="text-lg font-semibold text-slate-800 truncate">
           {product.name}
         </h2>
-        <p className="text-gray-600 text-sm mt-1 line-clamp-2">
-          {product.description || "No description available."}{" "}
-          {/* Fallback if description is undefined */}
+        <p className="text-slate-500 text-sm mt-1 line-clamp-2">
+          {product.description || "No description available."}
         </p>
-        <div className="mt-2 flex items-center justify-between">
-          <p className="text-sm text-gray-700 mr-2">
-            <span className=" text-sm text-orange-600">{product.price}</span>
+        <div className="mt-3 flex items-center justify-between">
+          <p className="text-sm font-semibold text-orange-600">
+            {product.price}
           </p>
-          <span className="flex items-center text-yellow-500">
-            {"⭐".repeat(product.ratings || 0)} {/* Handle undefined ratings */}
+          <span className="flex items-center text-yellow-500 text-sm">
+            {"⭐".repeat(product.ratings || 0)}
           </span>
         </div>
-        <button
-          onClick={() => addToCart(product)}
-          className="block mt-4 text-center text-white bg-yellow-500 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-600 font-medium rounded-lg text-sm px-4 py-2 transition-colors duration-300"
-        >
-          Add to Cart
-        </button>
+        <div className="mt-4">
+          <button
+            onClick={() => addToCart(product)}
+            className="w-full text-center bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg text-sm py-2 px-4 transition-all duration-300 active:scale-95 shadow-sm"
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -75,11 +75,10 @@ const FeatureDetails = () => {
   };
 
   return (
-    <section className="container mx-auto py-1 px-1">
-      <h1 className="text-4xl font-medium text-center mb-5 text-gray-900 truncate">
+    <section className="py-12 px-6 mx-auto max-w-7xl relative">
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-slate-800 tracking-tight">
         Category Products
       </h1>
-
       {/* Slider displaying services */}
       <Slider {...settings}>
         {services.length > 0 ? (

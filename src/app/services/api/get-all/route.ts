@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export const GET = async () => {
   const db = await connectDB();
-
   if (!db) {
     return new NextResponse(
       JSON.stringify({ message: "Database connection failed" }),
@@ -13,9 +12,7 @@ export const GET = async () => {
       }
     );
   }
-
   const servicesCollection: Collection<Document> = db.collection("services");
-
   try {
     const services = await servicesCollection.find().toArray();
     return new NextResponse(JSON.stringify({ services }), {

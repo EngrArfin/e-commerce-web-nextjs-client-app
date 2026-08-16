@@ -10,53 +10,47 @@ interface ServicesCardProps {
   service: TService;
 }
 
+import { useCart } from "../Cart/CartContext";
+
 const CategoryCard = ({ service }: ServicesCardProps) => {
   const { name, image, price, _id } = service;
-  const [isHovered, setIsHovered] = useState(false);
+  const { addToCart } = useCart();
 
   return (
-    <div
-      className="card bg-base-100 w-100 md:w-60 shadow-lg m-3 overflow-hidden relative border rounded-lg"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Link href={`/services/${_id}`}>
-        <figure
-          className="relative w-full h-40 cursor-pointer"
-          style={{ overflow: "hidden" }}
-        >
-          <img
-            src={image || "/default-profile.jpg"}
-            alt={name}
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
-          />
-        </figure>
-      </Link>
-      <div className="card-body p-4 ">
-        <h2 className="text-lg font-medium text-gray-900 truncate">{name}</h2>
-        {/* <p className="text-sm text-gray-600 mb-4">{description}</p> */}
-        <p className="text-sm text-gray-700 mr-2">
-          Price: <span className=" text-sm text-orange-600">${price}</span>
-        </p>
+    <div className="bg-white w-full shadow-sm hover:shadow-md rounded-xl overflow-hidden border border-slate-100 hover:border-sky-100 transition-all duration-300 p-3 relative flex flex-col justify-between h-[340px] group">
+      <div>
+        <Link href={`/services/${_id}`}>
+          <figure className="relative w-full h-44 overflow-hidden rounded-lg cursor-pointer bg-slate-50">
+            <img
+              src={image || "/default-profile.jpg"}
+              alt={name}
+              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+            />
+          </figure>
+        </Link>
+
+        <div className="mt-3">
+          <h2 className="text-base font-semibold text-slate-800 truncate">{name}</h2>
+          <div className="flex items-center justify-between mt-2">
+            <p className="text-sm font-bold text-orange-600">
+              {String(price).startsWith("$") ? price : `$${price}`}
+            </p>
+          </div>
+        </div>
       </div>
-      {isHovered && (
-        <Link
-          href={`/cart/${_id}`}
-          className="absolute top-2 left-2 bg-orange-500 text-white font-semibold py-1 px-4 rounded hover:bg-orange-600 transition-transform duration-300 transform hover:scale-105"
+
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={() => addToCart(service)}
+          className="flex-1 text-center bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg text-xs py-2 px-3 transition-colors duration-200 shadow-sm active:scale-95"
         >
           Add to Cart
-        </Link>
-      )}
-      <div
-        className={`card-actions justify-center absolute bottom-4 w-full transition-opacity duration-300 ${
-          isHovered ? "opacity-100" : "opacity-0"
-        }`}
-      >
+        </button>
         <Link
           href={`/services/${_id}`}
-          className="bg-sky-600 text-white py-2 px-5 rounded font-semibold hover:bg-yellow-500 transition-transform duration-300 transform hover:scale-105"
+          className="flex-1 text-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg text-xs py-2 px-3 transition-colors duration-200 active:scale-95"
         >
-          View Detailss
+          Details
         </Link>
       </div>
     </div>
