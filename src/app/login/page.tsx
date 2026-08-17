@@ -53,9 +53,9 @@ const LoginContent = ({ router }: LoginContentProps) => {
       if (session?.user?.role === "admin") {
         router.push("/admin");
       } else if (session?.user?.role === "user") {
-        router.push(redirectPath);
+        router.push(redirectPath === "/" ? "/user" : redirectPath);
       } else {
-        router.push("/");
+        router.push(redirectPath === "/" ? "/user" : redirectPath);
       }
     } else {
       console.error("Login failed:", resp?.error);

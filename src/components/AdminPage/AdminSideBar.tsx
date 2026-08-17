@@ -1,7 +1,7 @@
 "use client";
-import { signOut /*  useSession  */ } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   MdCategory,
   MdDashboard,
@@ -11,157 +11,125 @@ import {
   MdPayments,
 } from "react-icons/md";
 import { GoListOrdered } from "react-icons/go";
-import { CgProfile } from "react-icons/cg";
+import { CgProfile as CgProfileIcon } from "react-icons/cg";
 import { IoIosListBox, IoMdLogOut } from "react-icons/io";
+import Image from "next/image";
+import Logo from "../../UI/icon/Logo.jpg";
 
 const AdminSideBar = () => {
-  /* const { data: session } = useSession(); */
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
     router.push("/");
   };
 
+  const menuItems = [
+    {
+      name: "Dashboard",
+      href: "/admin",
+      icon: MdDashboard,
+    },
+    {
+      name: "Profile",
+      href: "/admin/profile",
+      icon: CgProfileIcon,
+    },
+    {
+      name: "Products List",
+      href: "/admin/productmanagement",
+      icon: IoIosListBox,
+    },
+    {
+      name: "Category",
+      href: "/admin/productmanagement", // note: points to productmanagement in original code
+      icon: MdCategory,
+    },
+    {
+      name: "Add Product",
+      href: "/admin/addproduct",
+      icon: MdOutlineAddShoppingCart,
+    },
+    {
+      name: "User Account",
+      href: "/admin/user-managements",
+      icon: MdManageAccounts,
+    },
+    {
+      name: "Order View",
+      href: "/admin/orderlist",
+      icon: GoListOrdered,
+    },
+    {
+      name: "Payment Record",
+      href: "/admin/paymentrecord",
+      icon: MdPayments,
+    },
+    {
+      name: "Message",
+      href: "/admin/usermessage",
+      icon: MdMessage,
+    },
+  ];
+
   return (
-    <div className="min-h-screen flex-shrink-0 w-74 h-full bg-base-300">
-      {/* <div className="flex flex-col items-center justify-center">
-        {session && (
-          <>
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
+    <div className="w-full md:w-64 bg-white border-r border-slate-100 flex flex-col h-screen sticky top-0">
+      {/* Brand Header */}
+      <div className="h-16 flex items-center px-6 border-b border-slate-100 flex-shrink-0">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="relative w-8 h-8 rounded-lg overflow-hidden flex-shrink-0 bg-slate-50 border border-slate-100">
+            <Image
+              alt="logo"
+              src={Logo}
+              fill
+              sizes="32px"
+              className="object-cover"
+            />
+          </div>
+          <span className="text-lg font-bold text-slate-800 tracking-tight">
+            E-Com Admin
+          </span>
+        </Link>
+      </div>
+
+      {/* Nav List */}
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        {menuItems.map((item) => {
+          const isActive = pathname === item.href;
+          const Icon = item.icon;
+
+          return (
+            <div key={item.name + item.href} className="relative group">
+              <Link
+                href={item.href}
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${isActive
+                  ? "text-[#FF4E3E] bg-[#FF4E3E]/5"
+                  : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                  }`}
               >
-                <div className="w-40 rounded-full">
-                  <Image
-                    alt="Profile"
-                    src={session.user?.image || "/default-profile.png"}
-                    height="100"
-                    width="100"
-                  />
-                </div>
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-              >
-                <li>
-                  <Link href="/admin/settings">Settings</Link>
-                </li>
-              </ul>
+                <Icon className={`text-lg ${isActive ? "text-[#FF4E3E]" : "text-slate-400 group-hover:text-slate-600"}`} />
+                <span>{item.name}</span>
+              </Link>
+              {/* Active indicator line */}
+              {isActive && (
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#FF4E3E] rounded-r-md" />
+              )}
             </div>
-            <div className="text-center mt-2">
-              <p className="font-semibold">{session.user?.name}</p>
-              <p className="text-sm text-gray-600">{session.user?.email}</p>
-            </div>
-          </>
-        )}
-      </div> */}
+          );
+        })}
+      </nav>
 
-      <ul className="menu max-h-screen overflow-y-auto">
-        <li>
-          <Link
-            href="/admin"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdDashboard className="mr-2 text-2xl text-sky-800" />
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/profile"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <CgProfile className="mr-2 text-2xl text-sky-8S00" />
-            Profile
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            href="/admin/productmanagement"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <IoIosListBox className="mr-2 text-2xl text-sky-800" />
-            Products List
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/productmanagement"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdCategory className="mr-2 text-2xl text-sky-800" />
-            Category
-          </Link>
-        </li>
-
-        {/*  <li>
-          <Link
-            href="/admin/productmanagement"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdProductionQuantityLimits className="mr-2 text-2xl text-sky-800" />
-            Product Management
-          </Link>
-        </li> */}
-        <li>
-          <Link
-            href="/admin/addproduct"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdOutlineAddShoppingCart className="mr-2 text-2xl text-sky-800" />
-            Add Product
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/user-managements"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdManageAccounts className="mr-2 text-2xl text-sky-800" />
-            User Account
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/orderlist"
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <GoListOrdered className="mr-2 text-2xl text-sky-800" />
-            Order View
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/paymentrecord"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdPayments className="mr-2 text-2xl text-sky-800" />
-            Payment Record
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/admin/usermessage"
-            className="flex items-center p-2 hover:bg-base-300 rounded text-lg font-medium text-gray-700 hover:text-sky-800 transition duration-300"
-          >
-            <MdMessage className="mr-2 text-2xl text-sky-800" />
-            Meassage
-          </Link>
-        </li>
-        <li>
-          <button
-            onClick={handleLogout}
-            className="flex items-center p-4 hover:bg-base-300 rounded text-lg font-medium text-red-700 hover:text-red-800 transition duration-300"
-          >
-            <IoMdLogOut className="mr-2 text-2xl text-red-500" /> Logout
-          </button>
-        </li>
-      </ul>
+      {/* Bottom Action Area */}
+      <div className="p-4 border-t border-slate-100 flex-shrink-0">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-rose-50 rounded-xl text-sm font-bold text-rose-600 w-full transition-all duration-200 group"
+        >
+          <IoMdLogOut className="text-lg text-rose-500 group-hover:scale-110 transition-transform" />
+          <span>Logout</span>
+        </button>
+      </div>
     </div>
   );
 };

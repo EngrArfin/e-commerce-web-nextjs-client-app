@@ -39,7 +39,7 @@ export default function RootLayout({
         <ToastContainer />
         <AuthProviders>
           <CartProvider>
-            {pathname !== "/" && <NavBar />}
+            {pathname !== "/" && !pathname.startsWith("/user") && !pathname.startsWith("/admin") && <NavBar />}
             {children}
           </CartProvider>
         </AuthProviders>

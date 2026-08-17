@@ -93,183 +93,174 @@ const AdminAddProduct = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-7xl bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="p-8">
-          <h1 className="text-3xl font-medium text-center mb-5 text-gray-900 truncate">
-            Add New Product
-          </h1>
+    <div className="w-full space-y-6">
+      {/* Title block */}
+      <div className="pb-4 border-b border-slate-100">
+        <h1 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">
+          Add New Product
+        </h1>
+        <p className="text-xs text-slate-400 font-semibold mt-0.5">
+          Enter the specifications, upload images, and register a new item in the catalog
+        </p>
+      </div>
 
-          {successMessage && (
-            <p className="mb-6 text-center text-lg font-medium text-green-600">
-              {successMessage}
-            </p>
-          )}
-          {errorMessage && (
-            <p className="mb-6 text-center text-lg font-medium text-red-600">
-              {errorMessage}
-            </p>
-          )}
+      {/* Messages */}
+      {successMessage && (
+        <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-800 text-sm font-semibold shadow-sm">
+          ✅ {successMessage}
+        </div>
+      )}
+      {errorMessage && (
+        <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm font-semibold shadow-sm">
+          ❌ {errorMessage}
+        </div>
+      )}
 
-          <form onSubmit={handleSubmit} className="w-full space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col">
-                <label
-                  htmlFor="id"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  Product ID
-                </label>
-                <input
-                  id="id"
-                  name="id"
-                  type="text"
-                  value={product.id}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="name"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  Product Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={product.name}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="price"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  Price ($)
-                </label>
-                <input
-                  id="price"
-                  name="price"
-                  type="number"
-                  value={product.price}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="stockQuantity"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  Stock Quantity
-                </label>
-                <input
-                  id="stockQuantity"
-                  name="stockQuantity"
-                  type="number"
-                  value={product.stockQuantity}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="ratings"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  Ratings
-                </label>
-                <input
-                  id="ratings"
-                  name="ratings"
-                  type="number"
-                  value={product.ratings}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="category"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  Category
-                </label>
-                <select
-                  id="category"
-                  name="category"
-                  value={product.category}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-                >
-                  <option value="electronics">Electronics</option>
-                  <option value="fashion">Fashion</option>
-                  <option value="home">Home</option>
-                  <option value="sports">Sports</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="flex flex-col">
-              <label
-                htmlFor="description"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Description
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={product.description}
-                onChange={handleChange}
-                required
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-200 px-4 py-2"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label
-                htmlFor="image"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Image
+      {/* Product Form Card */}
+      <div className="border border-slate-100 rounded-2xl p-6 bg-white">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1">
+              <label htmlFor="id" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Product ID / SKU
               </label>
               <input
-                id="image"
-                name="image"
-                type="file"
-                onChange={handleFileChange}
-                accept="image/*"
-                className="block w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
+                id="id"
+                name="id"
+                type="text"
+                value={product.id}
+                onChange={handleChange}
+                placeholder="e.g. PROD-102"
                 required
+                className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
               />
             </div>
 
+            <div className="space-y-1">
+              <label htmlFor="name" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Product Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={product.name}
+                onChange={handleChange}
+                placeholder="e.g. Wireless Headset Pro"
+                required
+                className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="price" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Price ($)
+              </label>
+              <input
+                id="price"
+                name="price"
+                type="number"
+                value={product.price}
+                onChange={handleChange}
+                required
+                className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="stockQuantity" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Stock Quantity
+              </label>
+              <input
+                id="stockQuantity"
+                name="stockQuantity"
+                type="number"
+                value={product.stockQuantity}
+                onChange={handleChange}
+                required
+                className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="ratings" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Ratings (Initial)
+              </label>
+              <input
+                id="ratings"
+                name="ratings"
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                value={product.ratings}
+                onChange={handleChange}
+                required
+                className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="category" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={product.category}
+                onChange={handleChange}
+                required
+                className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition bg-white"
+              >
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion</option>
+                <option value="home">Home</option>
+                <option value="sports">Sports</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label htmlFor="description" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={product.description}
+              onChange={handleChange}
+              placeholder="Provide a detailed description of the product features..."
+              required
+              rows={4}
+              className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label htmlFor="image" className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Product Image
+            </label>
+            <input
+              id="image"
+              name="image"
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              className="block w-full border border-slate-200 file:border-0 file:bg-slate-100 file:hover:bg-slate-200 file:text-slate-700 file:text-xs file:font-bold file:py-2.5 file:px-4 file:rounded-lg file:mr-4 outline-none rounded-xl p-1.5 text-sm transition cursor-pointer"
+              required
+            />
+          </div>
+
+          <div className="pt-4 flex justify-end">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 disabled:bg-blue-300"
+              className="bg-[#FF4E3E] hover:bg-[#e03d2d] text-white text-xs font-bold px-6 py-3 rounded-xl shadow-md shadow-[#FF4E3E]/10 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : "Add Product"}
+              {isSubmitting ? "Registering Product..." : "Add Product"}
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

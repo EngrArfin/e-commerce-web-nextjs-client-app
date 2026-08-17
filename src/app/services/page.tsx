@@ -23,7 +23,20 @@ type Params = {
   id: string;
 };
 
+export const dynamic = "force-dynamic";
+
 const ProductDetails = async ({ params }: { params: Params }) => {
+  if (!params?.id) {
+    return (
+      <div className="container mx-auto p-6">
+        <h2 className="text-2xl font-semibold">Service not found</h2>
+        <p className="text-gray-600">
+          The requested service details could not be found.
+        </p>
+      </div>
+    );
+  }
+
   const details = (await getServicesDetails(
     params.id
   )) as unknown as ServiceDetailsResponse;

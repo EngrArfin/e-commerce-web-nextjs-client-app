@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+export const dynamic = "force-dynamic";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";

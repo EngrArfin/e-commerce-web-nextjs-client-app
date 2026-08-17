@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import Link from "next/link";
-import { useState } from "react";
 import { TService } from "@/types";
 import { useCart } from "../Cart/CartContext";
 
@@ -11,14 +10,11 @@ interface ServicesCardProps {
 
 const ServicesCard = ({ service }: ServicesCardProps) => {
   const { _id, name, price, image, ratings } = service;
-  const [isHovered, setIsHovered] = useState(false);
   const { addToCart } = useCart();
 
   return (
     <div
       className="bg-white w-full max-w-sm shadow-sm hover:shadow-md rounded-xl overflow-hidden border border-slate-100 hover:border-sky-100 transition-all duration-300 m-1 p-3 relative flex flex-col justify-between h-[350px] group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <div>
         <Link href={`/services/${_id}`}>

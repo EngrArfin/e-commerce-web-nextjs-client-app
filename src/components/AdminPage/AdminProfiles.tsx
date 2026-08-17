@@ -1,15 +1,27 @@
+"use client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 
 const AdminProfiles = () => {
+  const { data: session } = useSession();
+  
   const [adminData, setAdminData] = useState({
-    name: "John Doe",
-    email: "admin@example.com",
+    name: "",
+    email: "",
   });
 
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  useEffect(() => {
+    if (session?.user) {
+      setAdminData({
+        name: session.user.name || "",
+        email: session.user.email || "",
+      });
+    }
+  }, [session]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,11 +31,11 @@ const AdminProfiles = () => {
     }));
   };
 
-  const handleProfileUpdate = (e: FormEvent) => {
+  const handleProfileUpdate = async (e: FormEvent) => {
     e.preventDefault();
-
     console.log("Updated Profile Data:", adminData);
-    alert("Profile updated successfully!");
+    // In a real app, this would hit an API.
+    alert("Profile info updated locally! (Mocked)");
   };
 
   const handleChangePassword = (e: FormEvent) => {
@@ -32,134 +44,143 @@ const AdminProfiles = () => {
       alert("Passwords do not match");
       return;
     }
-
     console.log("New Password:", newPassword);
     alert("Password changed successfully!");
     setNewPassword("");
     setConfirmPassword("");
   };
 
-  const { data: session } = useSession();
-
   return (
-    <div className="container mx-auto p-8">
-      <div className="bg-white p-6 shadow rounded-lg mb-8">
-        <h2 className="text-2xl font-bold mb-4">Admin Profile</h2>
+    <div className="w-full space-y-8">
+      {/* Title */}
+      <div className="pb-4 border-b border-slate-100">
+        <h1 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">
+          Admin Profile Settings
+        </h1>
+        <p className="text-xs text-slate-400 font-semibold mt-0.5">
+          View and update your administrator details and security credentials
+        </p>
+      </div>
 
-        <div className="flex flex-col items-center justify-center">
-          {session && (
-            <>
-              <div className="dropdown dropdown-end">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="btn btn-ghost btn-circle avatar"
-                >
-                  <div className="w-40 rounded-full">
-                    <Image
-                      alt="Profile"
-                      src={session.user?.image || "/default-profile.png"}
-                      height="100"
-                      width="100"
-                    />
-                  </div>
-                </div>
-                <ul
-                  tabIndex={0}
-                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                ></ul>
-              </div>
-
-              {/* <div className="text-center mt-2">
-                <p className="font-semibold">{session.user?.name}</p>
-                <p className="text-sm text-gray-600">{session.user?.email}</p>
-              </div> */}
-            </>
-          )}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column: Avatar & Summary */}
+        <div className="flex flex-col items-center p-6 border border-slate-100 rounded-2xl bg-slate-50/50">
+          <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md bg-slate-100 mb-4">
+            <Image
+              alt="Profile"
+              src={session?.user?.image || "/default-profile.png"}
+              fill
+              sizes="128px"
+              className="object-cover"
+            />
+          </div>
+          <h3 className="text-base font-bold text-slate-800">
+            {session?.user?.name || "Administrator"}
+          </h3>
+          <p className="text-xs text-slate-400 font-semibold mt-0.5">
+            {session?.user?.email || "admin@ecomzone.com"}
+          </p>
+          <span className="mt-3 px-3 py-1 bg-red-50 text-red-600 border border-red-100 text-[10px] font-bold tracking-wider uppercase rounded-full">
+            System Administrator
+          </span>
         </div>
 
-        <form onSubmit={handleProfileUpdate}>
-          <div>
-            {session && (
-              <>
-                <div className="mb-4">
-                  <label className="block text-lg font-semibold mb-2">
-                    Name
+        {/* Right Columns: Forms */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Profile Form */}
+          <div className="border border-slate-100 rounded-2xl p-6 bg-white space-y-4">
+            <h2 className="text-base font-bold text-slate-800 pb-2 border-b border-slate-50">
+              Personal Information
+            </h2>
+            <form onSubmit={handleProfileUpdate} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Full Name
                   </label>
                   <input
                     type="text"
                     name="name"
-                    value={session.user?.name || ""}
+                    value={adminData.name}
                     onChange={handleInputChange}
-                    className="border p-2 rounded w-full"
+                    className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
                     placeholder="Enter your name"
                     required
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="block text-lg font-semibold mb-2">
-                    Email
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Email Address
                   </label>
                   <input
                     type="email"
                     name="email"
-                    value={session.user?.email || ""}
+                    value={adminData.email}
                     onChange={handleInputChange}
-                    className="border p-2 rounded w-full"
+                    className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
                     placeholder="Enter your email"
                     required
                   />
                 </div>
-              </>
-            )}
+              </div>
+
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-[#FF4E3E] hover:bg-[#e03d2d] text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md shadow-[#FF4E3E]/10 transition duration-200"
+                >
+                  Save Personal Details
+                </button>
+              </div>
+            </form>
           </div>
 
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Update Profile
-          </button>
-        </form>
-      </div>
-      <div className="bg-white p-6 shadow rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Change Password</h2>
-        <form onSubmit={handleChangePassword}>
-          <div className="mb-4">
-            <label className="block text-lg font-semibold mb-2">
-              New Password
-            </label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="border p-2 rounded w-full"
-              placeholder="Enter new password"
-              required
-            />
-          </div>
+          {/* Change Password Form */}
+          <div className="border border-slate-100 rounded-2xl p-6 bg-white space-y-4">
+            <h2 className="text-base font-bold text-slate-800 pb-2 border-b border-slate-50">
+              Security & Credentials
+            </h2>
+            <form onSubmit={handleChangePassword} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+                    placeholder="Enter new password"
+                    required
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full border border-slate-200 focus:border-[#FF4E3E] outline-none rounded-xl p-3 text-sm transition"
+                    placeholder="Confirm new password"
+                    required
+                  />
+                </div>
+              </div>
 
-          <div className="mb-4">
-            <label className="block text-lg font-semibold mb-2">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="border p-2 rounded w-full"
-              placeholder="Confirm new password"
-              required
-            />
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition duration-200"
+                >
+                  Change Password
+                </button>
+              </div>
+            </form>
           </div>
-
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded"
-          >
-            Change Password
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-// Define the Booking interface
 interface Booking {
   _id: string;
   name: string;
@@ -18,7 +19,6 @@ const UserMessage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Fetch bookings
   const loadBooking = async () => {
     try {
       const response = await axios.get<{ contacts: Booking[] }>(
@@ -34,74 +34,102 @@ const UserMessage = () => {
     loadBooking();
   }, []);
 
-  // Pagination logic
   const totalPages = Math.ceil(contacts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentBookings = contacts.slice(startIndex, startIndex + itemsPerPage);
 
-  // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10">
-      <div className="w-full max-w-6xl px-4">
-        <h1 className="text-2xl md:text-3xl font-medium text-center mb-5 text-gray-900 truncate">
-          Total Message ({contacts.length})
-        </h1>
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white shadow-lg rounded-lg text-sm md:text-base">
-            <thead>
-              <tr className="bg-gray-100 border-b font-bold text-sky-700">
-                <th className="py-2 md:py-3 px-2 md:px-4">Name / Email</th>
-                <th className="py-2 md:py-3 px-2 md:px-4">Message</th>
-                <th className="py-2 md:py-3 px-2 md:px-4">Date/Time</th>
-                <th className="py-2 md:py-3 px-2 md:px-4">Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentBookings.map((contact) => (
+    <div className="w-full space-y-6">
+      {/* Title block left-aligned */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-100">
+        <div>
+          <h1 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">
+            Customer Messages
+          </h1>
+          <p className="text-xs text-slate-400 font-semibold mt-0.5">
+            View feedback, inquiries, and messages sent by users from the contact form
+          </p>
+        </div>
+        <div className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-1.5 text-xs font-semibold text-slate-500 w-fit">
+          Total Messages: <span className="text-[#FF4E3E] font-bold">{contacts.length}</span>
+        </div>
+      </div>
+
+      {/* Responsive & Formal Table */}
+      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl">
+        <table className="min-w-full divide-y divide-slate-100 bg-white">
+          <thead className="bg-slate-50">
+            <tr>
+              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Sender Details
+              </th>
+              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Message Content
+              </th>
+              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Date & Time
+              </th>
+              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Phone Number
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 bg-white">
+            {currentBookings.length > 0 ? (
+              currentBookings.map((contact) => (
                 <tr
                   key={contact._id}
-                  className="border-b hover:bg-gray-100 text-sm"
+                  className="hover:bg-slate-50/50 transition-colors"
                 >
-                  <td className="py-2 md:py-3 px-2 md:px-4">
-                    <span>{contact.name}</span>
-                    <br />
-                    <span className="text-xs md:text-sm text-gray-500">
+                  <td className="py-3.5 px-4">
+                    <p className="text-sm font-bold text-slate-800 leading-tight">
+                      {contact.name}
+                    </p>
+                    <p className="text-xs text-slate-400 font-semibold mt-0.5">
                       {contact.email}
-                    </span>
+                    </p>
                   </td>
-                  <td
-                    className={`py-2 md:py-3 px-2 md:px-4 ${
-                      contact.message === "Online Payment"
-                        ? "text-sky-400"
-                        : "text-gray-800"
-                    }`}
-                  >
+                  <td className="py-3.5 px-4 text-sm text-slate-600 font-medium max-w-xs md:max-w-md truncate">
                     {contact.message}
                   </td>
-                  <td className="py-2 md:py-3 px-2 md:px-4">
-                    {contact.createdAt}
+                  <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
+                    {contact.createdAt || "N/A"}
                   </td>
-                  <td className="py-2 md:py-3 px-2 md:px-4">{contact.phone}</td>
+                  <td className="py-3.5 px-4 text-sm text-slate-600 font-semibold">
+                    {contact.phone || "N/A"}
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {/* Pagination Controls */}
-        <div className="flex flex-wrap justify-center items-center mt-8">
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="py-12 text-center text-sm font-semibold text-slate-400"
+                >
+                  No messages found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-1.5 pt-4">
           {Array.from({ length: totalPages }, (_, index) => index + 1).map(
             (page) => (
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`mx-1 px-3 md:px-4 py-1 md:py-2 rounded ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition duration-200 ${
                   currentPage === page
-                    ? "bg-sky-500 text-white"
-                    : "bg-gray-200 text-gray-700"
+                    ? "bg-[#FF4E3E] text-white shadow-md shadow-[#FF4E3E]/20"
+                    : "bg-slate-50 text-slate-600 border border-slate-100 hover:bg-slate-100"
                 }`}
               >
                 {page}
@@ -109,7 +137,7 @@ const UserMessage = () => {
             )
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 };
