@@ -8,8 +8,7 @@ import "./globals.css";
 import AuthProviders from "@/services/AuthProviders";
 import NavBar from "@/components/Shared/NavBar";
 
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "sonner";
 
 import { usePathname } from "next/navigation";
 import { CartProvider } from "@/components/Home/Cart/CartContext";
@@ -36,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ToastContainer />
+        <Toaster position="top-right" richColors closeButton />
         <AuthProviders>
           <CartProvider>
             {pathname !== "/" && !pathname.startsWith("/user") && !pathname.startsWith("/admin") && <NavBar />}

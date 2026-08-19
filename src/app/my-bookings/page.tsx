@@ -5,6 +5,8 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 // Define types
 interface Booking {
@@ -28,9 +30,11 @@ interface DeleteResponse {
 const Page = () => {
   const { data: session } = useSession();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const loadData = async () => {
     try {
+      setLoading(true);
       // Get bookings data with the appropriate type
       const response = await axios.get<BookingResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
@@ -38,10 +42,13 @@ const Page = () => {
       if (response.status === 200) {
         setBookings(response.data.myBookings || []);
       } else {
-        console.error("Failed to fetch bookings data");
+        toast.error("Failed to fetch bookings data");
       }
     } catch (error) {
       console.error("Error loading bookings:", error);
+      toast.error("Error loading bookings. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,12 +60,14 @@ const Page = () => {
       );
 
       if (response.status === 200 && response.data.response?.deletedCount > 0) {
+        toast.success("Booking deleted successfully!");
         loadData();
       } else {
-        console.error("Failed to delete booking:", response.data);
+        toast.error("Failed to delete booking.");
       }
     } catch (error) {
       console.error("Error deleting booking:", error);
+      toast.error("Error deleting booking. Please try again.");
     }
   };
 
@@ -70,9 +79,16 @@ const Page = () => {
 
   return (
     <div className="overflow-x-auto mt-4 mb-4 m-4 ">
-      <h1 className="flex items-center justify-center mb-2 text-3xl">
+      <h1 className="flex items-center justify-center mb-2 text-3xl font-bold text-slate-800">
         My Booking
       </h1>
+      {loading ? (
+        <CommonLoader message="Loading your bookings..." subMessage="Please wait a moment" size="md" />
+      ) : bookings.length === 0 ? (
+        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+          <p className="text-slate-400 font-semibold text-sm">No bookings found.</p>
+        </div>
+      ) : (
       <table className="table table-zebra">
         <thead>
           <tr className="bg-gray-100 text-sm border-b font-bold text-sky-700">
@@ -122,6 +138,7 @@ const Page = () => {
           )}
         </tbody>
       </table>
+      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface Category {
   id: number;
@@ -20,14 +21,17 @@ const ProductManagement = () => {
   const [editCategoryId, setEditCategoryId] = useState<number | null>(null);
 
   const addCategory = () => {
-    if (newCategoryName.trim() !== "") {
-      const newCategory: Category = {
-        id: categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1,
-        name: newCategoryName,
-      };
-      setCategories([...categories, newCategory]);
-      setNewCategoryName("");
+    if (newCategoryName.trim() === "") {
+      toast.error("Please enter a valid category name");
+      return;
     }
+    const newCategory: Category = {
+      id: categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1,
+      name: newCategoryName.trim(),
+    };
+    setCategories([...categories, newCategory]);
+    toast.success(`Category "${newCategoryName.trim()}" created successfully!`);
+    setNewCategoryName("");
   };
 
   const startEditCategory = (id: number, name: string) => {
@@ -36,19 +40,26 @@ const ProductManagement = () => {
   };
 
   const confirmEditCategory = () => {
+    if (editCategoryName.trim() === "") {
+      toast.error("Category name cannot be empty");
+      return;
+    }
     setCategories(
       categories.map((category) =>
         category.id === editCategoryId
-          ? { ...category, name: editCategoryName }
+          ? { ...category, name: editCategoryName.trim() }
           : category
       )
     );
+    toast.success("Category updated successfully!");
     setEditCategoryId(null);
     setEditCategoryName("");
   };
 
   const deleteCategory = (id: number) => {
+    const target = categories.find(c => c.id === id);
     setCategories(categories.filter((category) => category.id !== id));
+    toast.success(`Category "${target?.name || id}" removed successfully.`);
   };
 
   return (

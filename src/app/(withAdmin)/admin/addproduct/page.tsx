@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const AdminAddProduct = () => {
   const [product, setProduct] = useState({
@@ -79,14 +80,17 @@ const AdminAddProduct = () => {
           image: null,
           ratings: 0,
         });
-        setSuccessMessage("Product added successfully!");
+        const msg = "Product added successfully!";
+        setSuccessMessage(msg);
+        toast.success(msg);
       }
     } catch (error: any) {
       console.error("Error adding product:", error);
-      setErrorMessage(
+      const errMsg =
         error?.response?.data?.error ||
-          "Something went wrong. Please try again."
-      );
+        "Something went wrong. Please try again.";
+      setErrorMessage(errMsg);
+      toast.error(errMsg);
     } finally {
       setIsSubmitting(false);
     }
