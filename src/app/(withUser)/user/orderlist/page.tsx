@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 interface Booking {
   _id: string;
@@ -19,17 +21,22 @@ interface BookingsResponse {
 
 const OrderList = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const loadBooking = async () => {
     try {
+      setLoading(true);
       const response = await axios.get<BookingsResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/orderlist/api/get`
       );
       setBookings(response.data.bookings || []);
     } catch (error) {
       console.error("Error loading bookings:", error);
+      toast.error("Failed to load orders. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,66 +70,70 @@ const OrderList = () => {
       </div>
 
       {/* Responsive & Formal Table */}
-      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl">
-        <table className="min-w-full divide-y divide-slate-100 bg-white">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Customer
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Product
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
-            {currentBookings.length > 0 ? (
-              currentBookings.map((order, idx) => (
-                <tr
-                  key={order._id}
-                  className="hover:bg-slate-50/50 transition-colors"
-                >
-                  <td className="py-3.5 px-4 text-sm font-semibold text-slate-500">
-                    {startIndex + idx + 1}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm font-bold text-slate-800">
-                    {order.name}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-600 font-medium">
-                    {order.productName}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
-                    {order.date}
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-600 border border-amber-100 shadow-sm">
-                      <FontAwesomeIcon icon={faClock} className="text-[10px]" />
-                      Pending
-                    </span>
+      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl bg-white">
+        {loading ? (
+          <CommonLoader message="Loading orders..." subMessage="Fetching active customer orders" size="table" />
+        ) : (
+          <table className="min-w-full divide-y divide-slate-100 bg-white">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Customer
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Product
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {currentBookings.length > 0 ? (
+                currentBookings.map((order, idx) => (
+                  <tr
+                    key={order._id}
+                    className="hover:bg-slate-50/50 transition-colors"
+                  >
+                    <td className="py-3.5 px-4 text-sm font-semibold text-slate-500">
+                      {startIndex + idx + 1}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm font-bold text-slate-800">
+                      {order.name}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-600 font-medium">
+                      {order.productName}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
+                      {order.date}
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-600 border border-amber-100 shadow-sm">
+                        <FontAwesomeIcon icon={faClock} className="text-[10px]" />
+                        Pending
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="py-12 text-center text-sm font-semibold text-slate-400"
+                  >
+                    No orders found.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={5}
-                  className="py-12 text-center text-sm font-semibold text-slate-400"
-                >
-                  No orders found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {/* Pagination */}

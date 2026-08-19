@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface Product {
   name: string;
@@ -43,7 +44,19 @@ const AddProduct = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Product submitted:", product);
+    if (!product.name || !product.category) {
+      toast.error("Please fill in the product name and category.");
+      return;
+    }
+    toast.success(`Product "${product.name}" created successfully!`);
+    setProduct({
+      name: "",
+      description: "",
+      price: 0,
+      stockQuantity: 0,
+      category: "",
+      images: null,
+    });
   };
 
   return (
