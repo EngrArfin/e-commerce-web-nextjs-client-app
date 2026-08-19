@@ -4,6 +4,7 @@ import { getProducts } from "@/services/getServices";
 import { useEffect, useState } from "react";
 import { TProduct } from "@/types";
 import { ProductCard } from "./ProductCard";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 const ProductCardData = () => {
   const [products, setProducts] = useState<TProduct[]>([]);
@@ -27,9 +28,9 @@ const ProductCardData = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-8">
-        <span className="text-xl text-gray-500">Loading services...</span>
-      </div>
+      <section className="py-12 px-6 mx-auto max-w-7xl">
+        <CommonLoader message="Loading All Products..." size="lg" />
+      </section>
     );
   }
 

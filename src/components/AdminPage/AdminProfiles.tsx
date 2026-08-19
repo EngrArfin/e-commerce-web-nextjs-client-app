@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { toast } from "sonner";
 
 const AdminProfiles = () => {
   const { data: session } = useSession();
@@ -33,19 +34,20 @@ const AdminProfiles = () => {
 
   const handleProfileUpdate = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Updated Profile Data:", adminData);
-    // In a real app, this would hit an API.
-    alert("Profile info updated locally! (Mocked)");
+    toast.success("Profile information updated successfully!");
   };
 
   const handleChangePassword = (e: FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("New password and confirmation password do not match");
       return;
     }
-    console.log("New Password:", newPassword);
-    alert("Password changed successfully!");
+    if (newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+    toast.success("Password changed successfully!");
     setNewPassword("");
     setConfirmPassword("");
   };

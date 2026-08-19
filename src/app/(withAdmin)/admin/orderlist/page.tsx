@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 interface Booking {
   _id: string;
@@ -19,18 +21,31 @@ interface BookingsResponse {
 
 const OrderList = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const loadBooking = async () => {
     try {
+      setLoading(true);
       const response = await axios.get<BookingsResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/orderlist/api/get`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/orderlist/api/get`,
       );
       setBookings(response.data.bookings || []);
     } catch (error) {
       console.error("Error loading bookings:", error);
+      toast.error("Failed to load customer orders");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleAccept = (orderName: string) => {
+    toast.success(`Order for "${orderName}" accepted successfully!`);
+  };
+
+  const handleCancel = (orderName: string) => {
+    toast.error(`Order for "${orderName}" has been rejected.`);
   };
 
   useEffect(() => {
@@ -58,77 +73,92 @@ const OrderList = () => {
           </p>
         </div>
         <div className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-1.5 text-xs font-semibold text-slate-500 w-fit">
-          Total Orders: <span className="text-[#FF4E3E] font-bold">{bookings.length}</span>
+          Total Orders:{" "}
+          <span className="text-[#FF4E3E] font-bold">{bookings.length}</span>
         </div>
       </div>
 
       {/* Responsive & Formal Table */}
-      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl">
-        <table className="min-w-full divide-y divide-slate-100 bg-white">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Customer
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Product
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
-            {currentBookings.length > 0 ? (
-              currentBookings.map((order, idx) => (
-                <tr
-                  key={order._id}
-                  className="hover:bg-slate-50/50 transition-colors"
-                >
-                  <td className="py-3.5 px-4 text-sm font-semibold text-slate-500">
-                    {startIndex + idx + 1}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm font-bold text-slate-800">
-                    {order.name}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-600 font-medium">
-                    {order.productName}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
-                    {order.date}
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center gap-2">
-                      <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-1 px-3 rounded-lg text-xs flex items-center transition duration-200 shadow-sm shadow-emerald-500/10">
-                        <FontAwesomeIcon icon={faCheck} className="mr-1" />
-                        Accept
-                      </button>
-                      <button className="bg-rose-500 hover:bg-rose-600 text-white font-bold py-1 px-3 rounded-lg text-xs flex items-center transition duration-200 shadow-sm shadow-rose-500/10">
-                        <FontAwesomeIcon icon={faTimes} className="mr-1" />
-                        Cancel
-                      </button>
-                    </div>
+      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl bg-white">
+        {loading ? (
+          <CommonLoader message="Loading orders..." size="table" />
+        ) : (
+          <table className="min-w-full divide-y divide-slate-100 bg-white">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Customer
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Product
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {currentBookings.length > 0 ? (
+                currentBookings.map((order, idx) => (
+                  <tr
+                    key={order._id}
+                    className="hover:bg-slate-50/50 transition-colors"
+                  >
+                    <td className="py-3.5 px-4 text-sm font-semibold text-slate-500">
+                      {startIndex + idx + 1}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm font-bold text-slate-800">
+                      {order.name}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-600 font-medium">
+                      {order.productName}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
+                      {order.date}
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            handleAccept(order.productName || order.name)
+                          }
+                          className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-1 px-3 rounded-lg text-xs flex items-center transition duration-200 shadow-sm shadow-emerald-500/10 active:scale-95"
+                        >
+                          <FontAwesomeIcon icon={faCheck} className="mr-1" />
+                          Accept
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleCancel(order.productName || order.name)
+                          }
+                          className="bg-rose-500 hover:bg-rose-600 text-white font-bold py-1 px-3 rounded-lg text-xs flex items-center transition duration-200 shadow-sm shadow-rose-500/10 active:scale-95"
+                        >
+                          <FontAwesomeIcon icon={faTimes} className="mr-1" />
+                          Cancel
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="py-12 text-center text-sm font-semibold text-slate-400"
+                  >
+                    No orders found.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={5}
-                  className="py-12 text-center text-sm font-semibold text-slate-400"
-                >
-                  No orders found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {/* Pagination */}
@@ -147,7 +177,7 @@ const OrderList = () => {
               >
                 {page}
               </button>
-            )
+            ),
           )}
         </div>
       )}

@@ -4,6 +4,7 @@ import { TService } from "@/types";
 import { getServices } from "@/services/getServices";
 import { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 const CategoryDetails = () => {
   const [services, setServices] = useState<TService[]>([]); // Holds all fetched services
@@ -33,9 +34,9 @@ const CategoryDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-10 px-10 h-screen">
-        <span className="text-xl text-gray-500">Loading products...</span>
-      </div>
+      <section className="py-12 px-6 mx-auto max-w-7xl">
+        <CommonLoader message="Loading Featured Products..." size="lg" />
+      </section>
     );
   }
 

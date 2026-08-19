@@ -3,7 +3,8 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 interface Booking {
   date?: string;
@@ -15,9 +16,11 @@ interface Booking {
 const Page = ({ params }: { params: { id: string } }) => {
   const { data } = useSession();
   const [booking, setBooking] = useState<Booking | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const loadBooking = async () => {
     try {
+      setLoading(true);
       // Specify the type of response data to be Booking
       const response = await axios.get<Booking>(
         `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${params.id}`
@@ -25,7 +28,9 @@ const Page = ({ params }: { params: { id: string } }) => {
       setBooking(response.data); // No need for .json() here
     } catch (error) {
       console.error("Error loading booking:", error);
-      toast.error("Failed to load booking");
+      toast.error("Failed to load booking details");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,18 +54,26 @@ const Page = ({ params }: { params: { id: string } }) => {
         }
       );
       if (resp.status === 200) {
-        toast.success("Updated Successfully");
+        toast.success("Booking updated successfully!");
         loadBooking();
       }
     } catch (error) {
       console.error("Error updating booking:", error);
-      toast.error("Failed to update booking");
+      toast.error("Failed to update booking. Please try again.");
     }
   };
 
   useEffect(() => {
     loadBooking();
   }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto p-6">
+        <CommonLoader message="Loading booking details..." subMessage="Please wait" size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="checkout-container flex flex-col md:flex-row max-w-6xl mx-auto p-6 space-y-6 md:space-y-0">

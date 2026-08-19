@@ -168,42 +168,89 @@ const NavBar = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full">
+                <div className="w-10 rounded-full ring-2 ring-sky-500/20">
                   <Image
                     alt="Profile"
                     src={session.user?.image || "/default-profile.png"}
                     height="40"
                     width="40"
-                    className="rounded-full"
+                    className="rounded-full object-cover"
                   />
                 </div>
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-white text-gray-900 rounded-box z-[1] mt-1 w-72 p-4 shadow-md"
+                className="menu menu-sm dropdown-content bg-white text-gray-800 rounded-2xl z-[50] mt-3 w-64 p-3 shadow-xl border border-slate-100"
               >
-                <li>
-                  <a>{session.user?.name}</a>
-                </li>
-                <li>
-                  <a>{session.user?.email}</a>
-                </li>
-                <li>
-                  <Link className="" href="user/profile">
-                    User Dashboard
-                  </Link>
-                </li>
-                <Link href="/admin">
-                  <li>
-                    <span>Admin Dashboard</span>
-                  </li>
-                </Link>
-                <li>
-                  <Link href="/user/my-bookings">My Bookings</Link>
+                <li className="menu-title px-2 py-1.5 border-b border-slate-100 mb-1">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-semibold text-slate-800 text-sm truncate">
+                      {session.user?.name || "User"}
+                    </span>
+                    <span className="text-xs text-slate-500 truncate font-normal">
+                      {session.user?.email}
+                    </span>
+                    <span className="inline-block mt-1 self-start px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-sky-100 text-sky-700">
+                      {session.user?.role === "admin" ? "Admin" : "Customer"}
+                    </span>
+                  </div>
                 </li>
 
+                {session.user?.role === "admin" ? (
+                  <>
+                    <li>
+                      <Link
+                        href="/admin"
+                        className="py-2 text-slate-700 hover:text-sky-600 font-medium"
+                      >
+                        Admin Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/admin/profile"
+                        className="py-2 text-slate-700 hover:text-sky-600 font-medium"
+                      >
+                        Admin Profile
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link
+                        href="/user"
+                        className="py-2 text-slate-700 hover:text-sky-600 font-medium"
+                      >
+                        User Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/user/my-bookings"
+                        className="py-2 text-slate-700 hover:text-sky-600 font-medium"
+                      >
+                        My Bookings
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/user/orderlist"
+                        className="py-2 text-slate-700 hover:text-sky-600 font-medium"
+                      >
+                        Order Status
+                      </Link>
+                    </li>
+                  </>
+                )}
+
+                <div className="divider my-1"></div>
+
                 <li>
-                  <button onClick={() => signOut()} className="textwhite">
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="py-2 text-red-600 hover:bg-red-50 font-medium"
+                  >
                     Logout
                   </button>
                 </li>

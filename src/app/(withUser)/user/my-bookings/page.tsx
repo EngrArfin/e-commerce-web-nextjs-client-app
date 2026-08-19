@@ -6,6 +6,8 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 // Define types
 interface Booking {
@@ -29,42 +31,51 @@ interface DeleteResponse {
 const Page = () => {
   const { data: session } = useSession();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const loadData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get<BookingResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`,
       );
       if (response.status === 200) {
         setBookings(response.data.myBookings || []);
         // Reset current page if it exceeds maximum possible pages
-        const maxPages = Math.ceil((response.data.myBookings || []).length / itemsPerPage);
+        const maxPages = Math.ceil(
+          (response.data.myBookings || []).length / itemsPerPage,
+        );
         if (currentPage > maxPages) {
           setCurrentPage(Math.max(1, maxPages));
         }
       } else {
-        console.error("Failed to fetch bookings data");
+        toast.error("Failed to fetch bookings data");
       }
     } catch (error) {
       console.error("Error loading bookings:", error);
+      toast.error("Error loading bookings. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       const response = await axios.delete<DeleteResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/booking/${id}`,
       );
 
       if (response.status === 200 && response.data.response?.deletedCount > 0) {
+        toast.success("Booking deleted successfully!");
         loadData();
       } else {
-        console.error("Failed to delete booking:", response.data);
+        toast.error("Failed to delete booking.");
       }
     } catch (error) {
       console.error("Error deleting booking:", error);
+      toast.error("Error deleting booking. Please try again.");
     }
   };
 
@@ -84,18 +95,32 @@ const Page = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">My Bookings</h1>
-          <p className="text-xs text-slate-400 font-semibold mt-0.5">Manage and track your active bookings and order history</p>
+          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+            My Bookings
+          </h1>
+          <p className="text-xs text-slate-400 font-semibold mt-0.5">
+            Manage and track your active bookings and order history
+          </p>
         </div>
         <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 flex items-center gap-2 w-fit">
-          <span className="text-slate-500 font-semibold text-xs">Total Bookings:</span>
-          <span className="bg-sky-600 text-white text-xs font-extrabold px-2 py-0.5 rounded-full">{bookings.length}</span>
+          <span className="text-slate-500 font-semibold text-xs">
+            Total Bookings:
+          </span>
+          <span className="bg-sky-600 text-white text-xs font-extrabold px-2 py-0.5 rounded-full">
+            {bookings.length}
+          </span>
         </div>
       </div>
 
-      {bookings.length === 0 ? (
+      {loading ? (
+        <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
+          <CommonLoader message="Loading your bookings..." size="table" />
+        </div>
+      ) : bookings.length === 0 ? (
         <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-          <p className="text-slate-400 font-semibold text-sm">No bookings found in your history.</p>
+          <p className="text-slate-400 font-semibold text-sm">
+            No bookings found in your history.
+          </p>
         </div>
       ) : (
         <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
@@ -115,11 +140,17 @@ const Page = () => {
                 {currentBookings.map(
                   ({ productName, _id, date, price, paymentMethod }, index) => {
                     const priceStr = String(price || "");
-                    const formattedPrice = priceStr.startsWith("$") ? priceStr : `$${priceStr}`;
+                    const formattedPrice = priceStr.startsWith("$")
+                      ? priceStr
+                      : `$${priceStr}`;
                     return (
                       <tr key={_id} className="hover:bg-slate-50/50 transition">
-                        <td className="py-4 px-6 font-semibold text-slate-400">{indexOfFirstItem + index + 1}</td>
-                        <td className="py-4 px-6 font-bold text-slate-800">{productName}</td>
+                        <td className="py-4 px-6 font-semibold text-slate-400">
+                          {indexOfFirstItem + index + 1}
+                        </td>
+                        <td className="py-4 px-6 font-bold text-slate-800">
+                          {productName}
+                        </td>
                         <td className="py-4 px-6">
                           <span
                             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${
@@ -128,14 +159,22 @@ const Page = () => {
                                 : "bg-amber-50 text-amber-700 border border-amber-100"
                             }`}
                           >
-                            <span className={`w-1.5 h-1.5 rounded-full ${
-                              paymentMethod === "Online Payment" ? "bg-emerald-500" : "bg-amber-500"
-                            }`} />
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full ${
+                                paymentMethod === "Online Payment"
+                                  ? "bg-emerald-500"
+                                  : "bg-amber-500"
+                              }`}
+                            />
                             {paymentMethod}
                           </span>
                         </td>
-                        <td className="py-4 px-6 font-extrabold text-slate-700">{formattedPrice}</td>
-                        <td className="py-4 px-6 font-medium text-slate-500">{date}</td>
+                        <td className="py-4 px-6 font-extrabold text-slate-700">
+                          {formattedPrice}
+                        </td>
+                        <td className="py-4 px-6 font-medium text-slate-500">
+                          {date}
+                        </td>
                         <td className="py-4 px-6">
                           <div className="flex items-center justify-end gap-2">
                             <Link href={`/my-bookings/update/${_id}`}>
@@ -153,7 +192,7 @@ const Page = () => {
                         </td>
                       </tr>
                     );
-                  }
+                  },
                 )}
               </tbody>
             </table>
@@ -163,12 +202,16 @@ const Page = () => {
           {totalPages > 1 && (
             <div className="flex flex-col sm:flex-row items-center justify-between border-t border-slate-100 px-6 py-4 gap-4 bg-slate-50/50">
               <span className="text-xs text-slate-500 font-semibold">
-                Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, bookings.length)} of {bookings.length} entries
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, bookings.length)} of{" "}
+                {bookings.length} entries
               </span>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(1, prev - 1))
+                  }
                   disabled={currentPage === 1}
                   className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 bg-white hover:bg-slate-50 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none transition duration-200 select-none"
                 >
@@ -190,7 +233,9 @@ const Page = () => {
                 ))}
                 <button
                   type="button"
-                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                  }
                   disabled={currentPage === totalPages}
                   className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 bg-white hover:bg-slate-50 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none transition duration-200 select-none"
                 >

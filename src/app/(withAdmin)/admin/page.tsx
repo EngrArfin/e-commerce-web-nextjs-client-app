@@ -17,13 +17,16 @@ import {
   Legend,
 } from "chart.js";
 
+import CommonLoader from "@/components/Shared/CommonLoader";
+import { toast } from "sonner";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 // Define data interfaces
@@ -53,16 +56,18 @@ const Page = () => {
   const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch user data
   const loadData = async () => {
     try {
       const response = await axios.get<UserResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session?.user?.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/user-managements/api/${session?.user?.id}`,
       );
       setUsers(response.data.allUsers || []);
     } catch (error) {
       console.error("Error loading users:", error);
+      toast.error("Failed to load user statistics");
     }
   };
 
@@ -70,19 +75,24 @@ const Page = () => {
   const loadBooking = async () => {
     try {
       const response = await axios.get<BookingResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/api/${session?.user?.email}`,
       );
       setBookings(response.data.myBookings || []);
     } catch (error) {
       console.error("Error loading bookings:", error);
+      toast.error("Failed to load booking statistics");
     }
   };
 
   useEffect(() => {
-    if (session) {
-      loadData();
-      loadBooking();
-    }
+    const init = async () => {
+      if (session) {
+        setLoading(true);
+        await Promise.allSettled([loadData(), loadBooking()]);
+        setLoading(false);
+      }
+    };
+    init();
   }, [session]);
 
   // Chart data
@@ -113,29 +123,42 @@ const Page = () => {
           E-commerce Sell Details with Chart
         </h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-2">
-        <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
-          <h3 className="text-2xl font-semibold text-sky-600">Total Users</h3>
-          <p className="text-3xl font-bold">{users.length}</p>
-        </div>
 
-        <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
-          <h3 className="text-2xl font-semibold text-sky-600">Total Orders</h3>
-          <p className="text-3xl font-bold">{bookings.length}</p>
-        </div>
+      {loading ? (
+        <CommonLoader message="Loading dashboard statistics..." size="lg" />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-2">
+            <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
+              <h3 className="text-2xl font-semibold text-sky-600">
+                Total Users
+              </h3>
+              <p className="text-3xl font-bold">{users.length}</p>
+            </div>
 
-        <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
-          <h3 className="text-2xl font-semibold text-sky-600">Total Sales</h3>
-          <p className="text-3xl font-bold">50</p>
-        </div>
-      </div>
+            <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
+              <h3 className="text-2xl font-semibold text-sky-600">
+                Total Orders
+              </h3>
+              <p className="text-3xl font-bold">{bookings.length}</p>
+            </div>
 
-      <div className="p-4 bg-gray-100 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-center mb-1">
-          Sales Statistics
-        </h2>
-        <Bar data={salesData} options={salesOptions} />
-      </div>
+            <div className="p-6 bg-sky-100 rounded-lg shadow-lg flex flex-col items-center">
+              <h3 className="text-2xl font-semibold text-sky-600">
+                Total Sales
+              </h3>
+              <p className="text-3xl font-bold">50</p>
+            </div>
+          </div>
+
+          <div className="p-4 bg-gray-100 rounded-lg shadow-lg mt-4">
+            <h2 className="text-2xl font-semibold text-center mb-1">
+              Sales Statistics
+            </h2>
+            <Bar data={salesData} options={salesOptions} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

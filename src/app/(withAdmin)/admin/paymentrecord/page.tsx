@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 interface Booking {
   _id: string;
@@ -15,17 +17,22 @@ interface Booking {
 
 const PaymentRecord = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   const loadBooking = async () => {
     try {
+      setLoading(true);
       const response = await axios.get<{ bookings: Booking[] }>(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/orderlist/api/get`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/orderlist/api/get`,
       );
       setBookings(response.data.bookings || []);
     } catch (error) {
       console.error("Error loading bookings:", error);
+      toast.error("Failed to load payment records");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,86 +57,96 @@ const PaymentRecord = () => {
             Payment Records
           </h1>
           <p className="text-xs text-slate-400 font-semibold mt-0.5">
-            Audit store transaction logs, payment methods, and buyer detail records
+            Audit store transaction logs, payment methods, and buyer detail
+            records
           </p>
         </div>
         <div className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-1.5 text-xs font-semibold text-slate-500 w-fit">
-          Transactions: <span className="text-[#FF4E3E] font-bold">{bookings.length}</span>
+          Transactions:{" "}
+          <span className="text-[#FF4E3E] font-bold">{bookings.length}</span>
         </div>
       </div>
 
       {/* Responsive & Formal Table */}
-      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl">
-        <table className="min-w-full divide-y divide-slate-100 bg-white">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Name / Email
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Payment Method
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Phone Number
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Price
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
-            {currentBookings.length > 0 ? (
-              currentBookings.map((order) => {
-                const isOnline = order.paymentMethod === "Online Payment" || order.paymentMethod?.toLowerCase().includes("online");
-                return (
-                  <tr
-                    key={order._id}
-                    className="hover:bg-slate-50/50 transition-colors"
-                  >
-                    <td className="py-3.5 px-4">
-                      <p className="text-sm font-bold text-slate-800 leading-tight">
-                        {order.name}
-                      </p>
-                      <p className="text-xs text-slate-400 font-semibold mt-0.5">
-                        {order.email}
-                      </p>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border shadow-sm ${
-                        isOnline
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : "bg-amber-50 text-amber-700 border-amber-100"
-                      }`}>
-                        {order.paymentMethod}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
-                      {order.date}
-                    </td>
-                    <td className="py-3.5 px-4 text-sm text-slate-600 font-semibold">
-                      {order.phone || "N/A"}
-                    </td>
-                    <td className="py-3.5 px-4 text-sm font-bold text-slate-800">
-                      {order.price}
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
+      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl bg-white">
+        {loading ? (
+          <CommonLoader message="Loading transactions..." size="table" />
+        ) : (
+          <table className="min-w-full divide-y divide-slate-100 bg-white">
+            <thead className="bg-slate-50">
               <tr>
-                <td
-                  colSpan={5}
-                  className="py-12 text-center text-sm font-semibold text-slate-400"
-                >
-                  No transactions found.
-                </td>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Name / Email
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Payment Method
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Phone Number
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Price
+                </th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {currentBookings.length > 0 ? (
+                currentBookings.map((order) => {
+                  const isOnline =
+                    order.paymentMethod === "Online Payment" ||
+                    order.paymentMethod?.toLowerCase().includes("online");
+                  return (
+                    <tr
+                      key={order._id}
+                      className="hover:bg-slate-50/50 transition-colors"
+                    >
+                      <td className="py-3.5 px-4">
+                        <p className="text-sm font-bold text-slate-800 leading-tight">
+                          {order.name}
+                        </p>
+                        <p className="text-xs text-slate-400 font-semibold mt-0.5">
+                          {order.email}
+                        </p>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border shadow-sm ${
+                            isOnline
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                              : "bg-amber-50 text-amber-700 border-amber-100"
+                          }`}
+                        >
+                          {order.paymentMethod}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
+                        {order.date}
+                      </td>
+                      <td className="py-3.5 px-4 text-sm text-slate-600 font-semibold">
+                        {order.phone || "N/A"}
+                      </td>
+                      <td className="py-3.5 px-4 text-sm font-bold text-slate-800">
+                        {order.price}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="py-12 text-center text-sm font-semibold text-slate-400"
+                  >
+                    No transactions found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {/* Pagination */}
@@ -148,7 +165,7 @@ const PaymentRecord = () => {
               >
                 {page}
               </button>
-            )
+            ),
           )}
         </div>
       )}

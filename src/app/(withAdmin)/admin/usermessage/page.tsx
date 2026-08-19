@@ -4,6 +4,8 @@ export const dynamic = "force-dynamic";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import CommonLoader from "@/components/Shared/CommonLoader";
 
 interface Booking {
   _id: string;
@@ -16,17 +18,22 @@ interface Booking {
 
 const UserMessage = () => {
   const [contacts, setContacts] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   const loadBooking = async () => {
     try {
+      setLoading(true);
       const response = await axios.get<{ contacts: Booking[] }>(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/usermessage/api/get`
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/usermessage/api/get`,
       );
       setContacts(response.data.contacts || []);
     } catch (error) {
       console.error("Error loading contacts:", error);
+      toast.error("Failed to load customer messages");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,71 +58,77 @@ const UserMessage = () => {
             Customer Messages
           </h1>
           <p className="text-xs text-slate-400 font-semibold mt-0.5">
-            View feedback, inquiries, and messages sent by users from the contact form
+            View feedback, inquiries, and messages sent by users from the
+            contact form
           </p>
         </div>
         <div className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-1.5 text-xs font-semibold text-slate-500 w-fit">
-          Total Messages: <span className="text-[#FF4E3E] font-bold">{contacts.length}</span>
+          Total Messages:{" "}
+          <span className="text-[#FF4E3E] font-bold">{contacts.length}</span>
         </div>
       </div>
 
       {/* Responsive & Formal Table */}
-      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl">
-        <table className="min-w-full divide-y divide-slate-100 bg-white">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Sender Details
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Message Content
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Date & Time
-              </th>
-              <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Phone Number
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
-            {currentBookings.length > 0 ? (
-              currentBookings.map((contact) => (
-                <tr
-                  key={contact._id}
-                  className="hover:bg-slate-50/50 transition-colors"
-                >
-                  <td className="py-3.5 px-4">
-                    <p className="text-sm font-bold text-slate-800 leading-tight">
-                      {contact.name}
-                    </p>
-                    <p className="text-xs text-slate-400 font-semibold mt-0.5">
-                      {contact.email}
-                    </p>
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-600 font-medium max-w-xs md:max-w-md truncate">
-                    {contact.message}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
-                    {contact.createdAt || "N/A"}
-                  </td>
-                  <td className="py-3.5 px-4 text-sm text-slate-600 font-semibold">
-                    {contact.phone || "N/A"}
+      <div className="overflow-x-auto w-full border border-slate-100 rounded-xl bg-white">
+        {loading ? (
+          <CommonLoader message="Loading messages..." size="table" />
+        ) : (
+          <table className="min-w-full divide-y divide-slate-100 bg-white">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Sender Details
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Message Content
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Date & Time
+                </th>
+                <th className="py-3.5 px-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Phone Number
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {currentBookings.length > 0 ? (
+                currentBookings.map((contact) => (
+                  <tr
+                    key={contact._id}
+                    className="hover:bg-slate-50/50 transition-colors"
+                  >
+                    <td className="py-3.5 px-4">
+                      <p className="text-sm font-bold text-slate-800 leading-tight">
+                        {contact.name}
+                      </p>
+                      <p className="text-xs text-slate-400 font-semibold mt-0.5">
+                        {contact.email}
+                      </p>
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-600 font-medium max-w-xs md:max-w-md truncate">
+                      {contact.message}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-500 font-medium">
+                      {contact.createdAt || "N/A"}
+                    </td>
+                    <td className="py-3.5 px-4 text-sm text-slate-600 font-semibold">
+                      {contact.phone || "N/A"}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="py-12 text-center text-sm font-semibold text-slate-400"
+                  >
+                    No messages found.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={4}
-                  className="py-12 text-center text-sm font-semibold text-slate-400"
-                >
-                  No messages found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {/* Pagination */}
@@ -134,7 +147,7 @@ const UserMessage = () => {
               >
                 {page}
               </button>
-            )
+            ),
           )}
         </div>
       )}
