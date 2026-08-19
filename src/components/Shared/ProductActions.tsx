@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useCart } from "@/components/Home/Cart/CartContext";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 interface ProductActionsProps {
   item: {

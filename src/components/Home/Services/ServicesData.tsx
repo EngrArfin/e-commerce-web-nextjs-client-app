@@ -3,6 +3,7 @@
 import { TService } from "@/types";
 import { getServices } from "@/services/getServices";
 import { useEffect, useState } from "react";
+import CommonLoader from "@/components/Shared/CommonLoader";
 import ServicesCard from "./ServicesCard";
 
 const ServicesData = () => {
@@ -27,9 +28,9 @@ const ServicesData = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-8">
-        <span className="text-xl text-gray-500">Loading Products...</span>
-      </div>
+      <section className="py-12 px-6 mx-auto max-w-7xl">
+        <CommonLoader message="Loading Products..." size="lg" />
+      </section>
     );
   }
 
